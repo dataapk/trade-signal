@@ -12,8 +12,10 @@
 
   <!-- LOGIN PROTECTION (FIXED) -->
   <script>
-    if(localStorage.getItem("adminLoggedIn") !== "true"){
-      window.location.href = "admin-login.html";
+    const isLoggedIn = localStorage.getItem("adminLoggedIn");
+
+    if(!isLoggedIn || isLoggedIn !== "true"){
+      window.location.replace("admin-login.html");
     }
   </script>
 
@@ -34,16 +36,16 @@
 
     <!-- TOPBAR -->
     <div class="topbar">
-  <h1>Admin Dashboard</h1>
+      <h1>Admin Dashboard</h1>
 
-  <div style="margin-left:auto; display:flex; gap:10px;">
-    <input type="text" placeholder="Search...">
+      <div style="margin-left:auto; display:flex; gap:10px;">
+        <input type="text" placeholder="Search...">
 
-    <button onclick="logout()" style="padding:8px 12px; cursor:pointer;">
-      Logout
-    </button>
-  </div>
-</div>
+        <button onclick="logout()" style="padding:8px 12px; cursor:pointer;">
+          Logout
+        </button>
+      </div>
+    </div>
 
     <!-- STAT CARDS -->
     <div class="cards">
@@ -93,6 +95,14 @@
   <!-- SCRIPTS -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="index.js"></script>
+
+  <!-- LOGOUT SCRIPT (FIXED) -->
+  <script>
+    function logout(){
+      localStorage.removeItem("adminLoggedIn");
+      window.location.replace("admin-login.html");
+    }
+  </script>
 
 </body>
 </html>
