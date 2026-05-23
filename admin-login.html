@@ -61,40 +61,46 @@
     </h2>
 
     <input
-      type="password"
-      id="password"
-      placeholder="Enter Password"
-    >
+  type="password"
+  id="password"
+  placeholder="Enter Password"
+  onkeypress="handleEnter(event)"
+>
 
-    <button onclick="login()">
-      Login
-    </button>
+<button onclick="login()">
+  Login
+</button>
 
-  </div>
+<script>
 
+function login(){
 
-  <script>
+  let password =
+    document.getElementById("password").value;
 
-    function login(){
+  if(password === "Signal1984#"){
 
-      let password =
-        document.getElementById("password").value;
+    window.location.href = "admin.html";
 
-      // এখানে password দাও
+  }else{
 
-      if(password === "Signal1984#"){
+    alert("Wrong Password");
 
-        window.location.href = "admin.html";
+  }
 
-      }else{
+}
 
-        alert("Wrong Password");
+function handleEnter(event){
 
-      }
+  if(event.key === "Enter"){
 
-    }
+    login();
 
-  </script>
+  }
+
+}
+
+</script>
 
 </body>
 </html>
