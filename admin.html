@@ -2,17 +2,42 @@
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
   <title>Trading Admin Panel</title>
 
   <link rel="stylesheet" href="admin.css">
+
 </head>
 
 <body>
 
-  <!-- SIDEBAR -->
+
+  <!-- =========================
+       LOGIN PROTECTION
+  ========================== -->
+
+  <script>
+
+    if(localStorage.getItem("adminLoggedIn")
+      !== "true"){
+
+      window.location.href =
+      "admin-login.html";
+
+    }
+
+  </script>
+
+
+
+  <!-- =========================
+       SIDEBAR
+  ========================== -->
 
   <div class="sidebar">
 
@@ -20,28 +45,32 @@
 
     <ul>
 
-  <li>Dashboard</li>
+      <li>Dashboard</li>
 
-  <li>Signals</li>
+      <li>Signals</li>
 
-  <li>Users</li>
+      <li>Users</li>
 
-  <li>Payments</li>
+      <li>Payments</li>
 
-  <li>Settings</li>
+      <li>Settings</li>
 
-  <li onclick="logout()">
-    Logout
-  </li>
+      <li onclick="logout()">
+        Logout
+      </li>
 
-</ul>
+    </ul>
 
   </div>
 
 
-  <!-- MAIN AREA -->
+
+  <!-- =========================
+       MAIN CONTENT
+  ========================== -->
 
   <div class="main-content">
+
 
     <!-- TOPBAR -->
 
@@ -49,9 +78,13 @@
 
       <h1>Admin Dashboard</h1>
 
-      <input type="text" placeholder="Search...">
+      <input
+        type="text"
+        placeholder="Search..."
+      >
 
     </div>
+
 
 
     <!-- STAT CARDS -->
@@ -59,21 +92,33 @@
     <div class="cards">
 
       <div class="card">
+
         <h3>Total Signals</h3>
+
         <p>120</p>
+
       </div>
 
+
       <div class="card">
+
         <h3>Premium Users</h3>
+
         <p>45</p>
+
       </div>
 
+
       <div class="card">
+
         <h3>Win Rate</h3>
+
         <p>78%</p>
+
       </div>
 
     </div>
+
 
 
     <!-- SIGNAL FORM -->
@@ -82,26 +127,54 @@
 
       <h2>Add New Signal</h2>
 
-      <input id="pair" placeholder="Pair">
+
+      <input
+        id="pair"
+        placeholder="Pair"
+      >
+
 
       <select id="type">
+
         <option>BUY</option>
+
         <option>SELL</option>
+
       </select>
 
-      <input id="entry" placeholder="Entry Price">
 
-      <input id="strength" placeholder="Strength">
+      <input
+        id="entry"
+        placeholder="Entry Price"
+      >
 
-      <input id="target" placeholder="Take Profit">
 
-      <input id="stoploss" placeholder="Stop Loss">
+      <input
+        id="strength"
+        placeholder="Strength"
+      >
+
+
+      <input
+        id="target"
+        placeholder="Take Profit"
+      >
+
+
+      <input
+        id="stoploss"
+        placeholder="Stop Loss"
+      >
+
 
       <button onclick="createSignal()">
+
         Add Signal
+
       </button>
 
     </div>
+
 
 
     <!-- SIGNAL TABLE -->
@@ -110,41 +183,25 @@
 
       <h2>Live Signals</h2>
 
-      <div class="dashboard-content"></div>
+      <div class="dashboard-content">
+
+      </div>
 
     </div>
+
 
   </div>
 
 
-  <!-- SUPABASE -->
+
+  <!-- =========================
+       SCRIPTS
+  ========================== -->
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
-  <script src="admin.js"></script>
-  <script>
+  <script src="index.js"></script>
 
-if(localStorage.getItem("adminLoggedIn")
- !== "true"){
-
-  window.location.href =
-  "admin-login.html";
-
-}
-
-</script>
-
-  // LOGIN CHECK
-
-  if(localStorage.getItem("adminLoggedIn")
-     !== "true"){
-
-    window.location.href =
-      "admin-login.html";
-
-  }
-
-</script>
 
 </body>
 </html>
