@@ -16,7 +16,7 @@
       margin:0;
       padding:0;
       box-sizing:border-box;
-      font-family:Arial, sans-serif;
+      font-family:Arial,sans-serif;
     }
 
     body{
@@ -33,38 +33,31 @@
       padding:40px;
       border-radius:20px;
       text-align:center;
-      box-shadow:0 0 20px rgba(0,0,0,0.4);
     }
 
-    .login-box h2{
+    h2{
       color:#38bdf8;
-      margin-bottom:30px;
+      margin-bottom:25px;
     }
 
-    .login-box input{
+    input{
       width:100%;
       padding:14px;
       border:none;
-      border-radius:12px;
+      border-radius:10px;
       margin-bottom:20px;
       outline:none;
-      font-size:16px;
     }
 
-    .login-box button{
+    button{
       width:100%;
       padding:14px;
       border:none;
-      border-radius:12px;
+      border-radius:10px;
       background:#38bdf8;
       color:white;
-      font-size:16px;
       cursor:pointer;
-      transition:0.3s;
-    }
-
-    .login-box button:hover{
-      background:#0ea5e9;
+      font-size:16px;
     }
 
   </style>
@@ -73,13 +66,9 @@
 
 <body>
 
-  <!-- LOGIN BOX -->
-
   <div class="login-box">
 
     <h2>Admin Login</h2>
-
-    <!-- PASSWORD INPUT -->
 
     <input
       type="password"
@@ -88,8 +77,6 @@
       onkeypress="handleEnter(event)"
     >
 
-    <!-- LOGIN BUTTON -->
-
     <button onclick="login()">
       Login
     </button>
@@ -97,25 +84,22 @@
   </div>
 
 
-  <!-- SCRIPT -->
-
   <script>
-
-    // LOGIN FUNCTION
 
     function login(){
 
       let password =
-        document.getElementById("password").value;
-
-
-      // এখানে তোমার Password
+      document.getElementById("password").value;
 
       if(password === "Signal1984#"){
 
-        localStorage.setItem("adminLoggedIn", "true");
+        localStorage.setItem(
+          "adminLoggedIn",
+          "true"
+        );
 
-window.location.href = "admin.html";
+        window.location.href =
+        "admin.html";
 
       }else{
 
@@ -125,8 +109,6 @@ window.location.href = "admin.html";
 
     }
 
-
-    // ENTER KEY FUNCTION
 
     function handleEnter(event){
 
@@ -139,7 +121,6 @@ window.location.href = "admin.html";
     }
 
   </script>
- 
 
 </body>
 </html>
