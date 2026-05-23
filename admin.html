@@ -112,6 +112,19 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
   <script src="admin.js"></script>
+  <script>
+
+  // LOGIN CHECK
+
+  if(localStorage.getItem("adminLoggedIn")
+     !== "true"){
+
+    window.location.href =
+      "admin-login.html";
+
+  }
+
+</script>
 
 </body>
 </html>
