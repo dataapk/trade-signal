@@ -10,7 +10,7 @@
 
 <body>
 
-  <!-- LOGIN PROTECTION (FIXED) -->
+  <!-- LOGIN PROTECTION -->
   <script>
     const isLoggedIn = localStorage.getItem("adminLoggedIn");
 
@@ -96,9 +96,10 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="index.js"></script>
 
-  <!-- LOGOUT SCRIPT (FIXED) -->
+  <!-- FIXED GLOBAL LOGOUT -->
   <script>
-    function logout(){
+    window.logout = function(){
+      console.log("logout clicked");
       localStorage.removeItem("adminLoggedIn");
       window.location.replace("admin-login.html");
     }
