@@ -1,4 +1,8 @@
+const supabaseUrl = "https://nrwhupzgdwlsdnwdfpig.supabase.co";
+const supabaseKey = "NEXT_PUBLIC_SUPABASE_URL=https://nrwhupzgdwlsdnwdfpig.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_4I-i-becqQZHBXK-skXDfA_gQLOID3a";
 
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 // CREATE SIGNAL
 function createSignal() {
   let pair = document.getElementById("pair").value;
