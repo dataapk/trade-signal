@@ -1,5 +1,5 @@
 
-// CREATE SIGNAL (ADMIN)
+// CREATE SIGNAL
 function createSignal() {
   let pair = document.getElementById("pair").value;
   let type = document.getElementById("type").value;
@@ -8,21 +8,53 @@ function createSignal() {
   let signals = JSON.parse(localStorage.getItem("signals")) || [];
 
   signals.push({
-    pair: pair,
-    type: type,
-    strength: strength,
-    time: new Date().toLocaleTimeString()
+    id: Date.now(),
+    pair,
+    type,
+    strength
   });
 
   localStorage.setItem("signals", JSON.stringify(signals));
 
-  alert("Signal Added");
-
-  loadSignals(); // dashboard update
+  loadAdminSignals();
+  loadDashboardSignals();
 }
 
-// LOAD SIGNALS (DASHBOARD)
-function loadSignals() {
+// LOAD ADMIN PANEL SIGNALS
+function loadAdminSignals() {
+  let signals = JSON.parse(localStorage.getItem("signals")) || [];
+
+  const container = document.querySelector(".admin-signals");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  signals.forEach(s => {
+    container.innerHTML += `
+      <div class="card">
+        <h4>${s.pair}</h4>
+        <p>${s.type}</p>
+        <p>${s.strength}</p>
+        <button onclick="deleteSignal(${s.id})">Delete</button>
+      </div>
+    `;
+  });
+}
+
+// DELETE SIGNAL
+function deleteSignal(id) {
+  let signals = JSON.parse(localStorage.getItem("signals")) || [];
+
+  signals = signals.filter(s => s.id !== id);
+
+  localStorage.setItem("signals", JSON.stringify(signals));
+
+  loadAdminSignals();
+  loadDashboardSignals();
+}
+
+// LOAD DASHBOARD
+function loadDashboardSignals() {
   let signals = JSON.parse(localStorage.getItem("signals")) || [];
 
   const container = document.querySelector(".dashboard-content");
@@ -36,11 +68,13 @@ function loadSignals() {
         <h3>${s.pair}</h3>
         <p>${s.type}</p>
         <p>${s.strength}</p>
-        <small>${s.time}</small>
       </div>
     `;
   });
 }
 
-// AUTO LOAD
-document.addEventListener("DOMContentLoaded", loadSignals);
+// AUTO LOAD ON OPEN
+document.addEventListener("DOMContentLoaded", () => {
+  loadAdminSignals();
+  loadDashboardSignals();
+});
