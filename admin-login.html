@@ -12,40 +12,59 @@
 
   <style>
 
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, sans-serif;
+    }
+
     body{
       background:#0f172a;
       display:flex;
       justify-content:center;
       align-items:center;
       height:100vh;
-      font-family:Arial;
     }
 
     .login-box{
+      width:350px;
       background:#1e293b;
       padding:40px;
-      border-radius:15px;
-      width:300px;
+      border-radius:20px;
       text-align:center;
+      box-shadow:0 0 20px rgba(0,0,0,0.4);
     }
 
-    input{
-      width:100%;
-      padding:12px;
-      margin-top:15px;
-      border:none;
-      border-radius:10px;
+    .login-box h2{
+      color:#38bdf8;
+      margin-bottom:30px;
     }
 
-    button{
+    .login-box input{
       width:100%;
-      padding:12px;
-      margin-top:20px;
+      padding:14px;
       border:none;
-      border-radius:10px;
+      border-radius:12px;
+      margin-bottom:20px;
+      outline:none;
+      font-size:16px;
+    }
+
+    .login-box button{
+      width:100%;
+      padding:14px;
+      border:none;
+      border-radius:12px;
       background:#38bdf8;
       color:white;
+      font-size:16px;
       cursor:pointer;
+      transition:0.3s;
+    }
+
+    .login-box button:hover{
+      background:#0ea5e9;
     }
 
   </style>
@@ -54,53 +73,70 @@
 
 <body>
 
+  <!-- LOGIN BOX -->
+
   <div class="login-box">
 
-    <h2 style="color:white;">
-      Admin Login
-    </h2>
+    <h2>Admin Login</h2>
+
+    <!-- PASSWORD INPUT -->
 
     <input
-  type="password"
-  id="password"
-  placeholder="Enter Password"
-  onkeypress="handleEnter(event)"
->
+      type="password"
+      id="password"
+      placeholder="Enter Password"
+      onkeypress="handleEnter(event)"
+    >
 
-<button onclick="login()">
-  Login
-</button>
+    <!-- LOGIN BUTTON -->
 
-<script>
+    <button onclick="login()">
+      Login
+    </button>
 
-function login(){
+  </div>
 
-  let password =
-    document.getElementById("password").value;
 
-  if(password === "Signal1984#"){
+  <!-- SCRIPT -->
 
-    window.location.href = "admin.html";
+  <script>
 
-  }else{
+    // LOGIN FUNCTION
 
-    alert("Wrong Password");
+    function login(){
 
-  }
+      let password =
+        document.getElementById("password").value;
 
-}
 
-function handleEnter(event){
+      // এখানে তোমার Password
 
-  if(event.key === "Enter"){
+      if(password === "Signal1984#"){
 
-    login();
+        window.location.href = "admin.html";
 
-  }
+      }else{
 
-}
+        alert("Wrong Password");
 
-</script>
+      }
+
+    }
+
+
+    // ENTER KEY FUNCTION
+
+    function handleEnter(event){
+
+      if(event.key === "Enter"){
+
+        login();
+
+      }
+
+    }
+
+  </script>
 
 </body>
 </html>
