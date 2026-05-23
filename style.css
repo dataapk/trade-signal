@@ -5,3 +5,28 @@ body{
     color:white;
     font-family:Arial;
 }
+
+nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 30px;
+    background:#111827;
+}
+
+nav h1{
+    color:#00ff99;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin-left:15px;
+}
+
+.card{
+    background:#1e293b;
+    padding:20px;
+    border-radius:15px;
+    margin:20px;
+}
