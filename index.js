@@ -1,13 +1,17 @@
+```js
 // =========================
 // SUPABASE CONNECTION
-// এই অংশ সবসময় index.js এর একদম উপরে থাকবে
 // =========================
 
-const supabaseUrl = "https://nrwhupzgdwlsdnwdfpig.supabase.co";
-const supabaseKey = "NEXT_PUBLIC_SUPABASE_URL=https://nrwhupzgdwlsdnwdfpig.supabase.co
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_4I-i-becqQZHBXK-skXDfA_gQLOID3a";
+const supabaseUrl =
+"https://nrwhupzgdwlsdnwdfpig.supabase.co";
 
-const supabaseClient = window.supabase.createClient(
+const supabaseKey =
+"sb_publishable_4I-i-becqQZHBXK-skXDfA_gQLOID3a";
+
+
+const supabaseClient =
+window.supabase.createClient(
   supabaseUrl,
   supabaseKey
 );
@@ -15,19 +19,29 @@ const supabaseClient = window.supabase.createClient(
 
 // =========================
 // SIGNAL ADD FUNCTION
-// এডমিন প্যানেল থেকে সিগন্যাল যোগ করবে
 // =========================
 
 async function createSignal() {
 
-  let pair = document.getElementById("pair").value;
-  let type = document.getElementById("type").value;
-  let entry = document.getElementById("entry").value;
-  let strength = document.getElementById("strength").value;
-  let target = document.getElementById("target").value;
-  let stoploss = document.getElementById("stoploss").value;
+  let pair =
+  document.getElementById("pair").value;
 
-  // SUPABASE DATABASE এ DATA SAVE
+  let type =
+  document.getElementById("type").value;
+
+  let entry =
+  document.getElementById("entry").value;
+
+  let strength =
+  document.getElementById("strength").value;
+
+  let target =
+  document.getElementById("target").value;
+
+  let stoploss =
+  document.getElementById("stoploss").value;
+
+
   await supabaseClient
     .from("signals")
     .insert([
@@ -41,30 +55,39 @@ async function createSignal() {
       }
     ]);
 
-  // SAVE হওয়ার পরে Dashboard reload
+
   loadSignals();
+
 }
 
 
 // =========================
-// DASHBOARD এ SIGNAL SHOW করবে
+// LOAD SIGNALS
 // =========================
 
 async function loadSignals() {
 
-  let { data, error } = await supabaseClient
+  let { data, error } =
+  await supabaseClient
     .from("signals")
     .select("*")
-    .order("id", { ascending: false });
+    .order("id", {
+      ascending: false
+    });
 
-  const container = document.querySelector(".dashboard-content");
 
-  // যদি dashboard page না থাকে
+  const container =
+  document.querySelector(
+    ".dashboard-content"
+  );
+
+
   if (!container) return;
+
 
   container.innerHTML = "";
 
-  // SIGNAL CARD SHOW
+
   data.forEach(signal => {
 
     container.innerHTML += `
@@ -86,13 +109,14 @@ async function loadSignals() {
       </div>
 
     `;
+
   });
 
 }
 
 
 // =========================
-// PAGE LOAD হলে SIGNAL LOAD
+// PAGE LOAD
 // =========================
 
 document.addEventListener(
@@ -100,3 +124,20 @@ document.addEventListener(
   loadSignals
 );
 
+
+
+// =========================
+// LOGOUT
+// =========================
+
+function logout(){
+
+  localStorage.removeItem(
+    "adminLoggedIn"
+  );
+
+  window.location.href =
+  "admin.html";
+
+}
+```
