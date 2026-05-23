@@ -96,12 +96,18 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="index.js"></script>
 
-  <!-- FIXED GLOBAL LOGOUT -->
+  <!-- ✅ ONLY FIXED PART (IMPORTANT) -->
   <script>
-    window.logout = function(){
+    function logout(){
+
       console.log("logout clicked");
+
+      // clear login state
       localStorage.removeItem("adminLoggedIn");
-      window.location.replace("admin-login.html");
+
+      // force redirect (clean + no back issue)
+      window.location.href = "admin-login.html";
+
     }
   </script>
 
