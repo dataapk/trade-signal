@@ -1,11 +1,20 @@
-setInterval(() => {
-  const pairs = ["BTC/USDT", "ETH/USDT", "BNB/USDT"];
+function loadSignals() {
+  let signals = JSON.parse(localStorage.getItem("signals")) || [];
 
-  const signal = {
-    pair: pairs[Math.floor(Math.random() * pairs.length)],
-    type: Math.random() > 0.5 ? "BUY" : "SELL",
-    strength: Math.floor(Math.random() * 40) + 60
-  };
+  const container = document.getElementById("signalContainer");
+  if (!container) return;
 
-  console.log(signal);
-}, 3000);
+  container.innerHTML = "";
+
+  signals.forEach(s => {
+    container.innerHTML += `
+      <div class="card">
+        <h3>${s.pair}</h3>
+        <p>${s.type}</p>
+        <p>${s.strength}</p>
+      </div>
+    `;
+  });
+}
+
+document.addEventListener("DOMContentLoaded", loadSignals);
