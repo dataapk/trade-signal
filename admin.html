@@ -1,16 +1,117 @@
-<h2>Admin Control Panel</h2>
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="admin-box">
-  <input id="pair" placeholder="Pair (BTC/USDT)">
-  <input id="type" placeholder="BUY or SELL">
-  <input id="strength" placeholder="Strength (70)">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <button onclick="createSignal()">Add Signal</button>
-</div>
+  <title>Trading Admin Panel</title>
 
-<hr>
+  <link rel="stylesheet" href="admin.css">
+</head>
 
-<h3>All Signals</h3>
-<div class="admin-signals"></div>
+<body>
 
-<script src="index.js"></script>
+  <!-- SIDEBAR -->
+
+  <div class="sidebar">
+
+    <h2>Trading Admin</h2>
+
+    <ul>
+      <li>Dashboard</li>
+      <li>Signals</li>
+      <li>Users</li>
+      <li>Payments</li>
+      <li>Settings</li>
+    </ul>
+
+  </div>
+
+
+  <!-- MAIN AREA -->
+
+  <div class="main-content">
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+      <h1>Admin Dashboard</h1>
+
+      <input type="text" placeholder="Search...">
+
+    </div>
+
+
+    <!-- STAT CARDS -->
+
+    <div class="cards">
+
+      <div class="card">
+        <h3>Total Signals</h3>
+        <p>120</p>
+      </div>
+
+      <div class="card">
+        <h3>Premium Users</h3>
+        <p>45</p>
+      </div>
+
+      <div class="card">
+        <h3>Win Rate</h3>
+        <p>78%</p>
+      </div>
+
+    </div>
+
+
+    <!-- SIGNAL FORM -->
+
+    <div class="signal-form">
+
+      <h2>Add New Signal</h2>
+
+      <input id="pair" placeholder="Pair">
+
+      <select id="type">
+        <option>BUY</option>
+        <option>SELL</option>
+      </select>
+
+      <input id="entry" placeholder="Entry Price">
+
+      <input id="strength" placeholder="Strength">
+
+      <input id="target" placeholder="Take Profit">
+
+      <input id="stoploss" placeholder="Stop Loss">
+
+      <button onclick="createSignal()">
+        Add Signal
+      </button>
+
+    </div>
+
+
+    <!-- SIGNAL TABLE -->
+
+    <div class="signal-table">
+
+      <h2>Live Signals</h2>
+
+      <div class="dashboard-content"></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- SUPABASE -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+  <script src="admin.js"></script>
+
+</body>
+</html>
