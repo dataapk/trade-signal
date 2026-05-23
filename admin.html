@@ -114,6 +114,16 @@
   <script src="admin.js"></script>
   <script>
 
+if(localStorage.getItem("adminLoggedIn")
+ !== "true"){
+
+  window.location.href =
+  "admin-login.html";
+
+}
+
+</script>
+
   // LOGIN CHECK
 
   if(localStorage.getItem("adminLoggedIn")
