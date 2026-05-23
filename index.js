@@ -99,13 +99,4 @@ document.addEventListener(
   "DOMContentLoaded",
   loadSignals
 );
-function logout(){
 
-  localStorage.removeItem(
-    "adminLoggedIn"
-  );
-
-  window.location.href =
-  "admin-login.html";
-
-}
