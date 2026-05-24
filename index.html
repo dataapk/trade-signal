@@ -571,15 +571,32 @@ const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
             const net = document.getElementById('networkSelect').value;
             document.getElementById('walletAddress').innerText = addresses[net];
         }
-        <script>
+       <script>
+function handleNetworkChange() {
+    const net = document.getElementById('networkSelect').value;
+    document.getElementById('walletAddress').innerText = addresses[net];
+}
+
+// =====================
+// SUPABASE INIT
+// =====================
 const supabaseUrl = "https://nrwhupzgdwlsdnwdfpig.supabase.co";
 const supabaseKey = "sb_publishable_4I-i-becqQZHBXK-skXDfA_gQLOID3a";
 
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-// load function
+// =====================
+// LOAD SIGNALS
+// =====================
 async function loadSignals() {
-  const { data } = await supabase.from("signals").select("*");
+  const { data, error } = await supabase
+    .from("signals")
+    .select("*");
+
+  if (error) {
+    console.error("Supabase error:", error);
+    return;
+  }
 
   console.log(data);
 }
