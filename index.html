@@ -1,3 +1,8 @@
+const supabaseUrl = "https://nrwhupzgdwlsdnwdfpig.supabase.co";
+
+const supabaseKey = "sb_publishable_4I-i-becqQZHBXK-skXDfA_gQLOID3a";
+
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -10,8 +15,7 @@
     
     <!-- Superbase SDK (Real-time Sync) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+    
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -567,6 +571,20 @@
             const net = document.getElementById('networkSelect').value;
             document.getElementById('walletAddress').innerText = addresses[net];
         }
-    </script>
+        <script>
+const supabaseUrl = "https://nrwhupzgdwlsdnwdfpig.supabase.co";
+const supabaseKey = "sb_publishable_4I-i-becqQZHBXK-skXDfA_gQLOID3a";
+
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+// load function
+async function loadSignals() {
+  const { data } = await supabase.from("signals").select("*");
+
+  console.log(data);
+}
+
+document.addEventListener("DOMContentLoaded", loadSignals);
+</script>
 </body>
 </html>
