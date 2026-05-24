@@ -17,31 +17,19 @@ async function createSignal() {
 
   let pair = document.getElementById("pair").value.trim();
   let type = document.getElementById("type").value;
-  let entry = document.getElementById("entry").value.trim();
+
+  let entry = parseFloat(document.getElementById("entry").value.trim());
   let strength = document.getElementById("strength").value.trim();
-  let target = document.getElementById("target").value.trim();
-  let stoploss = document.getElementById("stoploss").value.trim();
 
-  // optional field (যদি না থাকে তবুও কাজ করবে)
-  let instantEl = document.getElementById("instant");
-  let instant = instantEl ? instantEl.value.trim() : "";
-
-
-  // =========================
-  // VALIDATION
-  // =========================
+  let target = parseFloat(document.getElementById("target").value.trim());
+  let stoploss = parseFloat(document.getElementById("stoploss").value.trim());
 
   if (!pair || !entry || !strength || !target || !stoploss) {
-    alert("Please fill all required fields");
+    alert("Please fill all fields");
     return;
   }
 
-
-  // =========================
-  // INSERT SIGNAL
-  // =========================
-
-  const { data, error } = await supabaseClient
+  const { error } = await supabaseClient
     .from("signals")
     .insert([
       {
@@ -50,36 +38,17 @@ async function createSignal() {
         entry,
         strength,
         target,
-        stoploss,
-        instant   // safe added field
+        stoploss
       }
-    ])
-    .select();
-
-
-  // =========================
-  // ERROR HANDLING
-  // =========================
+    ]);
 
   if (error) {
-    console.error("SUPABASE ERROR:", error);
-    alert("Failed to add signal: " + error.message);
+    console.error("SUPABASE ERROR:", error.message);
+    alert("Failed: " + error.message);
     return;
   }
 
-  console.log("Inserted Data:", data);
-
-
-  // =========================
-  // SUCCESS
-  // =========================
-
   alert("Signal Added Successfully");
-
-
-  // =========================
-  // CLEAR INPUTS
-  // =========================
 
   document.getElementById("pair").value = "";
   document.getElementById("entry").value = "";
@@ -87,22 +56,8 @@ async function createSignal() {
   document.getElementById("target").value = "";
   document.getElementById("stoploss").value = "";
 
-  if (document.getElementById("instant")) {
-    document.getElementById("instant").value = "";
-  }
-
-
-  // =========================
-  // RELOAD SIGNALS
-  // =========================
-
   loadSignals();
 }
-
-
-// =========================
-// LOAD SIGNALS
-// =========================
 
 async function loadSignals() {
 
