@@ -43,10 +43,13 @@ async function createSignal() {
     ]);
 
   if (error) {
-    console.error("SUPABASE ERROR:", error.message);
-    alert("Failed: " + error.message);
-    return;
-  }
+  console.log("SUPABASE FULL ERROR:", error);
+  console.log("MESSAGE:", error.message);
+  console.log("DETAIL:", error.details);
+
+  alert("Failed: " + error.message);
+  return;
+}
 
   alert("Signal Added Successfully");
 
