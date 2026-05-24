@@ -1,6 +1,3 @@
-// =========================
-// SUPABASE CONNECTION
-// =========================
 
 const supabaseUrl =
 "https://nrwhupzgdwlsdnwdfpig.supabase.co";
@@ -9,10 +6,7 @@ const supabaseKey =
 "sb_publishable_4I-i-becqQZHBXK-skXDfA_gQLOID3a";
 
 const supabaseClient =
-window.supabase.createClient(
-  supabaseUrl,
-  supabaseKey
-);
+window.supabase.createClient(supabaseUrl, supabaseKey);
 
 
 // =========================
@@ -21,41 +15,25 @@ window.supabase.createClient(
 
 async function createSignal() {
 
-  let pair =
-  document.getElementById("pair").value.trim();
+  let pair = document.getElementById("pair").value.trim();
+  let type = document.getElementById("type").value;
+  let entry = document.getElementById("entry").value.trim();
+  let strength = document.getElementById("strength").value.trim();
+  let target = document.getElementById("target").value.trim();
+  let stoploss = document.getElementById("stoploss").value.trim();
 
-  let type =
-  document.getElementById("type").value;
-
-  let entry =
-  document.getElementById("entry").value.trim();
-
-  let strength =
-  document.getElementById("strength").value.trim();
-
-  let target =
-  document.getElementById("target").value.trim();
-
-  let stoploss =
-  document.getElementById("stoploss").value.trim();
+  // optional field (যদি না থাকে তবুও কাজ করবে)
+  let instantEl = document.getElementById("instant");
+  let instant = instantEl ? instantEl.value.trim() : "";
 
 
   // =========================
   // VALIDATION
   // =========================
 
-  if(
-    !pair ||
-    !entry ||
-    !strength ||
-    !target ||
-    !stoploss
-  ){
-
-    alert("Please fill all fields");
-
+  if (!pair || !entry || !strength || !target || !stoploss) {
+    alert("Please fill all required fields");
     return;
-
   }
 
 
@@ -63,8 +41,7 @@ async function createSignal() {
   // INSERT SIGNAL
   // =========================
 
-  const { error } =
-  await supabaseClient
+  const { data, error } = await supabaseClient
     .from("signals")
     .insert([
       {
@@ -73,25 +50,29 @@ async function createSignal() {
         entry,
         strength,
         target,
-        stoploss
+        stoploss,
+        instant   // safe added field
       }
-    ]);
+    ])
+    .select();
 
 
   // =========================
   // ERROR HANDLING
   // =========================
 
-  if(error){
-
-    console.error(error);
-
-    alert("Failed to add signal");
-
+  if (error) {
+    console.error("SUPABASE ERROR:", error);
+    alert("Failed to add signal: " + error.message);
     return;
-
   }
 
+  console.log("Inserted Data:", data);
+
+
+  // =========================
+  // SUCCESS
+  // =========================
 
   alert("Signal Added Successfully");
 
@@ -101,14 +82,14 @@ async function createSignal() {
   // =========================
 
   document.getElementById("pair").value = "";
-
   document.getElementById("entry").value = "";
-
   document.getElementById("strength").value = "";
-
   document.getElementById("target").value = "";
-
   document.getElementById("stoploss").value = "";
+
+  if (document.getElementById("instant")) {
+    document.getElementById("instant").value = "";
+  }
 
 
   // =========================
@@ -116,7 +97,6 @@ async function createSignal() {
   // =========================
 
   loadSignals();
-
 }
 
 
@@ -126,93 +106,38 @@ async function createSignal() {
 
 async function loadSignals() {
 
-  const { data, error } =
-  await supabaseClient
+  const { data, error } = await supabaseClient
     .from("signals")
     .select("*")
-    .order("id", {
-      ascending: false
-    });
+    .order("id", { ascending: false });
 
-
-  // =========================
-  // ERROR CHECK
-  // =========================
-
-  if(error){
-
-    console.error(error);
-
+  if (error) {
+    console.error("LOAD ERROR:", error);
     return;
-
   }
 
-
-  const container =
-  document.querySelector(
-    ".dashboard-content"
-  );
-
-
-  if(!container) return;
-
+  const container = document.querySelector(".dashboard-content");
+  if (!container) return;
 
   container.innerHTML = "";
 
-
-  // =========================
-  // EMPTY STATE
-  // =========================
-
-  if(data.length === 0){
-
-    container.innerHTML = `
-      <p>No Signals Available</p>
-    `;
-
+  if (!data || data.length === 0) {
+    container.innerHTML = `<p>No Signals Available</p>`;
     return;
-
   }
 
-
-  // =========================
-  // RENDER SIGNALS
-  // =========================
-
   data.forEach(signal => {
-
     container.innerHTML += `
-
       <div class="card">
-
         <h3>${signal.pair}</h3>
-
-        <p>
-          <strong>${signal.type}</strong>
-        </p>
-
-        <p>
-          Entry: ${signal.entry}
-        </p>
-
-        <p>
-          Strength: ${signal.strength}
-        </p>
-
-        <p>
-          TP: ${signal.target}
-        </p>
-
-        <p>
-          SL: ${signal.stoploss}
-        </p>
-
+        <p><strong>${signal.type}</strong></p>
+        <p>Entry: ${signal.entry}</p>
+        <p>Strength: ${signal.strength}</p>
+        <p>TP: ${signal.target}</p>
+        <p>SL: ${signal.stoploss}</p>
       </div>
-
     `;
-
   });
-
 }
 
 
@@ -220,32 +145,14 @@ async function loadSignals() {
 // PAGE LOAD
 // =========================
 
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
-
-    loadSignals();
-
-  }
-);
+document.addEventListener("DOMContentLoaded", loadSignals);
 
 
 // =========================
 // LOGOUT
 // =========================
 
-function logout(){
-
-  // REMOVE LOGIN SESSION
-  localStorage.removeItem(
-    "adminLoggedIn"
-  );
-
-  // REDIRECT TO LOGIN PAGE
-  // IMPORTANT:
-  // Replace "admin.html"
-  // with your real login filename
-  window.location.href =
-  "admin.html";
-
+function logout() {
+  localStorage.removeItem("adminLoggedIn");
+  window.location.href = "admin.html";
 }
