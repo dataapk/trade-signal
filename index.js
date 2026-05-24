@@ -236,11 +236,16 @@ document.addEventListener(
 
 function logout(){
 
+  // REMOVE LOGIN SESSION
   localStorage.removeItem(
     "adminLoggedIn"
   );
 
+  // REDIRECT TO LOGIN PAGE
+  // IMPORTANT:
+  // Replace "admin.html"
+  // with your real login filename
   window.location.href =
-  "admin-login.html";
+  "admin.html";
 
 }
