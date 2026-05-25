@@ -7,28 +7,29 @@ const client = supabase.createClient(
   SUPABASE_ANON_KEY
 );
 
-async function loadSignals() {
+async function loadNewsFeed() {
 
 const { data, error } = await client
-.from("signals")
-.select("*");
-
-console.log(data);
+.from("news_feed")
+.select("*")
+.order("created_at", { ascending: false });
 
 const container =
-document.getElementById("signals");
+document.getElementById("live-feed");
+
+if (!container) return;
 
 container.innerHTML = "";
 
-data.forEach(signal => {
+data.forEach(news => {
 
 container.innerHTML += `
 
 <div class="card">
 
-<h3>${signal.pair}</h3>
+<h3>${news.title}</h3>
 
-<p>${signal.type}</p>
+<p>${news.content}</p>
 
 </div>
 
@@ -38,4 +39,4 @@ container.innerHTML += `
 
 }
 
-loadSignals();
+loadNewsFeed();
