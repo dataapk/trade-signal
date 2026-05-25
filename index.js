@@ -1,4 +1,3 @@
-
 const supabaseUrl =
 "https://nrwhupzgdwlsdnwdfpig.supabase.co";
 
@@ -7,6 +6,7 @@ const supabaseKey =
 
 const supabaseClient =
 window.supabase.createClient(supabaseUrl, supabaseKey);
+
 
 
 // =========================
@@ -18,11 +18,10 @@ async function createSignal() {
   let pair = document.getElementById("pair").value.trim();
   let type = document.getElementById("type").value;
 
-  let entry = parseFloat(document.getElementById("entry").value.trim());
+  let entry = document.getElementById("entry").value.trim();
   let strength = document.getElementById("strength").value.trim();
-
-  let target = parseFloat(document.getElementById("target").value.trim());
-  let stoploss = parseFloat(document.getElementById("stoploss").value.trim());
+  let target = document.getElementById("target").value.trim();
+  let stoploss = document.getElementById("stoploss").value.trim();
 
   if (!pair || !entry || !strength || !target || !stoploss) {
     alert("Please fill all fields");
@@ -35,21 +34,18 @@ async function createSignal() {
       {
         pair,
         type,
-        entry,
+        entry: Number(entry),
         strength,
-        target,
-        stoploss
+        target: Number(target),
+        stoploss: Number(stoploss)
       }
     ]);
 
   if (error) {
-  console.log("SUPABASE FULL ERROR:", error);
-  console.log("MESSAGE:", error.message);
-  console.log("DETAIL:", error.details);
-
-  alert("Failed: " + error.message);
-  return;
-}
+    console.log("SUPABASE ERROR:", error);
+    alert("Failed: " + error.message);
+    return;
+  }
 
   alert("Signal Added Successfully");
 
@@ -62,6 +58,12 @@ async function createSignal() {
   loadSignals();
 }
 
+
+
+// =========================
+// LOAD SIGNALS
+// =========================
+
 async function loadSignals() {
 
   const { data, error } = await supabaseClient
@@ -69,48 +71,37 @@ async function loadSignals() {
     .select("*")
     .order("id", { ascending: false });
 
-  // ❌ NO ALERT (IMPORTANT FIX)
-  console.log("Signals Data:", data);
-
   if (error) {
     console.error("LOAD ERROR:", error);
     return;
   }
 
   const container = document.getElementById("signals");
-
   if (!container) return;
 
-  // clear old data
-  container.innerHTML = "";
-
-  // empty state
   if (!data || data.length === 0) {
     container.innerHTML = `
-      <p style="color:#888; text-align:center;">No Signals Available</p>
+      <p style="color:#888;text-align:center;">No Signals Available</p>
     `;
     return;
   }
 
-  // render UI
   let html = "";
 
   data.forEach(signal => {
 
-    let typeColor = "";
-    if (signal.type === "BUY") typeColor = "#22c55e";
-    if (signal.type === "SELL") typeColor = "#ef4444";
-    if (signal.type === "HOLD") typeColor = "#facc15";
+    let typeColor =
+      signal.type === "BUY" ? "#22c55e" :
+      signal.type === "SELL" ? "#ef4444" :
+      "#facc15";
 
     html += `
       <div class="card" style="border-left:5px solid ${typeColor};">
 
         <h3>${signal.pair}</h3>
 
-        <p>
-          <strong style="color:${typeColor}">
-            ${signal.type}
-          </strong>
+        <p style="color:${typeColor}">
+          <strong>${signal.type}</strong>
         </p>
 
         <p>Entry: ${signal.entry}</p>
@@ -126,11 +117,39 @@ async function loadSignals() {
 }
 
 
+
 // =========================
-// PAGE LOAD
+// REALTIME (IMPORTANT FIX)
 // =========================
 
-document.addEventListener("DOMContentLoaded", loadSignals);
+function realtimeSignals() {
+
+  supabaseClient
+    .channel('signals-live')
+    .on('postgres_changes', {
+      event: '*',
+      schema: 'public',
+      table: 'signals'
+    }, payload => {
+
+      console.log("LIVE UPDATE:", payload);
+
+      loadSignals(); // auto refresh UI instantly
+    })
+    .subscribe();
+}
+
+
+
+// =========================
+// INIT
+// =========================
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadSignals();
+  realtimeSignals();
+});
+
 
 
 // =========================
