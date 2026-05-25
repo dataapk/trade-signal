@@ -65,14 +65,17 @@ async function createSignal() {
 async function loadSignals() {
 
   const { data, error } = await supabaseClient
-    .from("signals")
-    .select("*")
-    .order("id", { ascending: false });
+  .from("signals")
+  .select("*")
+  .order("id", { ascending: false });
 
-  if (error) {
-    console.error("LOAD ERROR:", error);
-    return;
-  }
+console.log(data);
+console.log(error);
+
+if (error) {
+  console.error("LOAD ERROR:", error);
+  return;
+}
 
   const container = document.getElementById("signals");
 
