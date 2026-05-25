@@ -69,6 +69,7 @@ async function loadSignals() {
   .select("*")
   .order("id", { ascending: false });
 
+alert(JSON.stringify(data));
 console.log(data);
 console.log(error);
 
