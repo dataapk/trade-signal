@@ -138,16 +138,73 @@ function renderLatestSignal(signal) {
 // =========================
 
 function updateLiveCard(signal) {
-  const box = document.getElementById("liveFeedCard");
+
+  const box =
+    document.getElementById("liveFeedCard");
+
   if (!box) return;
 
+  let badgeColor =
+    signal.type === "BUY"
+      ? "bg-neonGreen/10 text-neonGreen"
+      : "bg-neonRed/10 text-neonRed";
+
   box.innerHTML = `
-    <div class="glass-panel p-4 rounded-xl">
-      <h3 class="font-bold">${signal.pair} ${signal.type}</h3>
-      <p>Entry: ${signal.entry}</p>
-      <p>TP: ${signal.target}</p>
-      <p>SL: ${signal.stoploss}</p>
+
+    <div class="glass-panel glow-box-open rounded-2xl p-5 relative">
+
+      <div class="flex justify-between items-start mb-3">
+
+        <span class="font-cyber font-bold text-lg text-slate-900 dark:text-white">
+
+          ${signal.pair}
+
+          <span class="text-[10px] ${badgeColor}
+          px-2 py-0.5 rounded ml-2 font-bold uppercase">
+
+            ${signal.type}
+
+          </span>
+
+        </span>
+
+        <span class="text-[11px] font-mono text-slate-400
+        bg-black/20 px-2 py-0.5 rounded border border-slate-800">
+
+          <i class="fa-regular fa-clock mr-1 text-neonBlue"></i>
+
+          LIVE
+
+        </span>
+
+      </div>
+
+      <div class="space-y-2 bg-black/30 p-3 rounded-xl
+      text-xs font-mono text-slate-200">
+
+        <div class="flex justify-between border-b border-white/5 pb-1">
+          <span>ENTRY:</span>
+          <span class="font-bold">${signal.entry}</span>
+        </div>
+
+        <div class="flex justify-between border-b border-white/5 pb-1">
+          <span>STOP LOSS:</span>
+          <span class="font-bold text-neonRed">
+            ${signal.stoploss}
+          </span>
+        </div>
+
+        <div class="flex justify-between">
+          <span>TAKE PROFIT:</span>
+          <span class="font-bold text-neonGreen">
+            ${signal.target}
+          </span>
+        </div>
+
+      </div>
+
     </div>
+
   `;
 }
 
