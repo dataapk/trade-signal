@@ -65,42 +65,64 @@ async function createSignal() {
 async function loadSignals() {
 
   const { data, error } = await supabaseClient
-  .from("signals")
-  .select("*")
-  .order("id", { ascending: false });
+    .from("signals")
+    .select("*")
+    .order("id", { ascending: false });
 
-alert(JSON.stringify(data));
-console.log(data);
-console.log(error);
+  // ❌ NO ALERT (IMPORTANT FIX)
+  console.log("Signals Data:", data);
 
-if (error) {
-  console.error("LOAD ERROR:", error);
-  return;
-}
-
-  const container = document.getElementById("signals");
-
-if (!container) return;
-
-container.innerHTML = "";
-
-  if (!data || data.length === 0) {
-    container.innerHTML = `<p>No Signals Available</p>`;
+  if (error) {
+    console.error("LOAD ERROR:", error);
     return;
   }
 
+  const container = document.getElementById("signals");
+
+  if (!container) return;
+
+  // clear old data
+  container.innerHTML = "";
+
+  // empty state
+  if (!data || data.length === 0) {
+    container.innerHTML = `
+      <p style="color:#888; text-align:center;">No Signals Available</p>
+    `;
+    return;
+  }
+
+  // render UI
+  let html = "";
+
   data.forEach(signal => {
-    container.innerHTML += `
-      <div class="card">
+
+    let typeColor = "";
+    if (signal.type === "BUY") typeColor = "#22c55e";
+    if (signal.type === "SELL") typeColor = "#ef4444";
+    if (signal.type === "HOLD") typeColor = "#facc15";
+
+    html += `
+      <div class="card" style="border-left:5px solid ${typeColor};">
+
         <h3>${signal.pair}</h3>
-        <p><strong>${signal.type}</strong></p>
+
+        <p>
+          <strong style="color:${typeColor}">
+            ${signal.type}
+          </strong>
+        </p>
+
         <p>Entry: ${signal.entry}</p>
         <p>Strength: ${signal.strength}</p>
         <p>TP: ${signal.target}</p>
         <p>SL: ${signal.stoploss}</p>
+
       </div>
     `;
   });
+
+  container.innerHTML = html;
 }
 
 
