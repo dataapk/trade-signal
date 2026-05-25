@@ -8,9 +8,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
     
-    <!-- Superbase SDK (Real-time Sync) -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
+    <!-- Firebase SDK (Real-time Sync) -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -158,125 +159,84 @@
                     <div class="xl:col-span-5 space-y-4">
                         <h2 id="feedTitle" class="font-cyber text-xs uppercase tracking-wider text-slate-400 dark:text-slate-400 light:text-slate-600 px-1"><i class="fa-solid fa-satellite-dish text-neonBlue light:text-blue-600 mr-2 animate-pulse"></i> Live Signal Feed</h2>
 
-                        <!-- FREE SIGNAL CARD (DYNAMIC) -->
-                        <div id="freeSignalCard" class="glass-panel glow-box-open rounded-2xl p-5 relative">
-    <div class="flex justify-between items-start mb-3">
-        <span id="freePair" class="font-cyber font-bold text-lg text-slate-900 dark:text-white">
-            BTCUSDT <span id="freeType" class="text-[10px] font-cyber bg-neonGreen/10 text-neonGreen px-2 py-0.5 rounded ml-2 font-bold uppercase">LONG</span>
-        </span>
+                        <!-- FREE SIGNAL CARD -->
+                        <div class="glass-panel glow-box-open rounded-2xl p-5 relative">
+                            <div class="flex justify-between items-start mb-3">
+                                <span class="font-cyber font-bold text-lg text-slate-900 dark:text-white">BTCUSDT <span class="text-[10px] font-cyber bg-neonGreen/10 text-neonGreen light:text-green-700 px-2 py-0.5 rounded ml-2 font-bold uppercase">LONG</span></span>
+                                <span class="text-[11px] font-mono text-slate-400 dark:text-slate-400 light:text-slate-600 bg-black/20 dark:bg-black/20 light:bg-slate-100 px-2 py-0.5 rounded border border-slate-800 dark:border-slate-800 light:border-slate-300"><i class="fa-regular fa-clock mr-1 text-neonBlue light:text-blue-600"></i><span id="freeTimer">01h 54m</span></span>
+                            </div>
+                            <div class="space-y-2 bg-black/30 dark:bg-black/30 light:bg-slate-100 p-3 rounded-xl text-xs font-mono text-slate-800 dark:text-slate-200">
+                                <div class="flex justify-between border-b border-slate-900/10 dark:border-white/5 pb-1"><span>ENTRY:</span><span class="font-bold">64250.00</span></div>
+                                <div class="flex justify-between border-b border-slate-900/10 dark:border-white/5 pb-1"><span>STOP LOSS:</span><span class="font-bold text-neonRed light:text-red-600">63500.00</span></div>
+                                <div class="flex justify-between"><span>TAKE PROFIT:</span><span class="font-bold text-neonGreen light:text-green-600">66000.00</span></div>
+                            </div>
+                        </div>
 
-        <span class="text-[11px] font-mono text-slate-400 bg-black/20 px-2 py-0.5 rounded border">
-            <i class="fa-regular fa-clock mr-1 text-neonBlue"></i>
-            <span id="freeTimer">--</span>
-        </span>
-    </div>
+                        <!-- PREMIUM SIGNAL CARD -->
+                        <div id="premiumSignalCard" class="glass-panel rounded-2xl p-5 relative overflow-hidden h-[180px]">
+                            <div id="lockOverlay" class="absolute inset-0 blur-lock z-10 flex flex-col items-center justify-center p-4 text-center">
+                                <div class="w-10 h-10 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center text-gold light:text-yellow-600 mb-2 shadow-goldGlow"><i class="fa-solid fa-lock text-sm"></i></div>
+                                <h4 class="font-cyber text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white">Premium AI Signal Locked</h4>
+                                <button onclick="openAuthModal()" class="mt-3 bg-gradient-to-r from-gold to-yellow-500 text-black px-4 py-1.5 rounded-xl font-cyber font-bold text-xs shadow-goldGlow hover:scale-105 transition-all">UNLOCK INSTANTLY</button>
+                            </div>
 
-    <div class="space-y-2 bg-black/30 p-3 rounded-xl text-xs font-mono">
-        <div class="flex justify-between"><span>ENTRY:</span><span id="freeEntry" class="font-bold">--</span></div>
-        <div class="flex justify-between"><span>STOP LOSS:</span><span id="freeSL" class="font-bold text-neonRed">--</span></div>
-        <div class="flex justify-between"><span>TAKE PROFIT:</span><span id="freeTP" class="font-bold text-neonGreen">--</span></div>
-    </div>
-</div>
-                 
+                            <div id="holdingOverlay" class="absolute inset-0 blur-lock z-10 hidden flex flex-col items-center justify-center p-4 text-center bg-black/95 dark:bg-black/95 light:bg-white/95">
+                                <div class="w-10 h-10 rounded-full bg-neonBlue/10 border border-neonBlue/30 flex items-center justify-center text-neonBlue mb-2 animate-spin shadow-blueGlow"><i class="fa-solid fa-spinner text-sm"></i></div>
+                                <h4 class="font-cyber text-xs font-bold text-neonBlue light:text-blue-600 uppercase tracking-wider">Verification Pending</h4>
+                                <p class="text-[11px] text-slate-400 light:text-slate-600 mt-1 max-w-[240px]"> We are manually verifying your submission. Your VIP card will unlock here instantly.</p>
+                            </div>
 
-                        <!-- PREMIUM SIGNAL CARD (DYNAMIC FIREBASE READY) -->
-<div id="premiumSignalCard" class="glass-panel rounded-2xl p-5 relative overflow-hidden h-[180px]">
-
-    <!-- LOCK OVERLAY -->
-    <div id="lockOverlay" class="absolute inset-0 blur-lock z-10 flex flex-col items-center justify-center p-4 text-center">
-        <div class="w-10 h-10 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center text-gold light:text-yellow-600 mb-2 shadow-goldGlow">
-            <i class="fa-solid fa-lock text-sm"></i>
-        </div>
-        <h4 class="font-cyber text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white">
-            Premium AI Signal Locked
-        </h4>
-        <button onclick="openAuthModal()" class="mt-3 bg-gradient-to-r from-gold to-yellow-500 text-black px-4 py-1.5 rounded-xl font-cyber font-bold text-xs shadow-goldGlow hover:scale-105 transition-all">
-            UNLOCK INSTANTLY
-        </button>
-    </div>
-
-    <!-- HOLDING / VERIFICATION -->
-    <div id="holdingOverlay" class="absolute inset-0 blur-lock z-10 hidden flex flex-col items-center justify-center p-4 text-center bg-black/95 dark:bg-black/95 light:bg-white/95">
-        <div class="w-10 h-10 rounded-full bg-neonBlue/10 border border-neonBlue/30 flex items-center justify-center text-neonBlue mb-2 animate-spin shadow-blueGlow">
-            <i class="fa-solid fa-spinner text-sm"></i>
-        </div>
-        <h4 class="font-cyber text-xs font-bold text-neonBlue light:text-blue-600 uppercase tracking-wider">
-            Verification Pending
-        </h4>
-        <p class="text-[11px] text-slate-400 light:text-slate-600 mt-1 max-w-[240px]">
-            We are manually verifying your submission. Your VIP card will unlock here instantly.
-        </p>
-    </div>
-
-    <!-- PREMIUM DATA (NOW DYNAMIC) -->
-    <div>
-        <div class="flex justify-between items-start mb-3">
-
-            <span class="font-cyber font-bold text-lg text-gold light:text-yellow-600">
-                <span id="premPair">SOLUSDT</span>
-                <span id="premType" class="text-[10px] bg-gold/20 text-gold light:bg-yellow-600/10 light:text-yellow-700 px-2 py-0.5 rounded ml-2 font-bold">
-                    VIP SHORT
-                </span>
-            </span>
-
-            <span class="text-[11px] font-mono text-gold light:text-yellow-600 bg-black/20 px-2 py-0.5 rounded border">
-                <i class="fa-regular fa-clock mr-1"></i>
-                <span id="premTimer">--</span>
-            </span>
-        </div>
-
-        <div class="space-y-2 bg-black/40 dark:bg-black/40 light:bg-slate-100 p-3 rounded-xl text-xs font-mono text-slate-800 dark:text-slate-200">
-
-            <div class="flex justify-between border-b border-slate-900/10 dark:border-white/5 pb-1">
-                <span>ENTRY:</span>
-                <span id="premEntry" class="font-bold">--</span>
-            </div>
-
-            <div class="flex justify-between border-b border-slate-900/10 dark:border-white/5 pb-1">
-                <span>STOP LOSS:</span>
-                <span id="premSL" class="font-bold text-neonRed light:text-red-600">--</span>
-            </div>
-
-            <div class="flex justify-between">
-                <span>TAKE PROFIT:</span>
-                <span id="premTP" class="font-bold text-neonGreen light:text-green-600">--</span>
-            </div>
-
-        </div>
-    </div>
-</div>
+                            <div>
+                                <div class="flex justify-between items-start mb-3">
+                                    <span class="font-cyber font-bold text-lg text-gold light:text-yellow-600">SOLUSDT <span class="text-[10px] bg-gold/20 text-gold light:bg-yellow-600/10 light:text-yellow-700 px-2 py-0.5 rounded ml-2 font-bold">VIP SHORT</span></span>
+                                    <span class="text-[11px] font-mono text-gold light:text-yellow-600 bg-black/20 dark:bg-black/20 light:bg-slate-100 px-2 py-0.5 rounded border border-slate-800 dark:border-slate-800 light:border-slate-300"><i class="fa-regular fa-clock mr-1"></i><span id="premTimer">03h 12m</span></span>
+                                </div>
+                                <div class="space-y-2 bg-black/40 dark:bg-black/40 light:bg-slate-100 p-3 rounded-xl text-xs font-mono text-slate-800 dark:text-slate-200">
+                                    <div class="flex justify-between border-b border-slate-900/10 dark:border-white/5 pb-1"><span>ENTRY:</span><span class="font-bold">182.40</span></div>
+                                    <div class="flex justify-between border-b border-slate-900/10 dark:border-white/5 pb-1"><span>STOP LOSS:</span><span class="font-bold text-neonRed light:text-red-600">186.00</span></div>
+                                    <div class="flex justify-between"><span>TAKE PROFIT:</span><span class="font-bold text-neonGreen light:text-green-600">174.00</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- PAST PERFORMANCE HISTORY TABLE -->
-<section class="glass-panel rounded-2xl p-5 mt-6 transition-colors duration-300">
-
-    <div class="flex justify-between items-center mb-4">
-        <h3 id="historyTitle" class="font-cyber text-xs uppercase tracking-wider text-slate-400">
-            <i class="fa-solid fa-clock-history text-gold mr-2"></i> Recent Signal History
-        </h3>
-        <span class="text-[10px] font-cyber bg-neonGreen/10 text-neonGreen px-2 py-1 rounded font-bold">
-            UPDATED REAL-TIME
-        </span>
-    </div>
-
-    <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs font-mono">
-            <thead>
-                <tr class="border-b border-slate-800 text-slate-400 text-[11px]">
-                    <th class="pb-3 font-cyber">COIN/PAIR</th>
-                    <th class="pb-3 font-cyber">TYPE</th>
-                    <th class="pb-3 font-cyber">ENTRY</th>
-                    <th class="pb-3 font-cyber">TARGET</th>
-                    <th class="pb-3 font-cyber">STATUS</th>
-                </tr>
-            </thead>
-
-            <!-- ONLY THIS IS IMPORTANT -->
-            <tbody id="historyTableBody"></tbody>
-
-        </table>
-    </div>
-
-</section>
+                <section class="glass-panel rounded-2xl p-5 mt-6 transition-colors duration-300">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 id="historyTitle" class="font-cyber text-xs uppercase tracking-wider text-slate-400 dark:text-slate-400 light:text-slate-600"><i class="fa-solid fa-clock-history text-gold light:text-yellow-600 mr-2"></i> Recent Signal History</h3>
+                        <span class="text-[10px] font-cyber bg-neonGreen/10 text-neonGreen light:text-green-700 px-2 py-1 rounded font-bold">UPDATED REAL-TIME</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs font-mono border-collapse text-slate-800 dark:text-slate-200">
+                            <thead>
+                                <tr class="border-b border-slate-800 dark:border-slate-800 light:border-slate-200 text-slate-400 light:text-slate-500 text-[11px]">
+                                    <th class="pb-3 font-cyber">COIN/PAIR</th>
+                                    <th class="pb-3 font-cyber">TYPE</th>
+                                    <th class="pb-3 font-cyber">ENTRY</th>
+                                    <th class="pb-3 font-cyber">TARGET</th>
+                                    <th class="pb-3 font-cyber">STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyTableBody" class="divide-y divide-slate-900/40 dark:divide-slate-900/40 light:divide-slate-200/40">
+                                <tr class="hover:bg-black/10 dark:hover:bg-black/10 light:hover:bg-slate-100">
+                                    <td class="py-3 font-bold text-slate-900 dark:text-white">ETHUSDT</td>
+                                    <td class="py-3 text-neonRed light:text-red-600 font-bold">SHORT</td>
+                                    <td class="py-3">$3,420.00</td>
+                                    <td class="py-3">$3,210.00</td>
+                                    <td class="py-3 text-neonGreen light:text-green-600 font-bold"><i class="fa-solid fa-circle-check mr-1"></i> Target Hit (+6.1%)</td>
+                                </tr>
+                                <tr class="hover:bg-black/10 dark:hover:bg-black/10 light:hover:bg-slate-100">
+                                    <td class="py-3 font-bold text-slate-900 dark:text-white">SOLUSDT</td>
+                                    <td class="py-3 text-neonGreen light:text-green-600 font-bold">LONG</td>
+                                    <td class="py-3">$172.50</td>
+                                    <td class="py-3">$185.00</td>
+                                    <td class="py-3 text-neonGreen light:text-green-600 font-bold"><i class="fa-solid fa-circle-check mr-1"></i> Target Hit (+7.2%)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
             </div>
 
             <!-- FOOTER SECTION (Legal Links) -->
@@ -566,37 +526,6 @@
             const net = document.getElementById('networkSelect').value;
             document.getElementById('walletAddress').innerText = addresses[net];
         }
-       <script>
-function handleNetworkChange() {
-    const net = document.getElementById('networkSelect').value;
-    document.getElementById('walletAddress').innerText = addresses[net];
-}
-
-// =====================
-// SUPABASE INIT
-// =====================
-const supabaseUrl = "https://nrwhupzgdwlsdnwdfpig.supabase.co";
-const supabaseKey = "sb_publishable_4I-i-becqQZHBXK-skXDfA_gQLOID3a";
-
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-// =====================
-// LOAD SIGNALS
-// =====================
-async function loadSignals() {
-  const { data, error } = await supabase
-    .from("signals")
-    .select("*");
-
-  if (error) {
-    console.error("Supabase error:", error);
-    return;
-  }
-
-  console.log(data);
-}
-
-document.addEventListener("DOMContentLoaded", loadSignals);
-</script>
+    </script>
 </body>
 </html>
