@@ -160,3 +160,14 @@ function logout() {
   localStorage.removeItem("adminLoggedIn");
   window.location.href = "admin.html";
 }
+function openPaymentModal() {
+  const modal = document.getElementById("paymentModal");
+  modal.classList.remove("hidden");
+  modal.style.display = "flex";
+}
+
+function closePaymentModal() {
+  const modal = document.getElementById("paymentModal");
+  modal.classList.add("hidden");
+  modal.style.display = "none";
+}
