@@ -184,9 +184,23 @@ function realtimeSignals() {
 // INIT
 // =========================
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+
   loadSignals();
+
+  // latest signal load on refresh
+  const { data } = await supabaseClient
+    .from("signals")
+    .select("*")
+    .order("id", { ascending: false })
+    .limit(1);
+
+  if (data && data.length > 0) {
+    updateLiveCard(data[0]);
+  }
+
   realtimeSignals();
+
 });
 
 
