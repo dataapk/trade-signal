@@ -1,12 +1,12 @@
-const supabaseUrl =
-"https://nrwhupzgdwlsdnwdfpig.supabase.co";
+// =========================
+// SUPABASE INIT
+// =========================
 
-const supabaseKey =
-"sb_publishable_4I-i-becqQZHBXK-skXDfA_gQLOID3a";
+const supabaseUrl = "https://nrwhupzgdwlsdnwdfpig.supabase.co";
 
-const supabaseClient =
-window.supabase.createClient(supabaseUrl, supabaseKey);
+const supabaseKey = "sb_publishable_4I-i-becqQZHBXK-skXDfA_gQLOID3a";
 
+const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 
 // =========================
@@ -17,7 +17,6 @@ async function createSignal() {
 
   let pair = document.getElementById("pair").value.trim();
   let type = document.getElementById("type").value;
-
   let entry = document.getElementById("entry").value.trim();
   let strength = document.getElementById("strength").value.trim();
   let target = document.getElementById("target").value.trim();
@@ -59,9 +58,8 @@ async function createSignal() {
 }
 
 
-
 // =========================
-// LOAD SIGNALS
+// LOAD SIGNALS (FULL LIST)
 // =========================
 
 async function loadSignals() {
@@ -80,46 +78,82 @@ async function loadSignals() {
   if (!container) return;
 
   if (!data || data.length === 0) {
-    container.innerHTML = `
-      <p style="color:#888;text-align:center;">No Signals Available</p>
-    `;
+    container.innerHTML = `<p style="color:#888;text-align:center;">No Signals Available</p>`;
     return;
   }
 
-  let html = "";
-
-  data.forEach(signal => {
+  container.innerHTML = data.map(signal => {
 
     let typeColor =
       signal.type === "BUY" ? "#22c55e" :
       signal.type === "SELL" ? "#ef4444" :
       "#facc15";
 
-    html += `
-      <div class="card" style="border-left:5px solid ${typeColor};">
-
+    return `
+      <div class="card" style="border-left:5px solid ${typeColor}; margin:10px; padding:10px;">
         <h3>${signal.pair}</h3>
-
-        <p style="color:${typeColor}">
-          <strong>${signal.type}</strong>
-        </p>
-
+        <p style="color:${typeColor}"><strong>${signal.type}</strong></p>
         <p>Entry: ${signal.entry}</p>
         <p>Strength: ${signal.strength}</p>
         <p>TP: ${signal.target}</p>
         <p>SL: ${signal.stoploss}</p>
-
       </div>
     `;
-  });
-
-  container.innerHTML = html;
+  }).join("");
 }
 
 
+// =========================
+// HISTORY TABLE LIVE UPDATE
+// =========================
+
+function renderLatestSignal(signal) {
+
+  const container = document.getElementById("historyTableBody");
+  if (!container) return;
+
+  let typeColor =
+    signal.type === "BUY" ? "text-green-500" :
+    signal.type === "SELL" ? "text-red-500" :
+    "text-yellow-500";
+
+  const row = `
+    <tr class="hover:bg-black/10">
+      <td class="py-3 font-bold">${signal.pair}</td>
+      <td class="py-3 ${typeColor} font-bold">${signal.type}</td>
+      <td class="py-3">${signal.entry}</td>
+      <td class="py-3">${signal.target}</td>
+      <td class="py-3 text-green-500 font-bold">
+        <i class="fa-solid fa-satellite-dish mr-1"></i> LIVE
+      </td>
+    </tr>
+  `;
+
+  container.insertAdjacentHTML("afterbegin", row);
+}
+
 
 // =========================
-// REALTIME (IMPORTANT FIX)
+// OPTIONAL: LIVE CARD UPDATE
+// =========================
+
+function updateLiveCard(signal) {
+  const box = document.getElementById("liveFeedCard");
+  if (!box) return;
+
+  box.innerHTML = `
+    <div class="glass-panel p-4 rounded-xl">
+      <h3 class="font-bold">${signal.pair} ${signal.type}</h3>
+      <p>Entry: ${signal.entry}</p>
+      <p>TP: ${signal.target}</p>
+      <p>SL: ${signal.stoploss}</p>
+    </div>
+  `;
+}
+
+
+// =========================
+// REALTIME LISTENER
 // =========================
 
 function realtimeSignals() {
@@ -134,11 +168,16 @@ function realtimeSignals() {
 
       console.log("LIVE UPDATE:", payload);
 
-      loadSignals(); // auto refresh UI instantly
+      if (payload.eventType === "INSERT") {
+        renderLatestSignal(payload.new);
+        updateLiveCard(payload.new);
+      } else {
+        loadSignals();
+      }
+
     })
     .subscribe();
 }
-
 
 
 // =========================
@@ -151,7 +190,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-
 // =========================
 // LOGOUT
 // =========================
@@ -159,15 +197,4 @@ document.addEventListener("DOMContentLoaded", () => {
 function logout() {
   localStorage.removeItem("adminLoggedIn");
   window.location.href = "admin.html";
-}
-function openPaymentModal() {
-  const modal = document.getElementById("paymentModal");
-  modal.classList.remove("hidden");
-  modal.style.display = "flex";
-}
-
-function closePaymentModal() {
-  const modal = document.getElementById("paymentModal");
-  modal.classList.add("hidden");
-  modal.style.display = "none";
 }
