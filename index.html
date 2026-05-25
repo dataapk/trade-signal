@@ -159,25 +159,18 @@
                     <div class="xl:col-span-5 space-y-4">
                         <h2 id="feedTitle" class="font-cyber text-xs uppercase tracking-wider text-slate-400 dark:text-slate-400 light:text-slate-600 px-1"><i class="fa-solid fa-satellite-dish text-neonBlue light:text-blue-600 mr-2 animate-pulse"></i> Live Signal Feed</h2>
 
-                                    <!-- LIVE SIGNAL FEED -->
-                           <div class="glass-panel rounded-2xl p-4">
-    
-                      <div class="flex justify-between items-center mb-4">
-                   <h2 class="text-lg font-bold text-white">
-                         🚀 Live Signal Feed
-                                    </h2>
-
-                      <span class="text-xs text-gray-400">
-                      Auto Update
-                          </span>
-                             </div>
-
-                       <!-- ALL SIGNALS WILL LOAD HERE -->
-                      <div id="signals" class="space-y-4">
-                        <!-- JS will inject cards here -->
-                                   </div>
-
-                                      </div>
+                        <!-- FREE SIGNAL CARD -->
+                        <div class="glass-panel glow-box-open rounded-2xl p-5 relative">
+                            <div class="flex justify-between items-start mb-3">
+                                <span class="font-cyber font-bold text-lg text-slate-900 dark:text-white">BTCUSDT <span class="text-[10px] font-cyber bg-neonGreen/10 text-neonGreen light:text-green-700 px-2 py-0.5 rounded ml-2 font-bold uppercase">LONG</span></span>
+                                <span class="text-[11px] font-mono text-slate-400 dark:text-slate-400 light:text-slate-600 bg-black/20 dark:bg-black/20 light:bg-slate-100 px-2 py-0.5 rounded border border-slate-800 dark:border-slate-800 light:border-slate-300"><i class="fa-regular fa-clock mr-1 text-neonBlue light:text-blue-600"></i><span id="freeTimer">01h 54m</span></span>
+                            </div>
+                            <div class="space-y-2 bg-black/30 dark:bg-black/30 light:bg-slate-100 p-3 rounded-xl text-xs font-mono text-slate-800 dark:text-slate-200">
+                                <div class="flex justify-between border-b border-slate-900/10 dark:border-white/5 pb-1"><span>ENTRY:</span><span class="font-bold">64250.00</span></div>
+                                <div class="flex justify-between border-b border-slate-900/10 dark:border-white/5 pb-1"><span>STOP LOSS:</span><span class="font-bold text-neonRed light:text-red-600">63500.00</span></div>
+                                <div class="flex justify-between"><span>TAKE PROFIT:</span><span class="font-bold text-neonGreen light:text-green-600">66000.00</span></div>
+                            </div>
+                        </div>
 
                         <!-- PREMIUM SIGNAL CARD -->
                         <div id="premiumSignalCard" class="glass-panel rounded-2xl p-5 relative overflow-hidden h-[180px]">
@@ -353,7 +346,6 @@
     <!-- CORE LOGIC ENGINE -->
     <script>
         const addresses = { trc20: "TYG92hskf8Hksld9283Kshdf9283ksjdhf", bep20: "0x71C7656ec7ab88b098defB751B7401B5f6d59751" };
-        
         
         // Firebase Setup
         const firebaseConfig = { apiKey: "AIzaSyKey", authDomain: "proj.firebaseapp.com", databaseURL: "https://your-project.firebaseio.com/", projectId: "proj" };
@@ -534,9 +526,6 @@
             const net = document.getElementById('networkSelect').value;
             document.getElementById('walletAddress').innerText = addresses[net];
         }
-   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-
-<script src="supabase.js"></script>
-<script src="index.js"></script>
+    </script>
 </body>
 </html>
