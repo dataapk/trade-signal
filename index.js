@@ -74,10 +74,11 @@ async function loadSignals() {
     return;
   }
 
-  const container = document.querySelector(".dashboard-content");
-  if (!container) return;
+  const container = document.getElementById("signals");
 
-  container.innerHTML = "";
+if (!container) return;
+
+container.innerHTML = "";
 
   if (!data || data.length === 0) {
     container.innerHTML = `<p>No Signals Available</p>`;
