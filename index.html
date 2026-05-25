@@ -379,11 +379,6 @@
     <script>
         const addresses = { trc20: "TYG92hskf8Hksld9283Kshdf9283ksjdhf", bep20: "0x71C7656ec7ab88b098defB751B7401B5f6d59751" };
         
-        // Firebase Setup
-        const firebaseConfig = { apiKey: "AIzaSyKey", authDomain: "proj.firebaseapp.com", databaseURL: "https://your-project.firebaseio.com/", projectId: "proj" };
-        if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
-        const database = firebase.database();
-
         let currentLoggedUserEmail = "";
 
         const legalContents = {
