@@ -410,40 +410,83 @@
         }
         function closeLegalModal() { document.getElementById('legalModal').style.display = 'none'; }
 
-        // রিয়েল-টাইম এনালাইসিস ইমেজ লিসেনার
-        database.ref('analysis_image').on('value', (snapshot) => {
-            const imageUrl = snapshot.val();
-            if (imageUrl) { document.getElementById('liveAnalysisImage').src = imageUrl; }
-        });
+        // =========================
+// ANALYSIS IMAGE FUNCTIONS
+// =========================
 
-        function zoomAnalysisImage() {
-            const currentSrc = document.getElementById('liveAnalysisImage').src;
-            document.getElementById('lightboxImg').src = currentSrc;
-            document.getElementById('imageLightbox').style.display = 'flex';
-        }
-        function closeLightbox() { document.getElementById('imageLightbox').style.display = 'none'; }
+function zoomAnalysisImage() {
+    const currentSrc =
+    document.getElementById('liveAnalysisImage').src;
 
-        // রিয়েল-টাইম ইউজার স্ট্যাটাস ট্র্যাকিং
-        function listenToUserStatus(email) {
-            const userKey = btoa(email);
-            database.ref('users/' + userKey).on('value', (snapshot) => {
-                const userData = snapshot.val();
-                if(userData) {
-                    if(userData.status === 'pending') {
-                        document.getElementById('accountStatusText').innerText = "PENDING APPROVAL";
-                        document.getElementById('accountStatusText').className = "text-amber-500 font-bold font-cyber animate-pulse";
-                        document.getElementById('lockOverlay').style.display = 'none';
-                        document.getElementById('holdingOverlay').style.display = 'flex'; 
-                    } else if(userData.status === 'premium') {
-                        document.getElementById('accountStatusText').innerText = "VIP PREMIUM";
-                        document.getElementById('accountStatusText').className = "text-gold light:text-yellow-600 font-bold font-cyber";
-                        document.getElementById('lockOverlay').style.display = 'none';
-                        document.getElementById('holdingOverlay').style.display = 'none'; 
-                        document.getElementById('upgradeBtnTop').style.display = 'none';
-                    }
-                }
-            });
+    document.getElementById('lightboxImg').src =
+    currentSrc;
+
+    document.getElementById('imageLightbox').style.display =
+    'flex';
+}
+
+function closeLightbox() {
+    document.getElementById('imageLightbox').style.display =
+    'none';
+}
+
+
+// =========================
+// FIREBASE USER STATUS
+// TEMP DISABLED
+// =========================
+
+/*
+
+function listenToUserStatus(email) {
+
+    const userKey = btoa(email);
+
+    database.ref('users/' + userKey).on('value', (snapshot) => {
+
+        const userData = snapshot.val();
+
+        if(userData) {
+
+            if(userData.status === 'pending') {
+
+                document.getElementById('accountStatusText').innerText =
+                "PENDING APPROVAL";
+
+                document.getElementById('accountStatusText').className =
+                "text-amber-500 font-bold font-cyber animate-pulse";
+
+                document.getElementById('lockOverlay').style.display =
+                'none';
+
+                document.getElementById('holdingOverlay').style.display =
+                'flex';
+
+            }
+
+            else if(userData.status === 'premium') {
+
+                document.getElementById('accountStatusText').innerText =
+                "VIP PREMIUM";
+
+                document.getElementById('accountStatusText').className =
+                "text-gold light:text-yellow-600 font-bold font-cyber";
+
+                document.getElementById('lockOverlay').style.display =
+                'none';
+
+                document.getElementById('holdingOverlay').style.display =
+                'none';
+
+                document.getElementById('upgradeBtnTop').style.display =
+                'none';
+
+            }
         }
+    });
+}
+
+*/
 
         // অ্যাডমিন প্যানেল চেক লিসেনার
         database.ref('pending_payments').on('value', (snapshot) => {
