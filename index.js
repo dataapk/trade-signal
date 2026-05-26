@@ -109,47 +109,27 @@ async function loadSignals() {
 
 function renderLatestSignal(signal) {
 
-  const container =
-    document.getElementById("historyTableBody");
-
+  const container = document.getElementById("historyTableBody");
   if (!container) return;
 
   let typeColor =
-    signal.type === "BUY"
-      ? "text-neonGreen light:text-green-600"
-      : "text-neonRed light:text-red-600";
+    signal.type === "BUY" ? "text-green-500" :
+    signal.type === "SELL" ? "text-red-500" :
+    "text-yellow-500";
 
   const row = `
-
-    <tr class="hover:bg-black/10 dark:hover:bg-black/10 light:hover:bg-slate-100">
-
-      <td class="py-3 font-bold text-slate-900 dark:text-white">
-        ${signal.pair}
+    <tr class="hover:bg-black/10">
+      <td class="py-3 font-bold">${signal.pair}</td>
+      <td class="py-3 ${typeColor} font-bold">${signal.type}</td>
+      <td class="py-3">${signal.entry}</td>
+      <td class="py-3">${signal.target}</td>
+      <td class="py-3 text-green-500 font-bold">
+        <i class="fa-solid fa-satellite-dish mr-1"></i> LIVE
       </td>
-
-      <td class="py-3 ${typeColor} font-bold">
-        ${signal.type}
-      </td>
-
-      <td class="py-3">
-        ${signal.entry}
-      </td>
-
-      <td class="py-3">
-        ${signal.target}
-      </td>
-
-      <td class="py-3 text-neonGreen light:text-green-600 font-bold">
-        <i class="fa-solid fa-clock-rotate-left mr-1"></i>
-        Previous Signal
-      </td>
-
     </tr>
-
   `;
 
   container.insertAdjacentHTML("afterbegin", row);
-
 }
 
 
@@ -228,12 +208,33 @@ function updateLiveCard(signal) {
   `;
 }
 
+
 // =========================
-// HISTORY MEMORY
+// REALTIME LISTENER
 // =========================
 
-let currentLiveSignal = null;
+function realtimeSignals() {
 
+  supabaseClient
+    .channel('signals-live')
+    .on('postgres_changes', {
+      event: '*',
+      schema: 'public',
+      table: 'signals'
+    }, payload => {
+
+      console.log("LIVE UPDATE:", payload);
+
+      if (payload.eventType === "INSERT") {
+        renderLatestSignal(payload.new);
+        updateLiveCard(payload.new);
+      } else {
+        loadSignals();
+      }
+
+    })
+    .subscribe();
+}
 
 
 // =========================
@@ -244,7 +245,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   loadSignals();
 
-  // সর্বশেষ LIVE signal load
+  // latest signal load on refresh
   const { data } = await supabaseClient
     .from("signals")
     .select("*")
@@ -252,17 +253,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     .limit(1);
 
   if (data && data.length > 0) {
-
-    currentLiveSignal = data[0];
-
     updateLiveCard(data[0]);
-
   }
 
   realtimeSignals();
 
 });
-```
 
 
 // =========================
