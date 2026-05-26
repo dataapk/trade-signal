@@ -228,8 +228,6 @@ function updateLiveCard(signal) {
   `;
 }
 
-
-```javascript
 // =========================
 // HISTORY MEMORY
 // =========================
