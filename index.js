@@ -109,27 +109,47 @@ async function loadSignals() {
 
 function renderLatestSignal(signal) {
 
-  const container = document.getElementById("historyTableBody");
+  const container =
+    document.getElementById("historyTableBody");
+
   if (!container) return;
 
   let typeColor =
-    signal.type === "BUY" ? "text-green-500" :
-    signal.type === "SELL" ? "text-red-500" :
-    "text-yellow-500";
+    signal.type === "BUY"
+      ? "text-neonGreen light:text-green-600"
+      : "text-neonRed light:text-red-600";
 
   const row = `
-    <tr class="hover:bg-black/10">
-      <td class="py-3 font-bold">${signal.pair}</td>
-      <td class="py-3 ${typeColor} font-bold">${signal.type}</td>
-      <td class="py-3">${signal.entry}</td>
-      <td class="py-3">${signal.target}</td>
-      <td class="py-3 text-green-500 font-bold">
-        <i class="fa-solid fa-satellite-dish mr-1"></i> LIVE
+
+    <tr class="hover:bg-black/10 dark:hover:bg-black/10 light:hover:bg-slate-100">
+
+      <td class="py-3 font-bold text-slate-900 dark:text-white">
+        ${signal.pair}
       </td>
+
+      <td class="py-3 ${typeColor} font-bold">
+        ${signal.type}
+      </td>
+
+      <td class="py-3">
+        ${signal.entry}
+      </td>
+
+      <td class="py-3">
+        ${signal.target}
+      </td>
+
+      <td class="py-3 text-neonGreen light:text-green-600 font-bold">
+        <i class="fa-solid fa-clock-rotate-left mr-1"></i>
+        Previous Signal
+      </td>
+
     </tr>
+
   `;
 
   container.insertAdjacentHTML("afterbegin", row);
+
 }
 
 
