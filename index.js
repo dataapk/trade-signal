@@ -57,8 +57,6 @@ async function createSignal() {
   loadSignals();
 }
 
-
-```javascript
 // =========================
 // LOAD SIGNALS (FULL LIST)
 // =========================
