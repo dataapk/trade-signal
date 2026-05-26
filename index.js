@@ -209,6 +209,14 @@ function updateLiveCard(signal) {
 }
 
 
+```javascript
+// =========================
+// HISTORY MEMORY
+// =========================
+
+let currentLiveSignal = null;
+
+
 // =========================
 // REALTIME LISTENER
 // =========================
@@ -226,10 +234,22 @@ function realtimeSignals() {
       console.log("LIVE UPDATE:", payload);
 
       if (payload.eventType === "INSERT") {
-        renderLatestSignal(payload.new);
+
+        // পুরানো LIVE signal কে history তে পাঠাবে
+        if (currentLiveSignal) {
+          renderLatestSignal(currentLiveSignal);
+        }
+
+        // নতুন LIVE signal update হবে
+        currentLiveSignal = payload.new;
+
+        // LIVE CARD update
         updateLiveCard(payload.new);
+
       } else {
+
         loadSignals();
+
       }
 
     })
@@ -245,7 +265,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   loadSignals();
 
-  // latest signal load on refresh
+  // সর্বশেষ LIVE signal load
   const { data } = await supabaseClient
     .from("signals")
     .select("*")
@@ -253,12 +273,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     .limit(1);
 
   if (data && data.length > 0) {
+
+    currentLiveSignal = data[0];
+
     updateLiveCard(data[0]);
+
   }
 
   realtimeSignals();
 
 });
+```
 
 
 // =========================
