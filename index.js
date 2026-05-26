@@ -235,45 +235,6 @@ function updateLiveCard(signal) {
 let currentLiveSignal = null;
 
 
-// =========================
-// REALTIME LISTENER
-// =========================
-
-function realtimeSignals() {
-
-  supabaseClient
-    .channel('signals-live')
-    .on('postgres_changes', {
-      event: '*',
-      schema: 'public',
-      table: 'signals'
-    }, payload => {
-
-      console.log("LIVE UPDATE:", payload);
-
-      if (payload.eventType === "INSERT") {
-
-        // পুরানো LIVE signal কে history তে পাঠাবে
-        if (currentLiveSignal) {
-          renderLatestSignal(currentLiveSignal);
-        }
-
-        // নতুন LIVE signal update হবে
-        currentLiveSignal = payload.new;
-
-        // LIVE CARD update
-        updateLiveCard(payload.new);
-
-      } else {
-
-        loadSignals();
-
-      }
-
-    })
-    .subscribe();
-}
-
 
 // =========================
 // INIT
