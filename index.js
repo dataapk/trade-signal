@@ -58,6 +58,7 @@ async function createSignal() {
 }
 
 
+```javascript
 // =========================
 // LOAD SIGNALS (FULL LIST)
 // =========================
@@ -74,63 +75,114 @@ async function loadSignals() {
     return;
   }
 
-  const container = document.getElementById("signals");
-  if (!container) return;
+  // =========================
+  // LEFT SIDE SIGNAL LIST
+  // =========================
 
-  if (!data || data.length === 0) {
-    container.innerHTML = `<p style="color:#888;text-align:center;">No Signals Available</p>`;
-    return;
+  const signalsContainer =
+    document.getElementById("signals");
+
+  if (signalsContainer) {
+
+    if (!data || data.length === 0) {
+
+      signalsContainer.innerHTML = `
+        <p style="color:#888;text-align:center;">
+          No Signals Available
+        </p>
+      `;
+
+    } else {
+
+      signalsContainer.innerHTML = data.map(signal => {
+
+        let typeColor =
+          signal.type === "BUY"
+            ? "#22c55e"
+            : signal.type === "SELL"
+            ? "#ef4444"
+            : "#facc15";
+
+        return `
+          <div class="card"
+            style="border-left:5px solid ${typeColor};
+            margin:10px;
+            padding:10px;">
+
+            <h3>${signal.pair}</h3>
+
+            <p style="color:${typeColor}">
+              <strong>${signal.type}</strong>
+            </p>
+
+            <p>Entry: ${signal.entry}</p>
+
+            <p>Strength: ${signal.strength}</p>
+
+            <p>TP: ${signal.target}</p>
+
+            <p>SL: ${signal.stoploss}</p>
+
+          </div>
+        `;
+
+      }).join("");
+
+    }
+
   }
 
-  container.innerHTML = data.map(signal => {
+  // =========================
+  // HISTORY TABLE AUTO UPDATE
+  // =========================
 
-    let typeColor =
-      signal.type === "BUY" ? "#22c55e" :
-      signal.type === "SELL" ? "#ef4444" :
-      "#facc15";
+  const historyTable =
+    document.getElementById("historyTableBody");
 
-    return `
-      <div class="card" style="border-left:5px solid ${typeColor}; margin:10px; padding:10px;">
-        <h3>${signal.pair}</h3>
-        <p style="color:${typeColor}"><strong>${signal.type}</strong></p>
-        <p>Entry: ${signal.entry}</p>
-        <p>Strength: ${signal.strength}</p>
-        <p>TP: ${signal.target}</p>
-        <p>SL: ${signal.stoploss}</p>
-      </div>
-    `;
-  }).join("");
-}
+  if (historyTable) {
 
+    historyTable.innerHTML = "";
 
-// =========================
-// HISTORY TABLE LIVE UPDATE
-// =========================
+    data.forEach(signal => {
 
-function renderLatestSignal(signal) {
+      let typeColor =
+        signal.type === "BUY"
+          ? "text-green-500"
+          : signal.type === "SELL"
+          ? "text-red-500"
+          : "text-yellow-500";
 
-  const container = document.getElementById("historyTableBody");
-  if (!container) return;
+      historyTable.innerHTML += `
 
-  let typeColor =
-    signal.type === "BUY" ? "text-green-500" :
-    signal.type === "SELL" ? "text-red-500" :
-    "text-yellow-500";
+        <tr class="hover:bg-black/10">
 
-  const row = `
-    <tr class="hover:bg-black/10">
-      <td class="py-3 font-bold">${signal.pair}</td>
-      <td class="py-3 ${typeColor} font-bold">${signal.type}</td>
-      <td class="py-3">${signal.entry}</td>
-      <td class="py-3">${signal.target}</td>
-      <td class="py-3 text-green-500 font-bold">
-        <i class="fa-solid fa-satellite-dish mr-1"></i> LIVE
-      </td>
-    </tr>
-  `;
+          <td class="py-3 font-bold">
+            ${signal.pair}
+          </td>
 
-  container.insertAdjacentHTML("afterbegin", row);
-}
+          <td class="py-3 ${typeColor} font-bold">
+            ${signal.type}
+          </td>
+
+          <td class="py-3">
+            ${signal.entry}
+          </td>
+
+          <td class="py-3">
+            ${signal.target}
+          </td>
+
+          <td class="py-3 text-green-500 font-bold">
+            <i class="fa-solid fa-satellite-dish mr-1"></i>
+            LIVE
+          </td>
+
+        </tr>
+
+      `;
+    });
+
+  }
 
 
 // =========================
