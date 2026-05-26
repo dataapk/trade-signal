@@ -274,6 +274,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   realtimeSignals();
+  startLiveTicker();
 
 });
 
