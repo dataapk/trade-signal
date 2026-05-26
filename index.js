@@ -57,6 +57,7 @@ async function createSignal() {
   loadSignals();
 }
 
+
 // =========================
 // LOAD SIGNALS (FULL LIST)
 // =========================
@@ -73,114 +74,63 @@ async function loadSignals() {
     return;
   }
 
-  // =========================
-  // LEFT SIDE SIGNAL LIST
-  // =========================
+  const container = document.getElementById("signals");
+  if (!container) return;
 
-  const signalsContainer =
-    document.getElementById("signals");
-
-  if (signalsContainer) {
-
-    if (!data || data.length === 0) {
-
-      signalsContainer.innerHTML = `
-        <p style="color:#888;text-align:center;">
-          No Signals Available
-        </p>
-      `;
-
-    } else {
-
-      signalsContainer.innerHTML = data.map(signal => {
-
-        let typeColor =
-          signal.type === "BUY"
-            ? "#22c55e"
-            : signal.type === "SELL"
-            ? "#ef4444"
-            : "#facc15";
-
-        return `
-          <div class="card"
-            style="border-left:5px solid ${typeColor};
-            margin:10px;
-            padding:10px;">
-
-            <h3>${signal.pair}</h3>
-
-            <p style="color:${typeColor}">
-              <strong>${signal.type}</strong>
-            </p>
-
-            <p>Entry: ${signal.entry}</p>
-
-            <p>Strength: ${signal.strength}</p>
-
-            <p>TP: ${signal.target}</p>
-
-            <p>SL: ${signal.stoploss}</p>
-
-          </div>
-        `;
-
-      }).join("");
-
-    }
-
+  if (!data || data.length === 0) {
+    container.innerHTML = `<p style="color:#888;text-align:center;">No Signals Available</p>`;
+    return;
   }
 
-  // =========================
-  // HISTORY TABLE AUTO UPDATE
-  // =========================
+  container.innerHTML = data.map(signal => {
 
-  const historyTable =
-    document.getElementById("historyTableBody");
+    let typeColor =
+      signal.type === "BUY" ? "#22c55e" :
+      signal.type === "SELL" ? "#ef4444" :
+      "#facc15";
 
-  if (historyTable) {
+    return `
+      <div class="card" style="border-left:5px solid ${typeColor}; margin:10px; padding:10px;">
+        <h3>${signal.pair}</h3>
+        <p style="color:${typeColor}"><strong>${signal.type}</strong></p>
+        <p>Entry: ${signal.entry}</p>
+        <p>Strength: ${signal.strength}</p>
+        <p>TP: ${signal.target}</p>
+        <p>SL: ${signal.stoploss}</p>
+      </div>
+    `;
+  }).join("");
+}
 
-    historyTable.innerHTML = "";
 
-    data.forEach(signal => {
+// =========================
+// HISTORY TABLE LIVE UPDATE
+// =========================
 
-      let typeColor =
-        signal.type === "BUY"
-          ? "text-green-500"
-          : signal.type === "SELL"
-          ? "text-red-500"
-          : "text-yellow-500";
+function renderLatestSignal(signal) {
 
-      historyTable.innerHTML += `
+  const container = document.getElementById("historyTableBody");
+  if (!container) return;
 
-        <tr class="hover:bg-black/10">
+  let typeColor =
+    signal.type === "BUY" ? "text-green-500" :
+    signal.type === "SELL" ? "text-red-500" :
+    "text-yellow-500";
 
-          <td class="py-3 font-bold">
-            ${signal.pair}
-          </td>
+  const row = `
+    <tr class="hover:bg-black/10">
+      <td class="py-3 font-bold">${signal.pair}</td>
+      <td class="py-3 ${typeColor} font-bold">${signal.type}</td>
+      <td class="py-3">${signal.entry}</td>
+      <td class="py-3">${signal.target}</td>
+      <td class="py-3 text-green-500 font-bold">
+        <i class="fa-solid fa-satellite-dish mr-1"></i> LIVE
+      </td>
+    </tr>
+  `;
 
-          <td class="py-3 ${typeColor} font-bold">
-            ${signal.type}
-          </td>
-
-          <td class="py-3">
-            ${signal.entry}
-          </td>
-
-          <td class="py-3">
-            ${signal.target}
-          </td>
-
-          <td class="py-3 text-green-500 font-bold">
-            <i class="fa-solid fa-satellite-dish mr-1"></i>
-            LIVE
-          </td>
-
-        </tr>
-
-      `;
-    });
-
-  }
+  container.insertAdjacentHTML("afterbegin", row);
+}
 
 
 // =========================
