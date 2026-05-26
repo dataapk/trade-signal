@@ -276,10 +276,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   realtimeSignals();
 
 });
+
 // =========================
 // LOGOUT
 // =========================
-```javascript id="m1v8pk"
+
 // =========================
 // BINANCE LIVE MARKET
 // =========================
