@@ -292,6 +292,7 @@ function startLiveTicker() {
     document.getElementById("liveTicker");
 
   if (!ticker) return;
+  console.log("TICKER ELEMENT FOUND:", ticker);
 
   const ws = new WebSocket(
     "wss://stream.binance.com:9443/ws/!ticker@arr"
@@ -334,6 +335,7 @@ function startLiveTicker() {
   ws.onmessage = (event) => {
 
     const data = JSON.parse(event.data);
+    console.log(data);
 
     const markets =
     data.filter(item =>
