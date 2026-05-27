@@ -474,20 +474,47 @@ function listenToUserStatus(email) {
             document.getElementById('paymentModal').style.display = 'flex';
         }
 
-        function submitTxid(e) {
-            e.preventDefault();
-            const txidHash = document.getElementById('txidInput').value;
-            const userKey = btoa(currentLoggedUserEmail);
+       // =========================
+// SUBMIT PAYMENT TXID
+// =========================
 
-            database.ref('users/' + userKey).set({ email: currentLoggedUserEmail, status: 'pending', txid: txidHash });
-            database.ref('pending_payments/' + userKey).set({ email: currentLoggedUserEmail, txid: txidHash });
+async function submitTxid(e) {
 
-            closePaymentModal();
-            alert("🔒 Payment TxID sent for manual verification. Please wait!");
-            listenToUserStatus(currentLoggedUserEmail);
+    e.preventDefault();
+
+    const txidHash =
+    document.getElementById('txidInput').value;
+
+    const userKey =
+    btoa(currentLoggedUserEmail);
+
+    const { error } =
+    await supabaseClient
+    .from('pending_payments')
+    .insert([
+        {
+            user_key: userKey,
+            email: currentLoggedUserEmail,
+            txid: txidHash,
+            status: 'pending'
         }
+    ]);
 
-        function submitReferralUid(e) {
+    if(error) {
+
+        console.log(error);
+
+        alert("Payment submit failed");
+
+        return;
+    }
+
+    closePaymentModal();
+
+    alert("🔒 Payment TxID submitted successfully!");
+
+   }
+           function submitReferralUid(e) {
             e.preventDefault();
             const uidDetails = document.getElementById('userUidInput').value;
             const userKey = btoa(currentLoggedUserEmail);
@@ -499,13 +526,55 @@ function listenToUserStatus(email) {
             alert("✅ Your Referral UID has been submitted! Admin will check and unlock your 1-Month Free VIP instantly.");
             listenToUserStatus(currentLoggedUserEmail);
         }
+        // =========================
+// APPROVE USER VIP
+// =========================
 
-        function approveUserVip() {
-            const emailInAlert = document.getElementById('admUserEmail').innerText;
-            const userKey = btoa(emailInAlert);
-            database.ref('users/' + userKey).update({ status: 'premium' });
-            database.ref('pending_payments/' + userKey).remove().then(() => { alert("✅ VIP Plan Approved Live!"); });
+async function approveUserVip() {
+
+    const emailInAlert =
+    document.getElementById('admUserEmail').innerText;
+
+    const userKey =
+    btoa(emailInAlert);
+
+    // UPDATE USER STATUS
+    const { error: userError } =
+    await supabaseClient
+    .from('users')
+    .upsert([
+        {
+            user_key: userKey,
+            email: emailInAlert,
+            status: 'premium'
         }
+    ]);
+
+    if(userError) {
+
+        console.log(userError);
+
+        alert("VIP approve failed");
+
+        return;
+    }
+
+    // REMOVE PENDING PAYMENT
+    const { error: deleteError } =
+    await supabaseClient
+    .from('pending_payments')
+    .delete()
+    .eq('user_key', userKey);
+
+    if(deleteError) {
+
+        console.log(deleteError);
+
+    }
+
+    alert("✅ VIP Plan Approved Live!");
+    
+ }
 
         function toggleTheme() {
             const html = document.documentElement;
