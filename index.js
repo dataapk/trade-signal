@@ -285,102 +285,85 @@ document.addEventListener("DOMContentLoaded", async () => {
 // =========================
 // BINANCE LIVE MARKET
 // =========================
-
 function startLiveTicker() {
 
-  const ticker =
+    const ticker =
     document.getElementById("liveTicker");
 
-  if (!ticker) return;
-  console.log("TICKER ELEMENT FOUND:", ticker);
+    if (!ticker) return;
 
-  const ws = new WebSocket(
+    console.log("TICKER ELEMENT FOUND");
+
+    const ws = new WebSocket(
     "wss://stream.binance.com:9443/ws/!ticker@arr"
-  );
-  ws.onopen = () => {
-    console.log("BINANCE SOCKET CONNECTED");
-};
-
-  const topCoins = [
-
-    "BTCUSDT",
-    "ETHUSDT",
-    "BNBUSDT",
-    "SOLUSDT",
-    "XRPUSDT",
-    "ADAUSDT",
-    "DOGEUSDT",
-    "TRXUSDT",
-    "AVAXUSDT",
-    "DOTUSDT",
-
-    "LINKUSDT",
-    "MATICUSDT",
-    "LTCUSDT",
-    "BCHUSDT",
-    "ATOMUSDT",
-    "ETCUSDT",
-    "XLMUSDT",
-    "FILUSDT",
-    "APTUSDT",
-    "ARBUSDT"
-
-  ];
-
-  // CONNECTION SUCCESS
-  ws.onopen = () => {
-
-    console.log("BINANCE LIVE TICKER CONNECTED");
-
-  };
-
-// LIVE DATA
-  ws.onmessage = (event) => {
-
-    const data = JSON.parse(event.data);
-    console.log(data);
-
-    const markets =
-    data.filter(item =>
-        topCoins.includes(item.s)
     );
-    console.log("MARKETS:", markets);
-   ticker.innerHTML = markets.map(item => {
 
-        const price =
-        parseFloat(item.c).toFixed(2);
+    const topCoins = [
 
-        const change =
-        parseFloat(item.P).toFixed(2);
+        "BTCUSDT",
+        "ETHUSDT",
+        "BNBUSDT",
+        "SOLUSDT",
+        "XRPUSDT",
+        "DOGEUSDT",
+        "ADAUSDT",
+        "TRXUSDT",
+        "AVAXUSDT",
+        "DOTUSDT"
 
-        const color =
-        change >= 0
-        ? "#00ffa3"
-        : "#ff0055";
+    ];
 
-        return `
+    ws.onopen = () => {
+        console.log("BINANCE LIVE TICKER CONNECTED");
+    };
 
-        <div class="ticker-item">
+    ws.onmessage = (event) => {
 
-            <span style="color:white;font-weight:bold;">
-                ${item.s.replace("USDT","")}
-            </span>
+        const data = JSON.parse(event.data);
 
-            <span style="color:${color}">
-                $${price}
-            </span>
+        const markets = data.filter(item =>
+            topCoins.includes(item.s)
+        );
 
-            <span style="color:${color}">
-                ${change}%
-            </span>
+        let html = "";
 
-        </div>
+        markets.forEach(item => {
 
-        `;
+            const price =
+            parseFloat(item.c).toFixed(2);
 
-    }).join("");
+            const change =
+            parseFloat(item.P).toFixed(2);
 
-};
+            const color =
+            change >= 0
+            ? "#00ff95"
+            : "#ff4d6d";
+
+            html += `
+
+            <div class="ticker-item">
+
+                <span>
+                    ${item.s.replace("USDT","")}
+                </span>
+
+                <span style="color:${color}">
+                    $${price}
+                </span>
+
+                <span style="color:${color}">
+                    ${change}%
+                </span>
+
+            </div>
+
+            `;
+        });
+
+        ticker.innerHTML = html;
+    };
+}
 
   // ERROR
   ws.onerror = (error) => {
