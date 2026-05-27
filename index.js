@@ -330,52 +330,52 @@ function startLiveTicker() {
 
   };
 
-  // LIVE DATA
+// LIVE DATA
   ws.onmessage = (event) => {
 
     const data = JSON.parse(event.data);
 
     const markets =
-      data.filter(item =>
+    data.filter(item =>
         topCoins.includes(item.s)
-      );
+    );
 
     ticker.innerHTML = markets.map(item => {
 
-      const price =
+        const price =
         parseFloat(item.c).toFixed(2);
 
-      const change =
+        const change =
         parseFloat(item.P).toFixed(2);
 
-      const color =
+        const color =
         change >= 0
-          ? "text-green-400"
-          : "text-red-400";
+        ? "#00ffa3"
+        : "#ff0055";
 
-      return `
+        return `
 
-        <div class="ticker-item flex items-center gap-2 px-4">
+        <div class="ticker-item">
 
-          <span class="text-neonBlue font-bold">
-            ${item.s.replace("USDT","")}
-          </span>
+            <span style="color:white;font-weight:bold;">
+                ${item.s.replace("USDT","")}
+            </span>
 
-          <span class="${color}">
-            $${price}
-          </span>
+            <span style="color:${color}">
+                $${price}
+            </span>
 
-          <span class="${color}">
-            (${change}%)
-          </span>
+            <span style="color:${color}">
+                ${change}%
+            </span>
 
         </div>
 
-      `;
+        `;
 
     }).join("");
 
-  };
+};
 
   // ERROR
   ws.onerror = (error) => {
