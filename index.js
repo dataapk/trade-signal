@@ -370,8 +370,6 @@ function startLiveTicker() {
   };
 
 }
-```
-
 
 function logout() {
   localStorage.removeItem("adminLoggedIn");
