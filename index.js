@@ -297,6 +297,9 @@ function startLiveTicker() {
   const ws = new WebSocket(
     "wss://stream.binance.com:9443/ws/!ticker@arr"
   );
+  ws.onopen = () => {
+    console.log("BINANCE SOCKET CONNECTED");
+};
 
   const topCoins = [
 
@@ -381,8 +384,9 @@ function startLiveTicker() {
 
   // ERROR
   ws.onerror = (error) => {
+    console.log("BINANCE SOCKET ERROR:", err);
 
-    console.log("BINANCE TICKER ERROR:", error);
+   console.log("BINANCE TICKER ERROR:", error);
 
   };
 
