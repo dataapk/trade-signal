@@ -366,14 +366,9 @@ function startLiveTicker() {
 }
 
   // ERROR
-  ws.onerror = (error) => {
-    console.log("BINANCE SOCKET ERROR:", err);
-
-   console.log("BINANCE TICKER ERROR:", error);
-
-  };
-
-}
+ ws.onerror = (error) => {
+  console.log("BINANCE SOCKET ERROR:", error);
+};
 
 function logout() {
   localStorage.removeItem("adminLoggedIn");
