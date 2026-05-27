@@ -467,24 +467,6 @@ function listenToUserStatus(email) {
 
 */
 
-        // অ্যাডমিন প্যানেল চেক লিসেনার
-        database.ref('pending_payments').on('value', (snapshot) => {
-            const data = snapshot.val();
-            if(data) {
-                const keys = Object.keys(data);
-                if(keys.length > 0) {
-                    const firstRequest = data[keys[0]];
-                    document.getElementById('admUserEmail').innerText = firstRequest.email;
-                    document.getElementById('admUserTxid').innerText = firstRequest.txid || firstRequest.method;
-                    document.getElementById('adminPaymentAlert').classList.remove('hidden');
-                    document.getElementById('adminPaymentAlert').classList.add('flex');
-                }
-            } else {
-                document.getElementById('adminPaymentAlert').classList.add('hidden');
-                document.getElementById('adminPaymentAlert').classList.remove('flex');
-            }
-        });
-
         function handleAuthSubmit(e) {
             e.preventDefault();
             currentLoggedUserEmail = document.getElementById('userEmailInput').value;
