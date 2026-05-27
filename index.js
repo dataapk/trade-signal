@@ -344,8 +344,8 @@ function startLiveTicker() {
     data.filter(item =>
         topCoins.includes(item.s)
     );
-
-    ticker.innerHTML = markets.map(item => {
+    console.log("MARKETS:", markets);
+   ticker.innerHTML = markets.map(item => {
 
         const price =
         parseFloat(item.c).toFixed(2);
