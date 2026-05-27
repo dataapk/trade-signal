@@ -285,90 +285,50 @@ document.addEventListener("DOMContentLoaded", async () => {
 // =========================
 // BINANCE LIVE MARKET
 // =========================
-function startLiveTicker() {
+ function startLiveTicker() {
 
-    const ticker =
-    document.getElementById("liveTicker");
+  const ticker = document.getElementById("liveTicker");
+  if (!ticker) return;
 
-    if (!ticker) return;
+  const ws = new WebSocket("wss://stream.binance.com:9443/ws/!ticker@arr");
 
-    console.log("TICKER ELEMENT FOUND");
+  console.log("BINANCE LIVE TICKER CONNECTED");
 
-    const ws = new WebSocket(
-    "wss://stream.binance.com:9443/ws/!ticker@arr"
-    );
+  ws.onmessage = (event) => {
+    const data = JSON.parse(event.data);
 
     const topCoins = [
-
-        "BTCUSDT",
-        "ETHUSDT",
-        "BNBUSDT",
-        "SOLUSDT",
-        "XRPUSDT",
-        "DOGEUSDT",
-        "ADAUSDT",
-        "TRXUSDT",
-        "AVAXUSDT",
-        "DOTUSDT"
-
+      "BTCUSDT","ETHUSDT","BNBUSDT","SOLUSDT","XRPUSDT"
     ];
 
-    ws.onopen = () => {
-        console.log("BINANCE LIVE TICKER CONNECTED");
-    };
+    const markets = data.filter(item =>
+      topCoins.includes(item.s)
+    );
 
-    ws.onmessage = (event) => {
+    ticker.innerHTML = markets.map(item => {
+      const price = parseFloat(item.c).toFixed(2);
+      const change = parseFloat(item.P).toFixed(2);
 
-        const data = JSON.parse(event.data);
+      const color = change >= 0 ? "text-green-500" : "text-red-500";
 
-        const markets = data.filter(item =>
-            topCoins.includes(item.s)
-        );
+      return `
+        <div class="flex items-center gap-2 px-3 py-1">
+          <span>${item.s.replace("USDT","")}</span>
+          <span class="${color}">$${price}</span>
+          <span class="${color}">${change}%</span>
+        </div>
+      `;
+    }).join("");
+  };
 
-        let html = "";
+  ws.onerror = (error) => {
+    console.log("BINANCE SOCKET ERROR:", error);
+  };
 
-        markets.forEach(item => {
-
-            const price =
-            parseFloat(item.c).toFixed(2);
-
-            const change =
-            parseFloat(item.P).toFixed(2);
-
-            const color =
-            change >= 0
-            ? "#00ff95"
-            : "#ff4d6d";
-
-            html += `
-
-            <div class="ticker-item">
-
-                <span>
-                    ${item.s.replace("USDT","")}
-                </span>
-
-                <span style="color:${color}">
-                    $${price}
-                </span>
-
-                <span style="color:${color}">
-                    ${change}%
-                </span>
-
-            </div>
-
-            `;
-        });
-
-        ticker.innerHTML = html;
-    };
+  ws.onclose = () => {
+    console.log("BINANCE SOCKET CLOSED");
+  };
 }
-
-  // ERROR
- ws.onerror = (error) => {
-  console.log("BINANCE SOCKET ERROR:", error);
-};
 
 function logout() {
   localStorage.removeItem("adminLoggedIn");
