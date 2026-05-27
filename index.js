@@ -323,6 +323,14 @@ function startLiveTicker() {
 
   ];
 
+  // CONNECTION SUCCESS
+  ws.onopen = () => {
+
+    console.log("BINANCE LIVE TICKER CONNECTED");
+
+  };
+
+  // LIVE DATA
   ws.onmessage = (event) => {
 
     const data = JSON.parse(event.data);
@@ -342,14 +350,14 @@ function startLiveTicker() {
 
       const color =
         change >= 0
-          ? "text-green-500"
-          : "text-red-500";
+          ? "text-green-400"
+          : "text-red-400";
 
       return `
 
-        <div class="flex items-center gap-2 bg-black/20 px-3 py-1 rounded-lg">
+        <div class="ticker-item flex items-center gap-2 px-4">
 
-          <span class="text-white font-bold">
+          <span class="text-neonBlue font-bold">
             ${item.s.replace("USDT","")}
           </span>
 
@@ -358,7 +366,7 @@ function startLiveTicker() {
           </span>
 
           <span class="${color}">
-            ${change}%
+            (${change}%)
           </span>
 
         </div>
@@ -366,6 +374,13 @@ function startLiveTicker() {
       `;
 
     }).join("");
+
+  };
+
+  // ERROR
+  ws.onerror = (error) => {
+
+    console.log("BINANCE TICKER ERROR:", error);
 
   };
 
