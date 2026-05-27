@@ -54,17 +54,8 @@ nav a{
 }
 
 /* =========================
-   LIVE MARKET TICKER (FINAL)
+   LIVE MARKET TICKER (FINAL STABLE)
 ========================= */
-
-@keyframes tickerMove {
-    0% {
-        transform: translateX(100%);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
-}
 
 .ticker-wrap {
     overflow: hidden;
@@ -74,12 +65,22 @@ nav a{
     position: relative;
 }
 
-#liveTicker {
+/* THIS is the moving layer */
+.ticker-track {
     display: inline-flex;
     align-items: center;
     gap: 24px;
     width: max-content;
-    animation: tickerMove 35s linear infinite;
+    animation: tickerMove 30s linear infinite;
+}
+
+@keyframes tickerMove {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
 }
 
 .ticker-item {
