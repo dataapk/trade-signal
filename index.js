@@ -285,6 +285,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 // =========================
 // BINANCE LIVE MARKET
 // =========================
+
  function startLiveTicker() {
 
   const ticker = document.getElementById("liveTicker");
