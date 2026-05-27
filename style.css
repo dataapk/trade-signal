@@ -30,3 +30,51 @@ nav a{
     border-radius:15px;
     margin:20px;
 }
+
+<!-- LIVE MARKET TICKER SECTION -->
+
+@keyframes marquee {
+
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+
+}
+
+.animate-marquee {
+
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+
+}
+```
+
+/* =========================
+   LIVE MARKET TICKER
+========================= */
+
+@keyframes marquee {
+
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+
+}
+
+.animate-marquee {
+
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+
+}
+
