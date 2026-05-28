@@ -38,32 +38,28 @@ nav a{
     width:100%;
     overflow:hidden;
     background:#000;
-    position:relative;
-    white-space:nowrap;
-    padding:10px 0;
-}
-
-.ticker-track{
-    display:flex;
-    width:max-content;
-    animation:tickerMove 35s linear infinite;
+    padding:12px 0;
+    border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
 #liveTicker{
     display:flex;
     align-items:center;
-    gap:24px;
+    gap:30px;
+    width:max-content;
+    white-space:nowrap;
+    animation:tickerMove 35s linear infinite;
 }
 
 .ticker-item{
     display:flex;
     align-items:center;
     gap:8px;
-    padding:0 20px;
+    color:#fff;
     font-size:12px;
     font-weight:700;
-    color:white;
     font-family:Orbitron,sans-serif;
+    padding:0 12px;
 }
 
 @keyframes tickerMove{
