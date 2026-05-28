@@ -48,7 +48,9 @@ nav a{
     align-items:center;
     gap:24px;
     width:max-content;
+    min-width:200%;
     animation:tickerMove 35s linear infinite;
+    will-change:transform;
 }
 
 @keyframes tickerMove{
