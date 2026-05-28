@@ -31,45 +31,42 @@ nav a{
     margin:20px;
 }
 /* =========================
-   LIVE MARKET TICKER
+   LIVE MARKET TICKER FINAL
 ========================= */
 
 .ticker-wrap{
     width:100%;
     overflow:hidden;
-    background:#000;
-    padding:12px 0;
-    border-bottom:1px solid rgba(255,255,255,0.08);
-}
-
-#liveTicker{
+    position:relative;
+    height:40px;
     display:flex;
     align-items:center;
-    gap:30px;
+}
+
+.ticker-track{
+    display:flex;
+    align-items:center;
+    gap:24px;
     width:max-content;
-    white-space:nowrap;
     animation:tickerMove 35s linear infinite;
+}
+
+@keyframes tickerMove{
+    from{
+        transform:translateX(0%);
+    }
+    to{
+        transform:translateX(-50%);
+    }
 }
 
 .ticker-item{
     display:flex;
     align-items:center;
     gap:8px;
-    color:#fff;
+    white-space:nowrap;
     font-size:12px;
     font-weight:700;
     font-family:Orbitron,sans-serif;
-    padding:0 12px;
-}
-
-@keyframes tickerMove{
-
-    0%{
-        transform:translateX(100%);
-    }
-
-    100%{
-        transform:translateX(-100%);
-    }
-
+    color:white;
 }
