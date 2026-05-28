@@ -299,51 +299,91 @@ function realtimeSignals() {
 
 }
 
+
 // =========================
 // INIT
 // =========================
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener(
+"DOMContentLoaded",
 
-  loadSignals();
+async () => {
 
-  // latest LIVE signal
-  const { data } = await supabaseClient
+  console.log(
+  "DOM LOADED"
+  );
+
+  // LOAD SIGNAL LIST
+  await loadSignals();
+
+  // GET LATEST SIGNAL
+  const { data, error } =
+  await supabaseClient
+  .from("signals")
+  .select("*")
+  .order("id", {
+    ascending: false
+  })
+  .limit(1);
+
+  if (error) {
+
+    console.log(
+    "LATEST SIGNAL ERROR:",
+    error
+    );
+
+  }
+
+  // LIVE CARD
+  if (
+    data &&
+    data.length > 0
+  ) {
+
+    updateLiveCard(
+    data[0]
+    );
+
+    // HISTORY
+    const {
+      data: historySignals
+    } =
+    await supabaseClient
     .from("signals")
     .select("*")
-    .order("id", { ascending: false })
-    .limit(1);
+    .order("id", {
+      ascending: false
+    })
+    .range(1, 10);
 
-  if (data && data.length > 0) {
+    if (
+      historySignals &&
+      historySignals.length > 0
+    ) {
 
-    // LIVE CARD
-    updateLiveCard(data[0]);
+      historySignals.forEach(
+      signal => {
 
-    // PREVIOUS SIGNALS HISTORY
-    const { data: historySignals } = await supabaseClient
-      .from("signals")
-      .select("*")
-      .order("id", { ascending: false })
-      .range(1, 10);
+        renderLatestSignal(
+        signal
+        );
 
-    if (historySignals) {
-
-      historySignals.forEach(signal => {
-        renderLatestSignal(signal);
       });
 
     }
 
   }
 
+  // REALTIME
   realtimeSignals();
+
+  // BINANCE TICKER
   startLiveTicker();
 
 });
 
-// =========================
-// LOGOUT
-// =========================
+
 
 // =========================
 // BINANCE LIVE MARKET
