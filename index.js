@@ -449,11 +449,10 @@ function startLiveTicker() {
 
         if (!Array.isArray(data)) return;
 
-        const markets =
-        data.filter(item =>
-        topCoins.includes(item.s));
+       
+      const markets = data.slice(0, 15);
 
-        if (!markets.length) return;
+    if (!markets.length) return;
 
         const html =
         markets.map(item => {
