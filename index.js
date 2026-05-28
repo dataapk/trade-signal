@@ -364,66 +364,42 @@ function startLiveTicker() {
 
         if (!markets.length) return;
 
-       ticker.innerHTML =
-markets.map(item => {
+      const html = markets.map(item => {
 
-  const price = parseFloat(item.c).toFixed(2);
-  const change = parseFloat(item.P).toFixed(2);
+    const price =
+    parseFloat(item.c).toFixed(2);
 
-  const color =
+    const change =
+    parseFloat(item.P).toFixed(2);
+
+    const color =
     change >= 0
-      ? "#00ff99"
-      : "#ff4d6d";
+    ? "#00ff99"
+    : "#ff4d6d";
 
-  return `
+    return `
 
     <div class="ticker-item">
 
-      <span>${item.s.replace("USDT","")}</span>
+        <span>
+        ${item.s.replace("USDT","")}
+        </span>
 
-      <span style="color:${color}">
+        <span style="color:${color}">
         $${price}
-      </span>
+        </span>
 
-      <span style="color:${color}">
+        <span style="color:${color}">
         ${change}%
-      </span>
+        </span>
 
     </div>
 
-  `;
+    `;
 
-}).join("") + markets.map(item => {
+}).join("");
 
-  const price = parseFloat(item.c).toFixed(2);
-  const change = parseFloat(item.P).toFixed(2);
-
-  const color =
-    change >= 0
-      ? "#00ff99"
-      : "#ff4d6d";
-
-  return `
-
-    <div class="ticker-item">
-
-      <span>${item.s.replace("USDT","")}</span>
-
-      <span style="color:${color}">
-        $${price}
-      </span>
-
-      <span style="color:${color}">
-        ${change}%
-      </span>
-
-    </div>
-
-  `;
-
-  }).join("");
-       
-};
+ticker.innerHTML = html + html;
 
     ws.onerror = (error) => {
 
