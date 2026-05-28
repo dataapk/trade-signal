@@ -281,83 +281,163 @@ document.addEventListener("DOMContentLoaded", async () => {
 // =========================
 // LOGOUT
 // =========================
-
 // =========================
 // BINANCE LIVE MARKET
 // =========================
 
 function startLiveTicker() {
 
-  const ticker = document.getElementById("liveTicker");
+    const ticker =
+    document.getElementById("liveTicker");
 
-  if (!ticker) {
-    console.log("TICKER ELEMENT NOT FOUND");
-    return;
-  }
+    if (!ticker) {
 
-  console.log("TICKER ELEMENT FOUND");
+        console.log(
+        "TICKER ELEMENT NOT FOUND"
+        );
 
-  const topCoins = [
-    "BTCUSDT","ETHUSDT","BNBUSDT","SOLUSDT","XRPUSDT",
-    "ADAUSDT","DOGEUSDT","TRXUSDT","AVAXUSDT","DOTUSDT",
-    "LINKUSDT","MATICUSDT","LTCUSDT","BCHUSDT","ATOMUSDT",
-    "ETCUSDT","XLMUSDT","FILUSDT","APTUSDT","ARBUSDT"
-  ];
-
-  const ws = new WebSocket("wss://stream.binance.com:9443/ws/!ticker@arr");
-
-  ws.onopen = () => {
-    console.log("BINANCE LIVE TICKER CONNECTED");
-  };
-
-  ws.onmessage = (event) => {
-
-    let data;
-
-    try {
-      data = JSON.parse(event.data);
-    } catch (e) {
-      return;
+        return;
     }
 
-    if (!Array.isArray(data)) return;
-
-    const markets = data.filter(item =>
-      topCoins.includes(item.s)
+    console.log(
+    "TICKER ELEMENT FOUND"
     );
 
-    if (!markets.length) return;
+    const topCoins = [
 
-    ticker.innerHTML = markets.map(item => {
+        "BTCUSDT",
+        "ETHUSDT",
+        "BNBUSDT",
+        "SOLUSDT",
+        "XRPUSDT",
+        "ADAUSDT",
+        "DOGEUSDT",
+        "TRXUSDT",
+        "AVAXUSDT",
+        "DOTUSDT",
+        "LINKUSDT",
+        "MATICUSDT",
+        "LTCUSDT",
+        "BCHUSDT",
+        "ATOMUSDT",
+        "ETCUSDT",
+        "XLMUSDT",
+        "FILUSDT",
+        "APTUSDT",
+        "ARBUSDT"
 
-      const price = parseFloat(item.c).toFixed(2);
-      const change = parseFloat(item.P).toFixed(2);
+    ];
 
-      const color = change >= 0 ? "text-green-500" : "text-red-500";
+    const ws =
+    new WebSocket(
+    "wss://stream.binance.com:9443/ws/!ticker@arr"
+    );
 
-      return `
-        <div class="ticker-item">
-          <span>${item.s.replace("USDT","")}</span>
-          <span class="${color}">$${price}</span>
-          <span class="${color}">${change}%</span>
-        </div>
-      `;
+    ws.onopen = () => {
 
-    }).join("");
-  };
+        console.log(
+        "BINANCE LIVE TICKER CONNECTED"
+        );
 
-  ws.onerror = (error) => {
-    console.log("BINANCE SOCKET ERROR:", error);
-  };
+    };
 
-  ws.onclose = () => {
-    console.log("BINANCE SOCKET CLOSED - reconnecting...");
-    setTimeout(startLiveTicker, 3000);
-  };
+    ws.onmessage = (event) => {
+
+        let data;
+
+        try {
+
+            data =
+            JSON.parse(event.data);
+
+        } catch (err) {
+
+            return;
+        }
+
+        if (!Array.isArray(data)) return;
+
+        const markets =
+        data.filter(item =>
+        topCoins.includes(item.s));
+
+        if (!markets.length) return;
+
+        ticker.innerHTML =
+        markets.map(item => {
+
+            const symbol =
+            item.s.replace(
+            "USDT",
+            ""
+            );
+
+            const price =
+            parseFloat(item.c)
+            .toFixed(2);
+
+            const change =
+            parseFloat(item.P)
+            .toFixed(2);
+
+            const color =
+            change >= 0
+            ? "#00ff99"
+            : "#ff4d4d";
+
+            return `
+
+            <div class="ticker-item">
+
+                <span>
+                    ${symbol}
+                </span>
+
+                <span style="color:${color}">
+                    $${price}
+                </span>
+
+                <span style="color:${color}">
+                    ${change}%
+                </span>
+
+            </div>
+
+            `;
+
+        }).join("");
+
+    };
+
+    ws.onerror = (error) => {
+
+        console.log(
+        "BINANCE SOCKET ERROR:",
+        error
+        );
+
+    };
+
+    ws.onclose = () => {
+
+        console.log(
+        "BINANCE SOCKET CLOSED"
+        );
+
+        setTimeout(() => {
+
+            startLiveTicker();
+
+        }, 3000);
+
+    };
+
 }
 
-/* IMPORTANT: start only after DOM ready */
-window.addEventListener("load", startLiveTicker);
+window.addEventListener(
+"load",
+startLiveTicker
+);
 
 function logout() {
   localStorage.removeItem("adminLoggedIn");
