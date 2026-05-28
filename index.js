@@ -491,8 +491,13 @@ function startLiveTicker() {
 
         }).join("");
 
-        ticker.innerHTML =
-        html + html;
+       
+  ticker.innerHTML = `
+  <div style="color:red;font-size:30px;">
+  TEST SCROLLING
+  </div>
+ `;
+
 
     };
 
