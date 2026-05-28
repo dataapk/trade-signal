@@ -364,51 +364,65 @@ function startLiveTicker() {
 
         if (!markets.length) return;
 
-        ticker.innerHTML =
-        markets.map(item => {
+       ticker.innerHTML = markets.map(item => {
 
-            const symbol =
-            item.s.replace(
-            "USDT",
-            ""
-            );
+  const price = parseFloat(item.c).toFixed(2);
+  const change = parseFloat(item.P).toFixed(2);
 
-            const price =
-            parseFloat(item.c)
-            .toFixed(2);
+  const color =
+    change >= 0
+      ? "#00ff99"
+      : "#ff4d6d";
 
-            const change =
-            parseFloat(item.P)
-            .toFixed(2);
+  return `
 
-            const color =
-            change >= 0
-            ? "#00ff99"
-            : "#ff4d4d";
+    <div class="ticker-item">
 
-            return `
+      <span>${item.s.replace("USDT","")}</span>
 
-            <div class="ticker-item">
+      <span style="color:${color}">
+        $${price}
+      </span>
 
-                <span>
-                    ${symbol}
-                </span>
+      <span style="color:${color}">
+        ${change}%
+      </span>
 
-                <span style="color:${color}">
-                    $${price}
-                </span>
+    </div>
 
-                <span style="color:${color}">
-                    ${change}%
-                </span>
+  `;
 
-            </div>
+}).join("") + markets.map(item => {
 
-            `;
+  const price = parseFloat(item.c).toFixed(2);
+  const change = parseFloat(item.P).toFixed(2);
 
-        }).join("");
+  const color =
+    change >= 0
+      ? "#00ff99"
+      : "#ff4d6d";
 
-    };
+  return `
+
+    <div class="ticker-item">
+
+      <span>${item.s.replace("USDT","")}</span>
+
+      <span style="color:${color}">
+        $${price}
+      </span>
+
+      <span style="color:${color}">
+        ${change}%
+      </span>
+
+    </div>
+
+  `;
+
+  }).join("");
+       
+};
 
     ws.onerror = (error) => {
 
