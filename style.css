@@ -31,51 +31,49 @@ nav a{
     margin:20px;
 }
 /* =========================
-LIVE MARKET TICKER
+   LIVE MARKET TICKER
 ========================= */
 
-@keyframes tickerMove {
-
-0% {
-    transform: translateX(100%);
+.ticker-wrap{
+    width:100%;
+    overflow:hidden;
+    background:#000;
+    position:relative;
+    white-space:nowrap;
+    padding:10px 0;
 }
 
-100% {
-    transform: translateX(-100%);
+.ticker-track{
+    display:flex;
+    width:max-content;
+    animation:tickerMove 35s linear infinite;
 }
 
+#liveTicker{
+    display:flex;
+    align-items:center;
+    gap:24px;
 }
 
-.ticker-wrap {
-
-overflow: hidden;
-width: 100%;
-position: relative;
-background: #000;
-white-space: nowrap;
-
+.ticker-item{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:0 20px;
+    font-size:12px;
+    font-weight:700;
+    color:white;
+    font-family:Orbitron,sans-serif;
 }
 
-.ticker-items {
+@keyframes tickerMove{
 
-display: inline-flex;
-align-items: center;
-gap: 24px;
-width: max-content;
-padding: 10px 0;
-animation: tickerMove 35s linear infinite;
+    0%{
+        transform:translateX(100%);
+    }
 
-}
-
-.ticker-item {
-
-display: inline-flex;
-align-items: center;
-gap: 8px;
-padding: 0 14px;
-font-size: 12px;
-font-weight: 700;
-font-family: Orbitron, sans-serif;
-color: white;
+    100%{
+        transform:translateX(-100%);
+    }
 
 }
