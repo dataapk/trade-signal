@@ -383,8 +383,6 @@ async () => {
 
 });
 
-
-
 // =========================
 // BINANCE LIVE MARKET
 // =========================
@@ -467,42 +465,46 @@ function startLiveTicker() {
 
         if (!markets.length) return;
 
-      const html = markets.map(item => {
+        const html =
+        markets.map(item => {
 
-    const price =
-    parseFloat(item.c).toFixed(2);
+            const price =
+            parseFloat(item.c).toFixed(2);
 
-    const change =
-    parseFloat(item.P).toFixed(2);
+            const change =
+            parseFloat(item.P).toFixed(2);
 
-    const color =
-    change >= 0
-    ? "#00ff99"
-    : "#ff4d6d";
+            const color =
+            change >= 0
+            ? "#00ff99"
+            : "#ff4d6d";
 
-    return `
+            return `
 
-    <div class="ticker-item">
+            <div class="ticker-item">
 
-        <span>
-        ${item.s.replace("USDT","")}
-        </span>
+                <span>
+                ${item.s.replace("USDT","")}
+                </span>
 
-        <span style="color:${color}">
-        $${price}
-        </span>
+                <span style="color:${color}">
+                $${price}
+                </span>
 
-        <span style="color:${color}">
-        ${change}%
-        </span>
+                <span style="color:${color}">
+                ${change}%
+                </span>
 
-    </div>
+            </div>
 
-    `;
+            `;
 
-}).join("");
+        }).join("");
 
-ticker.innerHTML = html + html;
+        ticker.innerHTML =
+        html + html;
+
+    };
 
     ws.onerror = (error) => {
 
