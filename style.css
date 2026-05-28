@@ -30,6 +30,7 @@ nav a{
     border-radius:15px;
     margin:20px;
 }
+
 /* =========================
    LIVE MARKET TICKER FINAL
 ========================= */
@@ -39,36 +40,48 @@ nav a{
     overflow:hidden;
     position:relative;
     height:40px;
+    background:#000;
     display:flex;
     align-items:center;
 }
 
 .ticker-track{
+
     display:flex;
     align-items:center;
     gap:24px;
-    width:max-content;
-    min-width:200%;
-    animation:tickerMove 35s linear infinite;
-    will-change:transform;
+
+    white-space:nowrap;
+
+    animation:tickerMove 25s linear infinite;
+
 }
 
 @keyframes tickerMove{
-    from{
-        transform:translateX(0%);
+
+    0%{
+        transform:translateX(0);
     }
-    to{
+
+    100%{
         transform:translateX(-50%);
     }
+
 }
 
 .ticker-item{
+
     display:flex;
     align-items:center;
     gap:8px;
-    white-space:nowrap;
+
+    flex-shrink:0;
+
+    color:white;
+
     font-size:12px;
     font-weight:700;
+
     font-family:Orbitron,sans-serif;
-    color:white;
+
 }
