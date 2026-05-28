@@ -454,8 +454,9 @@ function startLiveTicker() {
 
     if (!markets.length) return;
 
-        const html =
-        markets.map(item => {
+            const html =
+            markets.map(item => {
+            console.log(markets);
 
             const price =
             parseFloat(item.c).toFixed(2);
