@@ -230,7 +230,6 @@ function updateLiveCard(signal) {
 }
 
 
-
 // =========================
 // REALTIME LISTENER
 // =========================
@@ -238,24 +237,66 @@ function updateLiveCard(signal) {
 function realtimeSignals() {
 
   supabaseClient
-    .channel('signals-live')
-    .on('postgres_changes', {
-      event: '*',
-      schema: 'public',
-      table: 'signals'
-    }, payload => {
+  .channel("signals-live")
 
-      console.log("LIVE UPDATE:", payload);
+  .on(
+    "postgres_changes",
+    {
+      event: "*",
+      schema: "public",
+      table: "signals"
+    },
 
-      if (payload.eventType === "INSERT") {
-        renderLatestSignal(payload.new);
-        updateLiveCard(payload.new);
-      } else {
-        loadSignals();
+    (payload) => {
+
+      console.log(
+      "LIVE UPDATE:",
+      payload
+      );
+
+      if (
+        payload.eventType === "INSERT"
+      ) {
+
+        renderLatestSignal(
+        payload.new
+        );
+
+        updateLiveCard(
+        payload.new
+        );
+
       }
 
-    })
-    .subscribe();
+      else if (
+        payload.eventType === "UPDATE"
+      ) {
+
+        loadSignals();
+
+      }
+
+      else if (
+        payload.eventType === "DELETE"
+      ) {
+
+        loadSignals();
+
+      }
+
+    }
+
+  )
+
+  .subscribe((status) => {
+
+    console.log(
+    "SUPABASE STATUS:",
+    status
+    );
+
+  });
+
 }
 
 // =========================
