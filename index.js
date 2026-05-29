@@ -383,31 +383,27 @@ async () => {
 // =========================
 // HANDLE AUTH SUBMIT
 // =========================
-
-function handleAuthSubmit(event){
-
+function handleAuthSubmit(event) {
     event.preventDefault();
 
-    // HIDE AUTH MODAL
-    document
-    .getElementById("authModal")
-    .classList.remove("flex");
+    const email = document.getElementById("userEmailInput").value.trim();
 
-    document
-    .getElementById("authModal")
-    .classList.add("hidden");
+    if (!email) {
+        alert("Enter email first");
+        return;
+    }
 
-    // SHOW PAYMENT MODAL
-    document
-    .getElementById("paymentModal")
-    .classList.remove("hidden");
+    currentLoggedUserEmail = email;
 
-    document
-    .getElementById("paymentModal")
-    .classList.add("flex");
+    // close auth modal properly
+    document.getElementById("authModal").classList.add("hidden");
+    document.getElementById("authModal").classList.remove("flex");
 
+    // open payment modal properly
+    const payModal = document.getElementById("paymentModal");
+    payModal.classList.remove("hidden");
+    payModal.classList.add("flex");
 }
-
 
 
 // =========================
