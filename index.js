@@ -378,9 +378,6 @@ async () => {
   // REALTIME
   realtimeSignals();
 
-  // BINANCE TICKER
-  startLiveTicker();
-
 });
 
 
