@@ -470,9 +470,3 @@ function logout() {
   window.location.href = "admin.html";
 
 }
-
-
-function logout() {
-  localStorage.removeItem("adminLoggedIn");
-  window.location.href = "admin.html";
-}
