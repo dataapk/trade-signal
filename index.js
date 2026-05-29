@@ -456,10 +456,7 @@ async function submitVipRequest() {
 
         if (error) {
 
-            console.log(
-            "PAYMENT ERROR:",
-            error
-            );
+        console.log( "PAYMENT ERROR FULL:", JSON.stringify(error, null, 2) );
 
          alert( "Payment submission failed: " + error.message );
             return;
