@@ -500,76 +500,50 @@ async function submitTxid(e) {
 // =========================
 
 async function submitReferralUid(e) {
-
     e.preventDefault();
 
-    try {
+    const uidDetails = document.getElementById("userUidInput").value.trim();
+    const email = currentLoggedUserEmail;
 
-        const uidDetails =
-        document.getElementById("userUidInput").value.trim();
-
-        const email =
-        document.getElementById("userEmailInput").value.trim();
-
-        // EMPTY CHECK
-        if (!email || !uidDetails) {
-
-            alert("Please enter UID");
-
-            return;
-        }
-
-        // SAVE TO SUPABASE
-        const { error } =
-        await supabaseClient
-        .from("vip_payments")
-        .insert([
-            {
-                email: email,
-                method: "REFERRAL UID",
-                txid: uidDetails,
-                status: "pending"
-            }
-        ]);
-
-        // ERROR CHECK
-        if (error) {
-
-            console.log(
-            "REFERRAL ERROR:",
-            error
-            );
-
-            alert(
-            "Referral submit failed: " + error.message
-            );
-
-            return;
-        }
-
-        // SUCCESS
-        alert(
-        "Waiting For Approval"
-        );
-
-        // CLEAR INPUT
-        document.getElementById("userUidInput").value = "";
-
-        // CLOSE MODAL
-        closePaymentModal();
-
+    if (!uidDetails || !email) {
+        alert("Please enter UID");
+        return;
     }
 
-    catch(err) {
+    try {
+        const { error } = await supabaseClient
+        .from("vip_payments")
+        .insert([{
+            email: email,
+            method: "REFERRAL UID",
+            txid: uidDetails,
+            status: "pending"
+        }]);
 
-        console.log(
-        "REFERRAL SYSTEM ERROR:",
-        err
-        );
+        if (error) {
+            alert("Submit failed: " + error.message);
+            return;
+        }
 
-        alert(
-        "Unexpected error occurred"
-        );
+        // ✅ CONFIRMATION POPUP
+        if (confirm("UID/Payment submitted successfully!\nPress OK to continue.")) {
+
+            // hide form
+            document.querySelector("#paymentModal form").style.display = "none";
+
+            // show waiting approval
+            document.getElementById("waitingApproval").classList.remove("hidden");
+
+            // clear input
+            document.getElementById("userUidInput").value = "";
+
+            // optional: keep modal open or refresh page
+            // location.reload();  // যদি তুমি পুরো page refresh দিতে চাও
+        }
+
+    } catch (err) {
+        console.log(err);
+        alert("Unexpected error");
     }
 }
 
