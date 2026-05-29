@@ -414,70 +414,49 @@ async function submitVipRequest() {
 
     try {
 
-        const email =
-        document.getElementById("userEmailInput")?.value.trim();
-
-        const txid =
-        document.getElementById("txidInput")?.value.trim();
+        const email = currentLoggedUserEmail;
+        const txid = document.getElementById("txidInput").value.trim();
 
         let method = "BINANCE PAY";
 
-        if (
-            document.getElementById("contentUsdt") &&
-            !document.getElementById("contentUsdt").classList.contains("hidden")
-        ) {
+        const usdtBox = document.getElementById("contentUsdt");
 
-            method =
-            document.getElementById("networkSelect").value;
+        if (usdtBox && !usdtBox.classList.contains("hidden")) {
+            method = document.getElementById("networkSelect").value;
         }
 
         if (!email || !txid) {
-
-            alert("Please complete payment form");
-
+            alert("Please complete form");
             return;
         }
 
-        const { error } =
-        await supabaseClient
-        .from("vip_payments")
-        .insert([{
-
-            email: email,
-            method: method,
-            txid: txid,
-            status: "pending"
-
-        }]);
+        const { error } = await supabaseClient
+            .from("vip_payments")
+            .insert([{
+                email,
+                method,
+                txid,
+                status: "pending"
+            }]);
 
         if (error) {
-
-        console.log( "PAYMENT ERROR FULL:", JSON.stringify(error, null, 2) );
-
-         alert( "Payment submission failed: " + error.message );
+            console.log("SUPABASE ERROR:", error);
+            alert("Payment failed: " + error.message);
             return;
         }
 
-        alert(
-        "Payment submitted successfully"
-        );
+        alert("Payment submitted successfully!");
 
         document.getElementById("txidInput").value = "";
 
+        // close modal after success
+        document.getElementById("paymentModal").classList.add("hidden");
+        document.getElementById("paymentModal").classList.remove("flex");
+
+    } catch (err) {
+        console.log("SYSTEM ERROR:", err);
+        alert("Unexpected error occurred");
     }
-
-    catch (err) {
-
-        console.log(
-        "VIP SYSTEM ERROR:",
-        err
-        );
-
-        alert(
-        "Unexpected error occurred"
-        );
-    }
-
 }
 
 // =========================
