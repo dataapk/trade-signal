@@ -30,4 +30,5 @@ nav a{
     border-radius:15px;
     margin:20px;
 }
+@media (max-width: 768px){ .mobile-ticker iframe{ height:24px !important; } }
 
