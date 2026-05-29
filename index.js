@@ -380,17 +380,34 @@ async () => {
 
 });
 
-
-
 // =========================
 // HANDLE AUTH SUBMIT
 // =========================
 
 function handleAuthSubmit(event){
 
-   // CODE...
+    event.preventDefault();
+
+    // HIDE AUTH MODAL
+    document
+    .getElementById("authModal")
+    .classList.remove("flex");
+
+    document
+    .getElementById("authModal")
+    .classList.add("hidden");
+
+    // SHOW PAYMENT MODAL
+    document
+    .getElementById("paymentModal")
+    .classList.remove("hidden");
+
+    document
+    .getElementById("paymentModal")
+    .classList.add("flex");
 
 }
+
 
 
 // =========================
@@ -399,11 +416,79 @@ function handleAuthSubmit(event){
 
 async function submitVipRequest() {
 
-   // CODE...
+    try {
+
+        const email =
+        document.getElementById("userEmailInput")?.value.trim();
+
+        const txid =
+        document.getElementById("txidInput")?.value.trim();
+
+        let method = "BINANCE PAY";
+
+        if (
+            document.getElementById("contentUsdt") &&
+            !document.getElementById("contentUsdt").classList.contains("hidden")
+        ) {
+
+            method =
+            document.getElementById("networkSelect").value;
+        }
+
+        if (!email || !txid) {
+
+            alert("Please complete payment form");
+
+            return;
+        }
+
+        const { error } =
+        await supabaseClient
+        .from("vip_payments")
+        .insert([{
+
+            email: email,
+            method: method,
+            txid: txid,
+            status: "pending"
+
+        }]);
+
+        if (error) {
+
+            console.log(
+            "PAYMENT ERROR:",
+            error
+            );
+
+            alert(
+            "Payment submission failed"
+            );
+
+            return;
+        }
+
+        alert(
+        "Payment submitted successfully"
+        );
+
+        document.getElementById("txidInput").value = "";
+
+    }
+
+    catch (err) {
+
+        console.log(
+        "VIP SYSTEM ERROR:",
+        err
+        );
+
+        alert(
+        "Unexpected error occurred"
+        );
+    }
 
 }
-
-
 
 // =========================
 // LOGOUT
