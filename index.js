@@ -496,6 +496,84 @@ async function submitTxid(e) {
 }
 
 // =========================
+// SUBMIT REFERRAL UID
+// =========================
+
+async function submitReferralUid(e) {
+
+    e.preventDefault();
+
+    try {
+
+        const uidDetails =
+        document.getElementById("userUidInput").value.trim();
+
+        const email =
+        document.getElementById("userEmailInput").value.trim();
+
+        // EMPTY CHECK
+        if (!email || !uidDetails) {
+
+            alert("Please enter UID");
+
+            return;
+        }
+
+        // SAVE TO SUPABASE
+        const { error } =
+        await supabaseClient
+        .from("vip_payments")
+        .insert([
+            {
+                email: email,
+                method: "REFERRAL UID",
+                txid: uidDetails,
+                status: "pending"
+            }
+        ]);
+
+        // ERROR CHECK
+        if (error) {
+
+            console.log(
+            "REFERRAL ERROR:",
+            error
+            );
+
+            alert(
+            "Referral submit failed: " + error.message
+            );
+
+            return;
+        }
+
+        // SUCCESS
+        alert(
+        "Waiting For Approval"
+        );
+
+        // CLEAR INPUT
+        document.getElementById("userUidInput").value = "";
+
+        // CLOSE MODAL
+        closePaymentModal();
+
+    }
+
+    catch(err) {
+
+        console.log(
+        "REFERRAL SYSTEM ERROR:",
+        err
+        );
+
+        alert(
+        "Unexpected error occurred"
+        );
+    }
+}
+
+// =========================
 // LOGOUT
 // =========================
 
