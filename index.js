@@ -525,20 +525,32 @@ async function submitReferralUid(e) {
             return;
         }
 
-        // ✅ CONFIRMATION POPUP
-        if (confirm("UID/Payment submitted successfully!\nPress OK to continue.")) {
+        // ✅ STEP 1: POPUP CONFIRMATION
+        const ok = confirm("✅ Submitted successfully!\nPress OK to continue.");
 
-            // hide form
+        if (ok) {
+
+            // ❌ hide form immediately
             document.querySelector("#paymentModal form").style.display = "none";
 
-            // show waiting approval
-            document.getElementById("waitingApproval").classList.remove("hidden");
+            // 🔄 show loading state first (smooth feel)
+            const waitingBox = document.getElementById("waitingApproval");
+            waitingBox.innerHTML = "⏳ Loading...";
+            waitingBox.classList.remove("hidden");
+
+            // 🎬 small delay for smooth UX
+            setTimeout(() => {
+
+                waitingBox.innerHTML = `
+                    ⏳ Waiting For Approval...
+                `;
+
+                waitingBox.classList.add("animate-pulse");
+
+            }, 800);
 
             // clear input
             document.getElementById("userUidInput").value = "";
-
-            // optional: keep modal open or refresh page
-            // location.reload();  // যদি তুমি পুরো page refresh দিতে চাও
         }
 
     } catch (err) {
@@ -546,7 +558,6 @@ async function submitReferralUid(e) {
         alert("Unexpected error");
     }
 }
-
 // =========================
 // LOGOUT
 // =========================
