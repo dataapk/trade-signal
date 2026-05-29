@@ -405,74 +405,94 @@ function handleAuthSubmit(event) {
     payModal.classList.add("flex");
 }
 
-
 // =========================
-// VIP PAYMENT SUBMIT SYSTEM
+// SUBMIT PAYMENT TXID
 // =========================
 
-async function submitVipRequest() {
+async function submitTxid(e) {
+
+    e.preventDefault();
 
     try {
 
-        const email = currentLoggedUserEmail;
-        const txid = document.getElementById("txidInput").value.trim();
+        const txidHash =
+        document.getElementById("txidInput").value.trim();
+
+        const email =
+        document.getElementById("userEmailInput").value.trim();
 
         let method = "BINANCE PAY";
 
-        const usdtBox = document.getElementById("contentUsdt");
+        // USDT NETWORK CHECK
+        if (
+            document.getElementById("contentUsdt") &&
+            !document.getElementById("contentUsdt").classList.contains("hidden")
+        ) {
 
-        if (usdtBox && !usdtBox.classList.contains("hidden")) {
-            method = document.getElementById("networkSelect").value;
+            method =
+            document.getElementById("networkSelect").value;
         }
 
-        if (!email || !txid) {
-            alert("Please complete form");
+        // EMPTY CHECK
+        if (!email || !txidHash) {
+
+            alert("Please complete payment form");
+
             return;
         }
 
-        const { error } = await supabaseClient
-            .from("vip_payments")
-            .insert([{
-                email,
-                method,
-                txid,
+        // SAVE TO SUPABASE
+        const { error } =
+        await supabaseClient
+        .from("vip_payments")
+        .insert([
+            {
+                email: email,
+                method: method,
+                txid: txidHash,
                 status: "pending"
-            }]);
+            }
+        ]);
 
+        // ERROR CHECK
         if (error) {
-            console.log("SUPABASE ERROR:", error);
-            alert("Payment failed: " + error.message);
+
+            console.log(
+            "PAYMENT ERROR:",
+            error
+            );
+
+            alert(
+            "Payment submit failed: " + error.message
+            );
+
             return;
         }
 
-        alert("Payment submitted successfully!");
+        // SUCCESS
+        alert(
+        "Payment submitted successfully"
+        );
 
+        // CLEAR INPUT
         document.getElementById("txidInput").value = "";
 
-        // close modal after success
-        document.getElementById("paymentModal").classList.add("hidden");
-        document.getElementById("paymentModal").classList.remove("flex");
+        // CLOSE MODAL
+        closePaymentModal();
 
-    } catch (err) {
-        console.log("SYSTEM ERROR:", err);
-        alert("Unexpected error occurred");
-    }
-}
-function submitReferralUid(e) {
-    e.preventDefault();
-
-    const uidDetails = document.getElementById('userUidInput').value.trim();
-
-    if (!uidDetails) {
-        alert("Enter UID");
-        return;
     }
 
-    console.log("Referral UID:", uidDetails);
+    catch(err) {
 
-    alert("Referral submitted successfully!");
+        console.log(
+        "VIP PAYMENT SYSTEM ERROR:",
+        err
+        );
 
-    closePaymentModal();
+        alert(
+        "Unexpected error occurred"
+        );
+    }
 }
 
 // =========================
