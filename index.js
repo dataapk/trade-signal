@@ -458,6 +458,22 @@ async function submitVipRequest() {
         alert("Unexpected error occurred");
     }
 }
+function submitReferralUid(e) {
+    e.preventDefault();
+
+    const uidDetails = document.getElementById('userUidInput').value.trim();
+
+    if (!uidDetails) {
+        alert("Enter UID");
+        return;
+    }
+
+    console.log("Referral UID:", uidDetails);
+
+    alert("Referral submitted successfully!");
+
+    closePaymentModal();
+}
 
 // =========================
 // LOGOUT
