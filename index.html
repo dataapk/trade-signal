@@ -358,26 +358,52 @@ async>
     </button>
 
     <!-- SPECIAL REFERRAL OFFER BOX -->
-    <div class="bg-gradient-to-r from-purple-900/30 to-indigo-950/40 border border-indigo-500/30 p-3 rounded-2xl mb-4 text-center">
-      <span class="bg-indigo-500 text-white text-[9px] font-cyber font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">🔥 Special Promo</span>
-      <h4 class="font-cyber text-xs font-bold text-neonBlue mt-1">GET 1-MONTH VIP FREE</h4>
-      <p class="text-[10px] text-slate-400 dark:text-slate-400 light:text-slate-300 mt-1">Create a new account using our link below, then submit your UID to get activated without paying!</p>
-      
-      <div class="grid grid-cols-2 gap-2 mt-2">
-        <a href="https://accounts.binance.com/register?ref=YOUR_BINANCE_ID" target="_blank" class="bg-slate-900 dark:bg-slate-900 light:bg-slate-100 border border-amber-500/40 text-[11px] font-bold py-1.5 rounded-xl text-gold light:text-amber-600 flex items-center justify-center gap-1">
-          <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i> Binance Link
-        </a>
-        <a href="https://www.gate.io/signup/YOUR_GATE_ID" target="_blank" class="bg-slate-900 dark:bg-slate-900 light:bg-slate-100 border border-neonBlue/40 text-[11px] font-bold py-1.5 rounded-xl text-neonBlue light:text-blue-600 flex items-center justify-center gap-1">
-          <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i> Gate.io Link
-        </a>
-      </div>
+<div class="bg-gradient-to-r from-purple-900/30 to-indigo-950/40 border border-indigo-500/30 p-3 rounded-2xl mb-4 text-center">
 
-      <!-- REFERRAL UID FORM -->
-      <form onsubmit="submitReferralUid(event)" class="mt-4 space-y-2">
-        <input id="userUidInput" type="text" required class="flex-1 bg-black/60 border border-slate-800 rounded-xl px-3 py-1.5 text-[11px] text-white focus:outline-none" placeholder="Enter Binance UID or Email">
-        <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white font-cyber text-[10px] font-bold px-3 rounded-xl uppercase">Submit ID</button>
-      </form>
-    </div>
+  <span class="bg-indigo-500 text-white text-[9px] font-cyber font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+      🔥 Special Promo
+  </span>
+
+  <h4 class="font-cyber text-xs font-bold text-neonBlue mt-1">
+      GET 1-MONTH VIP FREE
+  </h4>
+
+  <p class="text-[10px] text-slate-400 dark:text-slate-400 light:text-slate-300 mt-1">
+      Create a new account using our link below, then submit your ID to get activated without paying!
+  </p>
+
+  <!-- REFERRAL LINKS -->
+  <div class="flex flex-col sm:flex-row gap-2 mt-2 justify-center">
+      <a href="https://accounts.binance.com/register?ref=YOUR_BINANCE_ID"
+         target="_blank"
+         class="flex-1 bg-slate-900 border border-amber-500/40 text-[11px] font-bold py-1.5 rounded-xl text-gold flex items-center justify-center gap-1">
+          <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+          Binance Link
+      </a>
+
+      <a href="https://www.gate.io/signup/YOUR_GATE_ID"
+         target="_blank"
+         class="flex-1 bg-slate-900 border border-neonBlue/40 text-[11px] font-bold py-1.5 rounded-xl text-neonBlue flex items-center justify-center gap-1">
+          <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+          Gate.io Link
+      </a>
+  </div>
+
+  <!-- UID FORM -->
+  <form onsubmit="submitReferralUid(event)" class="mt-4 space-y-2">
+      <input id="userUidInput"
+             type="text"
+             required
+             class="w-full bg-black/60 border border-slate-800 rounded-xl px-3 py-2 text-[11px] text-white focus:outline-none"
+             placeholder="Enter Binance UID or Email">
+
+      <button type="submit"
+              class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-cyber text-[10px] font-bold py-2 rounded-xl uppercase">
+          Submit ID
+      </button>
+  </form>
+
+</div>
 
     <!-- DIVIDER -->
     <div class="relative flex py-2 items-center">
