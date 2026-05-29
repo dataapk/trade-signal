@@ -380,7 +380,89 @@ async () => {
 
 });
 
+// =========================
+// VIP PAYMENT SUBMIT SYSTEM
+// =========================
 
+async function submitVipRequest() {
+
+    try {
+
+        const email =
+        document.getElementById("vipEmail")?.value.trim();
+
+        const method =
+        document.getElementById("paymentMethod")?.value;
+
+        const uid =
+        document.getElementById("paymentUid")?.value.trim();
+
+        const txid =
+        document.getElementById("paymentTxid")?.value.trim();
+
+        // VALIDATION
+        if (!email || !method || !uid || !txid) {
+
+            alert("Please fill all fields");
+            return;
+        }
+
+        // =========================
+        // INSERT DATABASE
+        // =========================
+
+        const { error } =
+        await supabaseClient
+        .from("vip_payments")
+        .insert([{
+
+            email: email,
+            method: method,
+            uid: uid,
+            txid: txid,
+            status: "pending"
+
+        }]);
+
+        if (error) {
+
+            console.log(
+            "PAYMENT ERROR:",
+            error
+            );
+
+            alert(
+            "Payment submission failed"
+            );
+
+            return;
+        }
+
+        // SUCCESS
+        alert(
+        "Payment submitted successfully"
+        );
+
+        // RESET FORM
+        document.getElementById("paymentUid").value = "";
+
+        document.getElementById("paymentTxid").value = "";
+
+    }
+
+    catch (err) {
+
+        console.log(
+        "VIP SYSTEM ERROR:",
+        err
+        );
+
+        alert(
+        "Unexpected error occurred"
+        );
+    }
+
+}
 
 function logout() {
   localStorage.removeItem("adminLoggedIn");
