@@ -461,10 +461,7 @@ async function submitVipRequest() {
             error
             );
 
-            alert(
-            "Payment submission failed"
-            );
-
+         alert( "Payment submission failed: " + error.message );
             return;
         }
 
