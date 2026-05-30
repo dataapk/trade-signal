@@ -322,400 +322,228 @@ async>
             </div>
         </div>
     </div>
+<script>
+        // ১. আপনার দেওয়া SUPABASE ক্রেডেনশিয়ালস
+        const SUPABASE_URL = "https://nrwhupzgdwlsdnwdfpig.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_4I-i-becqQZHBXK-skXDfA_gQLOID3a";
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    <!-- PAYMENT  MODAL -->
-    <div id="authModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center z-50 p-4">
-        <div class="glass-panel max-w-md w-full rounded-3xl p-6 relative border border-slate-800 shadow-blueGlow">
-            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-500 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-            <h3 class="font-cyber text-lg font-bold text-center uppercase tracking-wider text-white dark:text-white light:text-slate-900">Create Your Account</h3>
-            <form onsubmit="handleAuthSubmit(event)" class="space-y-4 mt-4">
-                <input id="userEmailInput" type="email" required class="w-full bg-slate-950 dark:bg-slate-950 light:bg-white border border-slate-800 dark:border-slate-800 light:border-slate-300 rounded-xl px-4 py-3 text-sm text-white dark:text-white light:text-slate-900 focus:outline-none" placeholder="Enter Email">
-                <input type="password" required class="w-full bg-slate-950 dark:bg-slate-950 light:bg-white border border-slate-800 dark:border-slate-800 light:border-slate-300 rounded-xl px-4 py-3 text-sm text-white dark:text-white light:text-slate-900 focus:outline-none" placeholder="Enter Password">
-                <button type="submit" class="w-full bg-neonBlue text-darkBg font-cyber font-bold py-3 rounded-xl uppercase shadow-blueGlow">Continue to Dashboard</button>
-            </form>
-        </div>
-    </div>
-            
-  <!-- AUTH MODAL -->
-        
-<div id="authModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center z-50 p-4">
-  <div class="glass-panel max-w-md w-full rounded-3xl p-6 relative border border-slate-800 shadow-blueGlow">
-    <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-500 hover:text-white">
-      <i class="fa-solid fa-xmark text-lg"></i>
-    </button>
-    <h3 class="font-cyber text-lg font-bold text-center uppercase tracking-wider">Create Your Account</h3>
-    <form onsubmit="handleAuthSubmit(event)" class="space-y-4 mt-4">
-      <input id="userEmailInput" type="email" placeholder="Enter Email" required>
-      <input type="password" placeholder="Enter Password" required>
-      <button type="submit">Continue</button>
-    </form>
-  </div>
-</div>
-
-<!-- PAYMENT & REFERRAL MODAL -->
-<div id="paymentModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center z-50 p-4">
-  <div class="glass-panel max-w-md w-full rounded-3xl p-5 relative border border-gold/20 shadow-goldGlow overflow-y-auto">
-
-    <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-slate-500 hover:text-white">
-      <i class="fa-solid fa-xmark text-lg"></i>
-    </button>
-
-    <!-- REFERRAL / VIP FORM -->
-    <div id="offerContent">
-      <div class="promo-box mb-4 text-center bg-gradient-to-r from-purple-900/30 to-indigo-950/40 border border-indigo-500/30 p-3 rounded-2xl">
-        <span class="bg-indigo-500 text-white text-[9px] font-cyber font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
-          🔥 Special Promo
-        </span>
-        <h4 class="font-cyber text-xs font-bold text-neonBlue mt-1">GET 1-MONTH VIP FREE</h4>
-        <p class="text-[10px] text-slate-400 mt-1">
-          Create a new account using our link below, then submit your ID to get activated without paying!
-        </p>
-
-        <!-- Referral Links -->
-        <div class="flex flex-col sm:flex-row gap-2 mt-2 justify-center">
-          <a href="https://accounts.binance.com/register?ref=YOUR_BINANCE_ID" target="_blank" class="flex-1 bg-slate-900 border border-amber-500/40 text-[11px] font-bold py-1.5 rounded-xl text-gold flex items-center justify-center gap-1">
-            <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
-            Binance Link
-          </a>
-          <a href="https://www.gate.io/signup/YOUR_GATE_ID" target="_blank" class="flex-1 bg-slate-900 border border-neonBlue/40 text-[11px] font-bold py-1.5 rounded-xl text-neonBlue flex items-center justify-center gap-1">
-            <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
-            Gate.io Link
-          </a>
-        </div>
-
-        <!-- UID Form -->
-        <form onsubmit="submitReferralUid(event)" class="mt-4 space-y-2">
-          <input id="userUidInput" type="text" required class="w-full bg-black/60 border border-slate-800 rounded-xl px-3 py-2 text-[11px] text-white focus:outline-none" placeholder="Enter Binance UID or Email">
-          <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-cyber text-[10px] font-bold py-2 rounded-xl uppercase">
-            Submit ID
-          </button>
-        </form>
-      </div>
-
-      <!-- Divider -->
-      <div class="relative flex py-2 items-center">
-        <div class="flex-grow border-t border-slate-800"></div>
-        <span class="flex-shrink mx-4 text-[10px] text-slate-500 font-cyber font-bold uppercase">OR PAY DIRECTLY</span>
-        <div class="flex-grow border-t border-slate-800"></div>
-      </div>
-
-      <!-- Payment Methods -->
-      <div class="grid grid-cols-2 gap-2 p-1 bg-slate-950 rounded-xl border border-slate-900 mb-3">
-        <button id="btnBinance" onclick="switchTab('binance')" class="py-2 text-xs font-cyber font-bold rounded-lg bg-gold text-black">BINANCE PAY</button>
-        <button id="btnUsdt" onclick="switchTab('usdt')" class="py-2 text-xs font-cyber font-bold rounded-lg text-slate-400">USDT WALLET</button>
-      </div>
-
-      <div id="contentBinance" class="text-center">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=BinancePay" class="mx-auto rounded-xl p-2 bg-white w-28 h-28">
-      </div>
-      <div id="contentUsdt" class="hidden space-y-2">
-        <select id="networkSelect" onchange="handleNetworkChange()" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-white">
-          <option value="trc20">USDT - TRON (TRC20)</option>
-          <option value="bep20">USDT - BNB SMART CHAIN (BEP20)</option>
-        </select>
-        <div id="walletAddress" class="bg-slate-950 p-2.5 rounded-xl text-xs font-mono text-neonGreen truncate">TYG92hskf8Hksld9283Kshdf9283ksjdhf</div>
-      </div>
-
-      <!-- TXID Form -->
-      <form onsubmit="submitTxid(event)" class="mt-3 space-y-2">
-        <input id="txidInput" type="text" required placeholder="Paste Transaction ID (TxID if paid manually)">
-        <button type="submit">VERIFY PAYMENT</button>
-      </form>
-
-      <!-- Waiting for Approval -->
-      <div id="waitingApproval" class="hidden mt-4 p-3 bg-slate-900 border border-yellow-500 rounded-xl text-center text-yellow-400 text-sm font-bold">
-        Waiting For Approval...
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- MAIN OFFER PAGE -->
-<div id="offerPage" class="hidden">
-  <h2>Welcome to Your VIP Offer</h2>
-  <!-- Binance / Gate Links -->
-  <a href="https://accounts.binance.com/register?ref=YOUR_BINANCE_ID" target="_blank">Binance</a>
-  <a href="https://www.gate.io/signup/YOUR_GATE_ID" target="_blank">Gate.io</a>
-</div>
-
-    <!-- CORE LOGIC ENGINE -->
-    <script>
-        const addresses = { trc20: "TYG92hskf8Hksld9283Kshdf9283ksjdhf", bep20: "0x71C7656ec7ab88b098defB751B7401B5f6d59751" };
-        
-        let currentLoggedUserEmail = "";
-
-        const legalContents = {
-            privacy: {
-                title: "🔒 PRIVACY POLICY // DATA PROTECTION",
-                body: `<p><strong>1. Information Collection:</strong> We collect only your email address and transaction hashes required to manage your VIP subscription. No passwords or personal bio-data are stored raw.</p>
-                       <p><strong>2. Third-Party Links:</strong> Our system provides affiliate registration links to trusted exchanges like Binance and Gate.io. We do not track your activity inside those external exchanges except verifying the Referral UID provided by you.</p>
-                       <p><strong>3. Data Security:</strong> All user connections are synchronised safely using Firebase SSL tokens. We never share or sell your email database to marketing parties.</p>`
-            },
-            terms: {
-                title: "📜 TERMS OF SERVICE // PLATFORM RULES",
-                body: `<p><strong>1. Subscription Rules:</strong> By joining our premium signal terminal, you pay for a 1-month access license. Re-distributing or sharing our live terminal signals into other Telegram groups is strictly prohibited.</p>
-                       <p><strong>2. Referral Promotions:</strong> The 1-Month Free Promo is only applicable for new active accounts registered via our official tracking links. Fake or duplicate UIDs will be automatically rejected by the engine.</p>
-                       <p><strong>3. System Abuse:</strong> Any attempt to inject false payment TxIDs or spam the admin verification alerts will result in immediate email address ban.</p>`
-            },
-            disclaimer: {
-                title: "⚠️ RISK DISCLAIMER // FINANCIAL WARNING",
-                body: `<p><strong>1. High-Risk Trading:</strong> Cryptocurrency trading involves extreme market volatility and carries a significant risk of capital loss. Future trading leverage exponentially scales this risk.</p>
-                       <p><strong>2. Not Financial Advice:</strong> All data, automated algorithm logs, chart patterns, and trading signals broadcasted via NEXUS AI are strictly for technical educational purposes. Past success metrics do not guarantee future exact profit outcomes.</p>
-                       <p><strong>3. Personal Liability:</strong> You are 100% responsible for managing your own stop-losses and position sizing. NEXUS AI will not accept liability for any direct or indirect financial damage caused to your trade balance.</p>`
-            }
+        // ২. ক্রিপ্টো নেটওয়ার্ক ওয়ালেট এড্রেস কনফিগারেশন
+        const addresses = { 
+            trc20: "TYG92hskf8Hksld9283Kshdf9283ksjdhf", 
+            bep20: "0x71C7656ec7ab88b098defB751B7401B5f6d59751" 
         };
+        
+        // ৩. কারেন্ট ইউজার সেশন ইমেইল (এখানে আপনার লগইন সিস্টেমের ডাইনামিক ইমেইল বসবে)
+        let currentLoggedUserEmail = "client_test@gmail.com"; 
 
-        function openLegalModal(type) {
-            const data = legalContents[type];
-            document.getElementById('legalModalTitle').innerHTML = data.title;
-            document.getElementById('legalModalBody').innerHTML = data.body;
-            document.getElementById('legalModal').style.display = 'flex';
-        }
-        function closeLegalModal() { document.getElementById('legalModal').style.display = 'none'; }
+        // পেজ লোড হওয়ার সাথে সাথে স্ট্যাটাস চেক রান হবে
+        window.addEventListener('DOMContentLoaded', () => {
+            if(currentLoggedUserEmail) {
+                checkUserSubscription(currentLoggedUserEmail);
+            }
+        });
 
-        // =========================
-// ANALYSIS IMAGE FUNCTIONS
-// =========================
+        // ৪. কোর সাবস্ক্রিপশন ও পেন্ডিং স্টেট ট্র্যাকিং ইঞ্জিন
+        async function checkUserSubscription(email) {
+            const userKey = btoa(email);
 
-function zoomAnalysisImage() {
-    const currentSrc =
-    document.getElementById('liveAnalysisImage').src;
+            // ক. ডাটাবেস থেকে একটিভ প্রিমিয়াম স্ট্যাটাস চেক
+            const { data: userData } = await supabaseClient
+                .from('users')
+                .select('status')
+                .eq('user_key', userKey)
+                .maybeSingle();
 
-    document.getElementById('lightboxImg').src =
-    currentSrc;
+            const lockOverlay = document.getElementById('lockOverlay');
+            const accountStatusText = document.getElementById('accountStatusText');
+            const upgradeBtnTop = document.getElementById('upgradeBtnTop');
+            const lockIconContainer = document.getElementById('lockIconContainer');
+            const lockIcon = document.getElementById('lockIcon');
+            const lockTitle = document.getElementById('lockTitle');
+            const lockActionBtn = document.getElementById('lockActionBtn');
 
-    document.getElementById('imageLightbox').style.display =
-    'flex';
-}
-
-function closeLightbox() {
-    document.getElementById('imageLightbox').style.display =
-    'none';
-}
-
-
-// =========================
-// FIREBASE USER STATUS
-// TEMP DISABLED
-// =========================
-
-/*
-
-function listenToUserStatus(email) {
-
-    const userKey = btoa(email);
-
-    database.ref('users/' + userKey).on('value', (snapshot) => {
-
-        const userData = snapshot.val();
-
-        if(userData) {
-
-            if(userData.status === 'pending') {
-
-                document.getElementById('accountStatusText').innerText =
-                "PENDING APPROVAL";
-
-                document.getElementById('accountStatusText').className =
-                "text-amber-500 font-bold font-cyber animate-pulse";
-
-                document.getElementById('lockOverlay').style.display =
-                'none';
-
-                document.getElementById('holdingOverlay').style.display =
-                'flex';
-
+            // যদি ইউজার অলরেডি প্রিমিয়াম হয় -> সম্পূর্ণ আনলক
+            if (userData && userData.status === 'premium') {
+                if(accountStatusText) {
+                    accountStatusText.innerText = "VIP SUBSCRIPTION ACTIVE 👑";
+                    accountStatusText.className = "text-neonGreen font-bold font-cyber shadow-neonGlow text-sm";
+                }
+                if(upgradeBtnTop) upgradeBtnTop.classList.add('hidden');
+                if(lockOverlay) lockOverlay.classList.add('hidden');
+                return; 
             }
 
-            else if(userData.status === 'premium') {
+            // খ. যদি প্রিমিয়াম না হয়, তবে পেন্ডিং রিকোয়েস্ট (Waiting Mode) চেক
+            const { data: pendingData } = await supabaseClient
+                .from('pending_payments')
+                .select('status')
+                .eq('user_key', userKey)
+                .maybeSingle();
 
-                document.getElementById('accountStatusText').innerText =
-                "VIP PREMIUM";
-
-                document.getElementById('accountStatusText').className =
-                "text-gold light:text-yellow-600 font-bold font-cyber";
-
-                document.getElementById('lockOverlay').style.display =
-                'none';
-
-                document.getElementById('holdingOverlay').style.display =
-                'none';
-
-                document.getElementById('upgradeBtnTop').style.display =
-                'none';
-
+            if (pendingData && pendingData.status === 'pending') {
+                // টপ বার আপডেট
+                if(accountStatusText) {
+                    accountStatusText.innerText = "VERIFYING MATRIX CORE ⏳";
+                    accountStatusText.className = "text-amber-400 font-bold font-cyber animate-pulse text-sm";
+                }
+                if(upgradeBtnTop) {
+                    upgradeBtnTop.innerText = "WAITING APPROVAL";
+                    upgradeBtnTop.disabled = true;
+                    upgradeBtnTop.className = "bg-amber-600/20 text-amber-400 border border-amber-500/30 px-4 py-2.5 rounded-xl font-cyber font-bold text-xs opacity-70 cursor-not-allowed shadow-none";
+                }
+                
+                // আপনার অরিজিনাল সিগন্যাল কার্ডের ভেতরের লক স্ক্রিনকে "Waiting Approval" এ কনভার্ট করা
+                if(lockIconContainer) {
+                    lockIconContainer.className = "w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-2 shadow-[0_0_15px_rgba(245,158,11,0.2)]";
+                }
+                if(lockIcon) {
+                    lockIcon.className = "fa-solid fa-hourglass-half animate-spin [animation-duration:3s] text-sm";
+                }
+                if(lockTitle) {
+                    lockTitle.innerText = "Waiting Admin Approval";
+                    lockTitle.className = "font-cyber text-xs font-black uppercase tracking-wider text-amber-500";
+                }
+                if(lockActionBtn) {
+                    lockActionBtn.innerText = "VERIFYING DATA CORE...";
+                    lockActionBtn.disabled = true;
+                    lockActionBtn.className = "mt-3 bg-amber-500/10 border border-amber-500/30 text-amber-400 px-4 py-1.5 rounded-xl font-cyber font-bold text-[10px] cursor-not-allowed opacity-80";
+                }
+                if(lockOverlay) {
+                    lockOverlay.classList.remove('hidden');
+                }
             }
+
+            // রিয়েল-টাইম ডাটাবেস লিসেনার কানেক্ট করা
+            listenToUserStatus(email);
         }
-    });
-}
 
-*/
+        // ৫. লাইভ রিয়েল-টাইম ডাটা সিঙ্ক্রোনাইজার (এডমিন এপ্রুভ করলেই পেজ রিফ্রেশ ছাড়া লক খোলার ম্যাজিক)
+        function listenToUserStatus(email) {
+            const userKey = btoa(email);
+            
+            supabaseClient
+                .channel('public:users')
+                .on('postgres_changes', { 
+                    event: '*', 
+                    schema: 'public', 
+                    table: 'users', 
+                    filter: `user_key=eq.${userKey}` 
+                }, (payload) => {
+                    checkUserSubscription(currentLoggedUserEmail);
+                })
+                .subscribe();
+        }
 
-        function handleAuthSubmit(e) {
+        // ৬. ক্রিপ্টো পেমেন্ট TXID সাবমিশন মেকানিজম
+        async function submitTxid(e) {
             e.preventDefault();
-            currentLoggedUserEmail = document.getElementById('userEmailInput').value;
-            closeAuthModal();
-            document.getElementById('paymentModal').style.display = 'flex';
-        }
-
-       // =========================
-// SUBMIT PAYMENT TXID
-// =========================
-
-async function submitTxid(e) {
-
-    e.preventDefault();
-
-    const txidHash =
-    document.getElementById('txidInput').value;
-
-    const userKey =
-    btoa(currentLoggedUserEmail);
-
-    const { error } =
-    await supabaseClient
-    .from('pending_payments')
-    .insert([
-        {
-            user_key: userKey,
-            email: currentLoggedUserEmail,
-            txid: txidHash,
-            status: 'pending'
-        }
-    ]);
-
-    if(error) {
-
-        console.log(error);
-
-        alert("Payment submit failed");
-
-        return;
-    }
-
-    closePaymentModal();
-
-    alert("🔒 Payment TxID submitted successfully!");
-
-   }
-           function submitReferralUid(e) {
-            e.preventDefault();
-            const uidDetails = document.getElementById('userUidInput').value;
+            const txidInputEl = document.getElementById('txidInput');
+            const txidHash = txidInputEl ? txidInputEl.value : "";
             const userKey = btoa(currentLoggedUserEmail);
 
-            database.ref('users/' + userKey).set({ email: currentLoggedUserEmail, status: 'pending', method: "Referral UID: " + uidDetails });
-            database.ref('pending_payments/' + userKey).set({ email: currentLoggedUserEmail, txid: "UID Signup Check: " + uidDetails });
+            const { error } = await supabaseClient
+                .from('pending_payments')
+                .insert([{ user_key: userKey, email: currentLoggedUserEmail, txid: txidHash, status: 'pending' }]);
+
+            if(error) {
+                alert("Submission failed: " + error.message);
+                return;
+            }
 
             closePaymentModal();
-            alert("✅ Your Referral UID has been submitted! Admin will check and unlock your 1-Month Free VIP instantly.");
-            listenToUserStatus(currentLoggedUserEmail);
+            // সাবমিট হওয়ার সাথে সাথেই UI "Waiting Admin Approval" এ রিডাইরেক্ট হবে
+            await checkUserSubscription(currentLoggedUserEmail);
         }
-        // =========================
-// APPROVE USER VIP
-// =========================
 
-async function approveUserVip() {
+        // ৭. রেফারেল UID সাবমিশন মেকানিজম
+        async function submitReferralUid(e) {
+            e.preventDefault();
+            const uidInputEl = document.getElementById('userUidInput');
+            const uidDetails = uidInputEl ? uidInputEl.value : "";
+            const userKey = btoa(currentLoggedUserEmail);
 
-    const emailInAlert =
-    document.getElementById('admUserEmail').innerText;
+            const { error } = await supabaseClient
+                .from('pending_payments')
+                .insert([{ user_key: userKey, email: currentLoggedUserEmail, txid: "UID Signup Check: " + uidDetails, status: 'pending' }]);
 
-    const userKey =
-    btoa(emailInAlert);
+            if(error) {
+                alert("Submission failed: " + error.message);
+                return;
+            }
 
-    // UPDATE USER STATUS
-    const { error: userError } =
-    await supabaseClient
-    .from('users')
-    .upsert([
-        {
-            user_key: userKey,
-            email: emailInAlert,
-            status: 'premium'
+            closePaymentModal();
+            // সাবমিট হওয়ার সাথে সাথেই UI "Waiting Admin Approval" এ রিডাইরেক্ট হবে
+            await checkUserSubscription(currentLoggedUserEmail);
         }
-    ]);
 
-    if(userError) {
-
-        console.log(userError);
-
-        alert("VIP approve failed");
-
-        return;
-    }
-
-    // REMOVE PENDING PAYMENT
-    const { error: deleteError } =
-    await supabaseClient
-    .from('pending_payments')
-    .delete()
-    .eq('user_key', userKey);
-
-    if(deleteError) {
-
-        console.log(deleteError);
-
-    }
-
-    alert("✅ VIP Plan Approved Live!");
-    
- }
-
+        // ==========================================
+        // ৮. আপনার ইন্টারফেস মোডাল ও থিম কন্ট্রোলারস
+        // ==========================================
         function toggleTheme() {
             const html = document.documentElement;
             const body = document.body;
             const sidebar = document.getElementById('mainSidebar');
             const heading = document.getElementById('mainHeading');
             const feedTitle = document.getElementById('feedTitle');
-            const historyTitle = document.getElementById('historyTitle');
-            const chartPanelTitle = document.getElementById('chartPanelTitle');
             const darkIcon = document.getElementById('darkIcon');
             const lightIcon = document.getElementById('lightIcon');
 
             if (html.classList.contains('dark')) {
                 html.classList.remove('dark'); html.classList.add('light');
                 body.classList.remove('bg-darkBg', 'text-gray-100'); body.classList.add('bg-lightBg', 'text-slate-900');
-                sidebar.classList.remove('bg-black/20', 'border-slate-950'); sidebar.classList.add('bg-white', 'border-slate-200');
-                heading.classList.remove('text-white'); heading.classList.add('text-slate-900');
-                feedTitle.classList.remove('text-slate-400'); feedTitle.classList.add('text-slate-600');
-                historyTitle.classList.remove('text-slate-400'); historyTitle.classList.add('text-slate-600');
-                chartPanelTitle.classList.remove('text-slate-400'); chartPanelTitle.classList.add('text-slate-700');
-                darkIcon.classList.add('hidden'); lightIcon.classList.remove('hidden');
+                if(sidebar) { sidebar.classList.remove('bg-black/20', 'border-slate-950'); sidebar.classList.add('bg-white', 'border-slate-200'); }
+                if(heading) { heading.classList.remove('text-white'); heading.className += ' text-slate-900'; }
+                if(feedTitle) { feedTitle.classList.remove('text-slate-400'); feedTitle.className += ' text-slate-600'; }
+                if(darkIcon) darkIcon.classList.add('hidden'); if(lightIcon) lightIcon.classList.remove('hidden');
             } else {
                 html.classList.remove('light'); html.classList.add('dark');
                 body.classList.remove('bg-lightBg', 'text-slate-900'); body.classList.add('bg-darkBg', 'text-gray-100');
-                sidebar.classList.remove('bg-white', 'border-slate-200'); sidebar.classList.add('bg-black/20', 'border-slate-950');
-                heading.classList.remove('text-slate-900'); heading.classList.add('text-white');
-                feedTitle.classList.remove('text-slate-600'); feedTitle.classList.add('text-slate-400');
-                historyTitle.classList.remove('text-slate-600'); historyTitle.classList.add('text-slate-400');
-                chartPanelTitle.classList.remove('text-slate-700'); chartPanelTitle.classList.add('text-slate-400');
-                lightIcon.classList.add('hidden'); darkIcon.classList.remove('hidden');
+                if(sidebar) { sidebar.classList.remove('bg-white', 'border-slate-200'); sidebar.classList.add('bg-black/20', 'border-slate-950'); }
+                if(heading) { heading.classList.remove('text-slate-900'); heading.className += ' text-white'; }
+                if(feedTitle) { feedTitle.classList.remove('text-slate-600'); feedTitle.className += ' text-slate-400'; }
+                if(lightIcon) lightIcon.classList.add('hidden'); if(darkIcon) darkIcon.classList.remove('hidden');
             }
         }
 
-        function openAuthModal() { document.getElementById('authModal').style.display = 'flex'; }
-        function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
-        function closePaymentModal() { document.getElementById('paymentModal').style.display = 'none'; }
+        function openAuthModal() { 
+            const authModal = document.getElementById('authModal');
+            if(authModal) authModal.style.display = 'flex'; 
+        }
+        function closePaymentModal() { 
+            const authModal = document.getElementById('authModal');
+            if(authModal) authModal.style.display = 'none'; 
+        }
+        
         function switchTab(t) {
+            const btnBinance = document.getElementById('btnBinance');
+            const btnUsdt = document.getElementById('btnUsdt');
+            const contentBinance = document.getElementById('contentBinance');
+            const contentUsdt = document.getElementById('contentUsdt');
+
             if(t === 'binance') {
-                document.getElementById('btnBinance').className = "py-2 text-xs font-cyber font-bold rounded-lg bg-gold text-black";
-                document.getElementById('btnUsdt').className = "py-2 text-xs font-cyber font-bold rounded-lg text-slate-400";
-                document.getElementById('contentBinance').classList.remove('hidden'); document.getElementById('contentUsdt').classList.add('hidden');
+                if(btnBinance) btnBinance.className = "py-2 text-xs font-cyber font-bold rounded-lg bg-gold text-black";
+                if(btnUsdt) btnUsdt.className = "py-2 text-xs font-cyber font-bold rounded-lg text-slate-400";
+                if(contentBinance) contentBinance.classList.remove('hidden'); 
+                if(contentUsdt) contentUsdt.classList.add('hidden');
             } else {
-                document.getElementById('btnUsdt').className = "py-2 text-xs font-cyber font-bold rounded-lg bg-gold text-black";
-                document.getElementById('btnBinance').className = "py-2 text-xs font-cyber font-bold rounded-lg text-slate-400";
-                document.getElementById('contentUsdt').classList.remove('hidden'); document.getElementById('contentBinance').classList.add('hidden');
+                if(btnUsdt) btnUsdt.className = "py-2 text-xs font-cyber font-bold rounded-lg bg-gold text-black";
+                if(btnBinance) btnBinance.className = "py-2 text-xs font-cyber font-bold rounded-lg text-slate-400";
+                if(contentUsdt) contentUsdt.classList.remove('hidden'); 
+                if(contentBinance) contentBinance.classList.add('hidden');
             }
         }
+        
         function handleNetworkChange() {
-            const net = document.getElementById('networkSelect').value;
-            document.getElementById('walletAddress').innerText = addresses[net];
+            const netSelect = document.getElementById('networkSelect');
+            const walletAddr = document.getElementById('walletAddress');
+            if(netSelect && walletAddr) {
+                walletAddr.innerText = addresses[netSelect.value];
+            }
         }
     </script>
- 
 
- <!-- SUPABASE CDN -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="index.js"></script>
 </body>
 </html>
