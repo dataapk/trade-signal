@@ -11,7 +11,7 @@
         tailwind.config = {
             darkMode: 'class',
             theme: {
-                extend: {
+                extend: {https://dataapk.github.io/trade-signal/
                     fontFamily: { sans: ['Inter', 'sans-serif'], cyber: ['Orbitron', 'sans-serif'] },
                     colors: { 
                         darkBg: '#03050d', 
@@ -422,8 +422,10 @@ async>
         <button type="submit">VERIFY PAYMENT</button>
       </form>
 
-      <div id="waitingApprovalState" class="hidden mt-3 text-center text-yellow-400 font-cyber text-xs animate-pulse">
-    ⏳ PREMIUM SIGNAL WAITING FOR ADMIN APPROVAL
+      <!-- Waiting for Approval -->
+<div id="waitingApprovalState"
+     class="hidden mt-4 p-3 bg-slate-900 border border-yellow-500 rounded-xl text-center text-yellow-400 text-sm font-bold animate-pulse">
+    ⏳ Waiting For Admin Approval...
 </div>
 
 <!-- MAIN OFFER PAGE -->
