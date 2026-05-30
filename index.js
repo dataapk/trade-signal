@@ -524,10 +524,7 @@ async function submitReferralUid(e) {
             alert("Submit failed: " + error.message);
             return;
         }
-      if (error) {
-    alert("Submit failed: " + error.message);
-    return;
-}
+     
 localStorage.setItem("vipStatus", "pending");
 localStorage.setItem("vipEmail", email);
 
