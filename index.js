@@ -559,6 +559,40 @@ async function submitReferralUid(e) {
     }
 }
 // =========================
+// VIP STATUS CHECK
+// =========================
+
+function checkVipStatus() {
+
+    const vipStatus =
+    localStorage.getItem("vipStatus");
+
+    console.log(
+        "VIP STATUS:",
+        vipStatus
+    );
+
+    if (vipStatus === "pending") {
+
+        document.getElementById(
+            "premiumStatusText"
+        ).innerText =
+        "ADMIN APPROVAL PENDING";
+
+        document.getElementById(
+            "premiumStatusText"
+        ).classList.add(
+            "text-yellow-400",
+            "animate-pulse"
+        );
+
+        document.getElementById(
+            "unlockBtn"
+        ).style.display =
+        "none";
+    }
+}
+// =========================
 // LOGOUT
 // =========================
 
