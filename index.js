@@ -408,95 +408,91 @@ function handleAuthSubmit(event) {
 // =========================
 // SUBMIT PAYMENT TXID
 // =========================
+
 async function submitTxid(e) {
 
     e.preventDefault();
 
     try {
 
-        const txidHash = document.getElementById("txidInput").value.trim();
-        const email = document.getElementById("userEmailInput").value.trim();
+        const txidHash =
+        document.getElementById("txidInput").value.trim();
+
+        const email =
+        document.getElementById("userEmailInput").value.trim();
 
         let method = "BINANCE PAY";
 
+        // USDT NETWORK CHECK
         if (
             document.getElementById("contentUsdt") &&
             !document.getElementById("contentUsdt").classList.contains("hidden")
         ) {
-            method = document.getElementById("networkSelect").value;
+
+            method =
+            document.getElementById("networkSelect").value;
         }
 
+        // EMPTY CHECK
         if (!email || !txidHash) {
+
             alert("Please complete payment form");
+
             return;
         }
 
-        const { error } = await supabaseClient
-            .from("vip_payments")
-            .insert([{
+        // SAVE TO SUPABASE
+        const { error } =
+        await supabaseClient
+        .from("vip_payments")
+        .insert([
+            {
                 email: email,
                 method: method,
                 txid: txidHash,
                 status: "pending"
-            }]);
+            }
+        ]);
 
-        // ❌ ERROR HANDLING
+        // ERROR CHECK
         if (error) {
-            console.log("PAYMENT ERROR:", error);
-            alert("Payment submit failed: " + error.message);
+
+            console.log(
+            "PAYMENT ERROR:",
+            error
+            );
+
+            alert(
+            "Payment submit failed: " + error.message
+            );
+
             return;
         }
 
-        // 🟢 SUCCESS FLOW (ONLY ONCE)
-        alert("Payment submitted successfully");
+        // SUCCESS
+        alert(
+        "Payment submitted successfully"
+        );
 
-        // 👉 CLEAN UI + STATE UPDATE (ONE BLOCK ONLY)
+        // CLEAR INPUT
         document.getElementById("txidInput").value = "";
+
+        // CLOSE MODAL
         closePaymentModal();
 
-        const card = document.getElementById("premiumSignalCard");
-        if (card) card.scrollIntoView({ behavior: "smooth" });
-
-        const lock = document.getElementById("lockOverlay");
-        if (lock) lock.style.display = "none";
-
-        const waiting = document.getElementById("waitingApprovalState");
-        if (waiting) waiting.classList.remove("hidden");
-
-    } catch (err) {
-
-        console.log("VIP PAYMENT SYSTEM ERROR:", err);
-        alert("Unexpected error occurred");
     }
-}
 
-       try {
+    catch(err) {
 
-    // CLEAR INPUT
-    document.getElementById("txidInput").value = "";
+        console.log(
+        "VIP PAYMENT SYSTEM ERROR:",
+        err
+        );
 
-    // CLOSE MODAL
-    closePaymentModal();
-
-    // 👉 DASHBOARD UPDATE
-    document.getElementById("premiumSignalCard").scrollIntoView({
-        behavior: "smooth"
-    });
-
-    // 👉 LOCK OVERLAY HIDE
-    const lock = document.getElementById("lockOverlay");
-    if (lock) lock.style.display = "none";
-
-    // 👉 SHOW WAITING STATE
-    const waiting = document.getElementById("waitingApprovalState");
-    if (waiting) waiting.classList.remove("hidden");
-
-} catch (err) {
-
-    console.log("VIP PAYMENT SYSTEM ERROR:", err);
-
-    alert("Unexpected error occurred");
-
+        alert(
+        "Unexpected error occurred"
+        );
+    }
 }
 
 // =========================
