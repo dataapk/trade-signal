@@ -524,6 +524,23 @@ async function submitReferralUid(e) {
             alert("Submit failed: " + error.message);
             return;
         }
+      if (error) {
+    alert("Submit failed: " + error.message);
+    return;
+}
+localStorage.setItem("vipStatus", "pending");
+localStorage.setItem("vipEmail", email);
+
+const waitingBox =
+document.getElementById("waitingApproval");
+
+if (waitingBox) {
+    waitingBox.classList.remove("hidden");
+    waitingBox.innerHTML = "⏳ Waiting For Admin Approval...";
+    waitingBox.classList.add("animate-pulse");
+}
+
+document.getElementById("userUidInput").value = "";
 
         // ✅ STEP 1: POPUP CONFIRMATION
         const ok = confirm("✅ Submitted successfully!\nPress OK to continue.");
