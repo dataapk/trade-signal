@@ -11,7 +11,7 @@
         tailwind.config = {
             darkMode: 'class',
             theme: {
-                extend: {https://dataapk.github.io/trade-signal/
+                extend: {
                     fontFamily: { sans: ['Inter', 'sans-serif'], cyber: ['Orbitron', 'sans-serif'] },
                     colors: { 
                         darkBg: '#03050d', 
@@ -40,7 +40,7 @@
     </style>
        </head>
          
-        <body class="bg-darkBg text-gray-100 dark:bg-darkBg dark:text-gray-100 font-sans antialiased min-h-screen transition-colors duration-300 flex flex-col">
+        <body class="bg-darkBg text-gray-100 dark:bg-darkBg dark:text-gray-100 light:bg-lightBg light:text-slate-900 font-sans antialiased min-h-screen transition-colors duration-300 flex flex-col">
                   
 <!-- LIVE MARKET TICKER -->
 
@@ -423,9 +423,12 @@ async>
       </form>
 
       <!-- Waiting for Approval -->
-<div id="premiumWaitingState"
-     class="hidden mt-2 text-center text-yellow-400 font-cyber text-xs animate-pulse">
-    ⏳ PREMIUM SIGNAL WAITING FOR ADMIN APPROVAL
+      <div id="waitingApproval" class="hidden mt-4 p-3 bg-slate-900 border border-yellow-500 rounded-xl text-center text-yellow-400 text-sm font-bold">
+        Waiting For Approval...
+      </div>
+
+    </div>
+  </div>
 </div>
 
 <!-- MAIN OFFER PAGE -->
