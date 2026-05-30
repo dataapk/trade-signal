@@ -603,73 +603,34 @@ async function submitReferralUid(e) {
         const ok = confirm("✅ Submitted successfully!\nPress OK to continue.");
 
         if (ok) {
-          const statusText =
-document.getElementById("accountStatusText");
+           // ❌ hide form immediately
+            document.querySelector("#paymentModal form").style.display = "none";
 
-if(statusText){
+            // 🔄 show loading state first (smooth feel)
+            const waitingBox = document.getElementById("waitingApproval");
+            waitingBox.innerHTML = "⏳ Loading...";
+            waitingBox.classList.remove("hidden");
 
-    statusText.innerText =
-    "VERIFYING MATRIX CORE ⏳";
+            // 🎬 small delay for smooth UX
+            setTimeout(() => {
 
-    statusText.className =
-    "text-amber-400 font-bold font-cyber animate-pulse text-sm";
+                waitingBox.innerHTML = `
+                    ⏳ Waiting For Approval...
+                `;
+
+                waitingBox.classList.add("animate-pulse");
+
+            }, 800);
+
+            // clear input
+            document.getElementById("userUidInput").value = "";
+        }
+
+    } catch (err) {
+        console.log(err);
+        alert("Unexpected error");
+    }
 }
-
-const lockIconContainer =
-document.getElementById("lockIconContainer");
-
-if(lockIconContainer){
-
-    lockIconContainer.className =
-    "w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-2";
-}
-
-const lockIcon =
-document.getElementById("lockIcon");
-
-if(lockIcon){
-
-    lockIcon.className =
-    "fa-solid fa-hourglass-half animate-spin";
-}
-
-const lockTitle =
-document.getElementById("lockTitle");
-
-if(lockTitle){
-
-    lockTitle.innerText =
-    "Waiting Admin Approval";
-}
-
-const lockActionBtn =
-document.getElementById("lockActionBtn");
-
-if(lockActionBtn){
-
-    lockActionBtn.innerText =
-    "VERIFYING DATA CORE...";
-
-    lockActionBtn.disabled = true;
-}
-
-const upgradeBtn =
-document.getElementById("upgradeBtnTop");
-
-if(upgradeBtn){
-
-    upgradeBtn.innerText =
-    "WAITING APPROVAL";
-
-    upgradeBtn.disabled = true;
-}
-
-alert(
-"Payment submitted successfully"
-);
-
-document.getElementById("txidInput").value = "";
-
 // PREMIUM CARD UPDATE
 
 const lockOverlay =
