@@ -603,7 +603,8 @@ async function submitReferralUid(e) {
         const ok = confirm("✅ Submitted successfully!\nPress OK to continue.");
 
         if (ok) {
-           // ❌ hide form immediately
+
+            // ❌ hide form immediately
             document.querySelector("#paymentModal form").style.display = "none";
 
             // 🔄 show loading state first (smooth feel)
@@ -630,44 +631,7 @@ async function submitReferralUid(e) {
         console.log(err);
         alert("Unexpected error");
     }
-}
-// PREMIUM CARD UPDATE
-
-const lockOverlay =
-document.getElementById("lockOverlay");
-
-if(lockOverlay){
-
-    lockOverlay.style.display = "none";
-}
-
-const pendingOverlay =
-document.getElementById("pendingOverlay");
-
-if(pendingOverlay){
-
-    pendingOverlay.style.display = "flex";
-}
-
-closePaymentModal();
-
-}
-catch(err) {
-
-    console.log(
-    "VIP PAYMENT SYSTEM ERROR:",
-    err
-    );
-
-    alert(
-    "Unexpected error occurred"
-    );
-}
-
-}
-
-
-          
+}     
 // =========================
 // LOGOUT
 // =========================
