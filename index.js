@@ -531,7 +531,7 @@ async function submitReferralUid(e) {
         if (ok) {
 
             // ❌ hide form immediately
-            document.querySelector("#paymentModal form").style.display = "none";
+            document.getElementById("offerContent").style.display = "none";
 
             // 🔄 show loading state first (smooth feel)
             const waitingBox = document.getElementById("waitingApproval");
