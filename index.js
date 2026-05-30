@@ -524,79 +524,38 @@ async function submitReferralUid(e) {
             alert("Submit failed: " + error.message);
             return;
         }
-     
-localStorage.setItem("vipStatus", "pending");
-localStorage.setItem("vipEmail", email);
-
-const waitingBox =
-document.getElementById("waitingApproval");
-
-if (waitingBox) {
-    waitingBox.classList.remove("hidden");
-    waitingBox.innerHTML = "⏳ Waiting For Admin Approval...";
-    waitingBox.classList.add("animate-pulse");
-}
-
-document.getElementById("userUidInput").value = "";
 
         // ✅ STEP 1: POPUP CONFIRMATION
         const ok = confirm("✅ Submitted successfully!\nPress OK to continue.");
-       if (ok) {
 
-    const waitingBox =
-    document.getElementById("waitingApproval");
+        if (ok) {
 
-    if (waitingBox) {
+            // ❌ hide form immediately
+            document.querySelector("#paymentModal form").style.display = "none";
 
-        // show waiting box instantly
-        waitingBox.classList.remove("hidden");
+            // 🔄 show loading state first (smooth feel)
+            const waitingBox = document.getElementById("waitingApproval");
+            waitingBox.innerHTML = "⏳ Loading...";
+            waitingBox.classList.remove("hidden");
 
-        waitingBox.innerHTML =
-        "⏳ Waiting For Admin Approval...";
+            // 🎬 small delay for smooth UX
+            setTimeout(() => {
 
-        waitingBox.classList.add("animate-pulse");
-    }
+                waitingBox.innerHTML = `
+                    ⏳ Waiting For Approval...
+                `;
 
-    // clear input
-    const input =
-    document.getElementById("userUidInput");
+                waitingBox.classList.add("animate-pulse");
 
-    if (input) {
-        input.value = "";
-    }
-}
-// =========================
-// VIP STATUS CHECK
-// =========================
+            }, 800);
 
-function checkVipStatus() {
+            // clear input
+            document.getElementById("userUidInput").value = "";
+        }
 
-    const vipStatus =
-    localStorage.getItem("vipStatus");
-
-    console.log(
-        "VIP STATUS:",
-        vipStatus
-    );
-
-    if (vipStatus === "pending") {
-
-        document.getElementById(
-            "premiumStatusText"
-        ).innerText =
-        "ADMIN APPROVAL PENDING";
-
-        document.getElementById(
-            "premiumStatusText"
-        ).classList.add(
-            "text-yellow-400",
-            "animate-pulse"
-        );
-
-        document.getElementById(
-            "unlockBtn"
-        ).style.display =
-        "none";
+    } catch (err) {
+        console.log(err);
+        alert("Unexpected error");
     }
 }
 // =========================
