@@ -473,7 +473,7 @@ async function submitTxid(e) {
         if (lock) lock.style.display = "none";
 
         // SHOW WAITING STATE
-        const waiting = document.getElementById("waitingApprovalState");
+        const waiting = document.getElementById("premiumWaitingState");
         if (waiting) {
             waiting.classList.remove("hidden");
             waiting.classList.add("animate-pulse");
