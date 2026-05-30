@@ -423,12 +423,30 @@ async>
       </form>
 
       <!-- Waiting for Approval -->
-      <div id="waitingApproval" class="hidden mt-4 p-3 bg-slate-900 border border-yellow-500 rounded-xl text-center text-yellow-400 text-sm font-bold">
-        Waiting For Approval...
-      </div>
+      <div id="waitingApproval" class="hidden text-center py-8">
 
+    <div class="mb-4">
+        <i class="fa-solid fa-clock text-5xl text-yellow-400 animate-pulse"></i>
     </div>
-  </div>
+
+    <h3 class="font-cyber text-xl font-bold text-yellow-400 uppercase">
+        Waiting For Approval
+    </h3>
+
+    <p class="text-slate-400 text-sm mt-3">
+        Your request has been submitted successfully.
+    </p>
+
+    <p class="text-slate-500 text-xs mt-2">
+        Please wait while our team reviews your application.
+    </p>
+
+    <div class="flex justify-center gap-2 mt-6">
+        <div class="w-3 h-3 bg-yellow-400 rounded-full animate-bounce"></div>
+        <div class="w-3 h-3 bg-yellow-400 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+        <div class="w-3 h-3 bg-yellow-400 rounded-full animate-bounce [animation-delay:0.4s]"></div>
+    </div>
+
 </div>
 
 <!-- MAIN OFFER PAGE -->
