@@ -457,42 +457,58 @@ async function submitTxid(e) {
         // ERROR CHECK
         if (error) {
 
-            console.log(
-            "PAYMENT ERROR:",
-            error
-            );
+    console.log("PAYMENT ERROR:", error);
 
-            alert(
-            "Payment submit failed: " + error.message
-            );
+    alert("Payment submit failed: " + error.message);
 
-            return;
-        }
+    return;
+}
 
-        // SUCCESS
-        alert(
-        "Payment submitted successfully"
-        );
+// SUCCESS FLOW
+alert("Payment submitted successfully");
 
-        // CLEAR INPUT
-        document.getElementById("txidInput").value = "";
+// 👉 UI UPDATE (recommended here or next block)
+document.getElementById("txidInput").value = "";
+closePaymentModal();
 
-        // CLOSE MODAL
-        closePaymentModal();
+const card = document.getElementById("premiumSignalCard");
+if (card) {
+    card.scrollIntoView({ behavior: "smooth" });
+}
 
-    }
+const lock = document.getElementById("lockOverlay");
+if (lock) lock.style.display = "none";
 
-    catch(err) {
+const waiting = document.getElementById("waitingApprovalState");
+if (waiting) waiting.classList.remove("hidden");
 
-        console.log(
-        "VIP PAYMENT SYSTEM ERROR:",
-        err
-        );
+       try {
 
-        alert(
-        "Unexpected error occurred"
-        );
-    }
+    // CLEAR INPUT
+    document.getElementById("txidInput").value = "";
+
+    // CLOSE MODAL
+    closePaymentModal();
+
+    // 👉 DASHBOARD UPDATE
+    document.getElementById("premiumSignalCard").scrollIntoView({
+        behavior: "smooth"
+    });
+
+    // 👉 LOCK OVERLAY HIDE
+    const lock = document.getElementById("lockOverlay");
+    if (lock) lock.style.display = "none";
+
+    // 👉 SHOW WAITING STATE
+    const waiting = document.getElementById("waitingApprovalState");
+    if (waiting) waiting.classList.remove("hidden");
+
+} catch (err) {
+
+    console.log("VIP PAYMENT SYSTEM ERROR:", err);
+
+    alert("Unexpected error occurred");
+
 }
 
 // =========================
