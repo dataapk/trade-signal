@@ -554,6 +554,21 @@ if(pendingOverlay){
 
 closePaymentModal();
 
+}
+catch(err) {
+
+    console.log(
+    "VIP PAYMENT SYSTEM ERROR:",
+    err
+    );
+
+    alert(
+    "Unexpected error occurred"
+    );
+}
+
+}
+
 // =========================
 // SUBMIT REFERRAL UID
 // =========================
