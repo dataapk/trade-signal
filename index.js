@@ -408,92 +408,13 @@ function handleAuthSubmit(event) {
 // =========================
 // SUBMIT PAYMENT TXID
 // =========================
-
-async function submitTxid(e) {
-
-    e.preventDefault();
-
-    try {
-
-        const txidHash =
-        document.getElementById("txidInput").value.trim();
-
-        const email =
-        document.getElementById("userEmailInput").value.trim();
-
-        let method = "BINANCE PAY";
-
-        // USDT NETWORK CHECK
-        if (
-            document.getElementById("contentUsdt") &&
-            !document.getElementById("contentUsdt").classList.contains("hidden")
-        ) {
-
-            method =
-            document.getElementById("networkSelect").value;
-        }
-
-        // EMPTY CHECK
-        if (!email || !txidHash) {
-
-            alert("Please complete payment form");
-
-            return;
-        }
-
-        // SAVE TO SUPABASE
-        const { error } =
-        await supabaseClient
-        .from("vip_payments")
-        .insert([
-            {
-                email: email,
-                method: method,
-                txid: txidHash,
-                status: "pending"
-            }
-        ]);
-
-        // ERROR CHECK
-        if (error) {
-
-            console.log(
-            "PAYMENT ERROR:",
-            error
-            );
-
-            alert(
-            "Payment submit failed: " + error.message
-            );
-
-            return;
-        }
-
-        // SUCCESS
-        alert(
-        "Payment submitted successfully"
-        );
+ alert("Payment submitted successfully");
 
         // CLEAR INPUT
         document.getElementById("txidInput").value = "";
 
         // CLOSE MODAL
         closePaymentModal();
-
-    }
-
-    catch(err) {
-
-        console.log(
-        "VIP PAYMENT SYSTEM ERROR:",
-        err
-        );
-
-        alert(
-        "Unexpected error occurred"
-        );
-    }
-}
 
 // =========================
 // SUBMIT REFERRAL UID
