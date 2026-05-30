@@ -418,10 +418,23 @@ async>
 
       <!-- TXID Form -->
       <form onsubmit="submitTxid(event)" class="mt-3 space-y-2">
-        <input id="txidInput" type="text" required placeholder="Paste Transaction ID (TxID if paid manually)">
-        <button type="submit">VERIFY PAYMENT</button>
-      </form>
 
+    <input
+        id="txidInput"
+        type="text"
+        required
+        class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-white placeholder:text-yellow-400 focus:outline-none focus:border-yellow-500"
+        placeholder="Paste Your Transaction ID">
+
+    <button
+        type="submit"
+        class="w-full bg-gradient-to-r from-gold to-yellow-500 text-black font-cyber font-bold py-2.5 rounded-xl uppercase text-xs shadow-goldGlow">
+
+        VERIFY PAYMENT
+
+    </button>
+
+</form>
       <!-- Waiting for Approval -->
       <div id="waitingApproval" class="hidden text-center py-8">
 
