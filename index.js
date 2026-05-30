@@ -463,93 +463,96 @@ async function submitTxid(e) {
             return;
         }
 
-        // =========================
-        // WAITING APPROVAL UI
-        // =========================
+// =========================
+// WAITING APPROVAL UI
+// =========================
 
-        const statusText =
-        document.getElementById("accountStatusText");
+const statusText =
+document.getElementById("accountStatusText");
 
-        if(statusText){
+if(statusText){
 
-            statusText.innerText =
-            "VERIFYING MATRIX CORE ⏳";
+    statusText.innerText =
+    "VERIFYING MATRIX CORE ⏳";
 
-            statusText.className =
-            "text-amber-400 font-bold font-cyber animate-pulse text-sm";
-        }
-
-        const lockIconContainer =
-        document.getElementById("lockIconContainer");
-
-        if(lockIconContainer){
-
-            lockIconContainer.className =
-            "w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-2";
-        }
-
-        const lockIcon =
-        document.getElementById("lockIcon");
-
-        if(lockIcon){
-
-            lockIcon.className =
-            "fa-solid fa-hourglass-half animate-spin";
-        }
-
-        const lockTitle =
-        document.getElementById("lockTitle");
-
-        if(lockTitle){
-
-            lockTitle.innerText =
-            "Waiting Admin Approval";
-        }
-
-        const lockActionBtn =
-        document.getElementById("lockActionBtn");
-
-        if(lockActionBtn){
-
-            lockActionBtn.innerText =
-            "VERIFYING DATA CORE...";
-
-            lockActionBtn.disabled = true;
-        }
-
-        const upgradeBtn =
-        document.getElementById("upgradeBtnTop");
-
-        if(upgradeBtn){
-
-            upgradeBtn.innerText =
-            "WAITING APPROVAL";
-
-            upgradeBtn.disabled = true;
-        }
-
-        alert(
-        "Payment submitted successfully"
-        );
-
-        document.getElementById("txidInput").value = "";
-
-        closePaymentModal();
-
-    }
-
-    catch(err) {
-
-        console.log(
-        "VIP PAYMENT SYSTEM ERROR:",
-        err
-        );
-
-        alert(
-        "Unexpected error occurred"
-        );
-    }
+    statusText.className =
+    "text-amber-400 font-bold font-cyber animate-pulse text-sm";
 }
+
+const lockIconContainer =
+document.getElementById("lockIconContainer");
+
+if(lockIconContainer){
+
+    lockIconContainer.className =
+    "w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-2";
+}
+
+const lockIcon =
+document.getElementById("lockIcon");
+
+if(lockIcon){
+
+    lockIcon.className =
+    "fa-solid fa-hourglass-half animate-spin";
+}
+
+const lockTitle =
+document.getElementById("lockTitle");
+
+if(lockTitle){
+
+    lockTitle.innerText =
+    "Waiting Admin Approval";
+}
+
+const lockActionBtn =
+document.getElementById("lockActionBtn");
+
+if(lockActionBtn){
+
+    lockActionBtn.innerText =
+    "VERIFYING DATA CORE...";
+
+    lockActionBtn.disabled = true;
+}
+
+const upgradeBtn =
+document.getElementById("upgradeBtnTop");
+
+if(upgradeBtn){
+
+    upgradeBtn.innerText =
+    "WAITING APPROVAL";
+
+    upgradeBtn.disabled = true;
+}
+
+alert(
+"Payment submitted successfully"
+);
+
+document.getElementById("txidInput").value = "";
+
+// PREMIUM CARD UPDATE
+
+const lockOverlay =
+document.getElementById("lockOverlay");
+
+if(lockOverlay){
+
+    lockOverlay.style.display = "none";
+}
+
+const pendingOverlay =
+document.getElementById("pendingOverlay");
+
+if(pendingOverlay){
+
+    pendingOverlay.style.display = "flex";
+}
+
+closePaymentModal();
 
 // =========================
 // SUBMIT REFERRAL UID
