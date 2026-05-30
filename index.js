@@ -541,35 +541,28 @@ document.getElementById("userUidInput").value = "";
 
         // ✅ STEP 1: POPUP CONFIRMATION
         const ok = confirm("✅ Submitted successfully!\nPress OK to continue.");
+       if (ok) {
 
-        if (ok) {
+    const waitingBox =
+    document.getElementById("waitingApproval");
 
-            // ❌ hide form immediately
-            document.getElementById("offerContent").style.display = "none";
+    if (waitingBox) {
 
-            // 🔄 show loading state first (smooth feel)
-            const waitingBox = document.getElementById("waitingApproval");
-            waitingBox.innerHTML = "⏳ Loading...";
-            waitingBox.classList.remove("hidden");
+        // show waiting box instantly
+        waitingBox.classList.remove("hidden");
 
-            // 🎬 small delay for smooth UX
-            setTimeout(() => {
+        waitingBox.innerHTML =
+        "⏳ Waiting For Admin Approval...";
 
-                waitingBox.innerHTML = `
-                    ⏳ Waiting For Approval...
-                `;
+        waitingBox.classList.add("animate-pulse");
+    }
 
-                waitingBox.classList.add("animate-pulse");
+    // clear input
+    const input =
+    document.getElementById("userUidInput");
 
-            }, 800);
-
-            // clear input
-            document.getElementById("userUidInput").value = "";
-        }
-
-    } catch (err) {
-        console.log(err);
-        alert("Unexpected error");
+    if (input) {
+        input.value = "";
     }
 }
 // =========================
