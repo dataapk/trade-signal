@@ -404,8 +404,9 @@ function handleAuthSubmit(event) {
     payModal.classList.remove("hidden");
     payModal.classList.add("flex");
 }
+
 // =========================
-// SUBMIT PAYMENT TXID (CLEAN VERSION)
+// SUBMIT PAYMENT TXID
 // =========================
 
 async function submitTxid(e) {
@@ -414,8 +415,11 @@ async function submitTxid(e) {
 
     try {
 
-        const txidHash = document.getElementById("txidInput").value.trim();
-        const email = document.getElementById("userEmailInput").value.trim();
+        const txidHash =
+        document.getElementById("txidInput").value.trim();
+
+        const email =
+        document.getElementById("userEmailInput").value.trim();
 
         let method = "BINANCE PAY";
 
@@ -424,37 +428,51 @@ async function submitTxid(e) {
             document.getElementById("contentUsdt") &&
             !document.getElementById("contentUsdt").classList.contains("hidden")
         ) {
-            method = document.getElementById("networkSelect").value;
+
+            method =
+            document.getElementById("networkSelect").value;
         }
 
         // EMPTY CHECK
         if (!email || !txidHash) {
+
             alert("Please complete payment form");
+
             return;
         }
 
         // SAVE TO SUPABASE
-        const { error } = await supabaseClient
-            .from("vip_payments")
-            .insert([{
+        const { error } =
+        await supabaseClient
+        .from("vip_payments")
+        .insert([
+            {
                 email: email,
                 method: method,
                 txid: txidHash,
                 status: "pending"
-            }]);
+            }
+        ]);
 
-        // ERROR HANDLING
+        // ERROR CHECK
         if (error) {
-            console.log("PAYMENT ERROR:", error);
-            alert("Payment submit failed: " + error.message);
+
+            console.log(
+            "PAYMENT ERROR:",
+            error
+            );
+
+            alert(
+            "Payment submit failed: " + error.message
+            );
+
             return;
         }
 
-        // =========================
-        // SUCCESS FLOW (ONLY ONCE)
-        // =========================
-
-        alert("Payment submitted successfully");
+        // SUCCESS
+        alert(
+        "Payment submitted successfully"
+        );
 
         // CLEAR INPUT
         document.getElementById("txidInput").value = "";
@@ -462,27 +480,82 @@ async function submitTxid(e) {
         // CLOSE MODAL
         closePaymentModal();
 
-        // DASHBOARD UPDATE
-        const card = document.getElementById("premiumSignalCard");
-        if (card) {
-            card.scrollIntoView({ behavior: "smooth" });
+    }
+
+    catch(err) {
+
+        console.log(
+        "VIP PAYMENT SYSTEM ERROR:",
+        err
+        );
+
+        alert(
+        "Unexpected error occurred"
+        );
+    }
+}
+
+// =========================
+// SUBMIT REFERRAL UID
+// =========================
+
+async function submitReferralUid(e) {
+    e.preventDefault();
+
+    const uidDetails = document.getElementById("userUidInput").value.trim();
+    const email = currentLoggedUserEmail;
+
+    if (!uidDetails || !email) {
+        alert("Please enter UID");
+        return;
+    }
+
+    try {
+        const { error } = await supabaseClient
+        .from("vip_payments")
+        .insert([{
+            email: email,
+            method: "REFERRAL UID",
+            txid: uidDetails,
+            status: "pending"
+        }]);
+
+        if (error) {
+            alert("Submit failed: " + error.message);
+            return;
         }
 
-        // LOCK HIDE
-        const lock = document.getElementById("lockOverlay");
-        if (lock) lock.style.display = "none";
+        // ✅ STEP 1: POPUP CONFIRMATION
+        const ok = confirm("✅ Submitted successfully!\nPress OK to continue.");
 
-        // SHOW WAITING STATE
-        const waiting = document.getElementById("premiumWaitingState");
-        if (waiting) {
-            waiting.classList.remove("hidden");
-            waiting.classList.add("animate-pulse");
-            waiting.innerText = "⏳ Waiting For Approval...";
+        if (ok) {
+
+            // ❌ hide form immediately
+            document.querySelector("#paymentModal form").style.display = "none";
+
+            // 🔄 show loading state first (smooth feel)
+            const waitingBox = document.getElementById("waitingApproval");
+            waitingBox.innerHTML = "⏳ Loading...";
+            waitingBox.classList.remove("hidden");
+
+            // 🎬 small delay for smooth UX
+            setTimeout(() => {
+
+                waitingBox.innerHTML = `
+                    ⏳ Waiting For Approval...
+                `;
+
+                waitingBox.classList.add("animate-pulse");
+
+            }, 800);
+
+            // clear input
+            document.getElementById("userUidInput").value = "";
         }
 
     } catch (err) {
-        console.log("VIP PAYMENT SYSTEM ERROR:", err);
-        alert("Unexpected error occurred");
+        console.log(err);
+        alert("Unexpected error");
     }
 }
 // =========================
